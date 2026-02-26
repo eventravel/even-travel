@@ -334,8 +334,13 @@
     }
 
     @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
     }
 
     .terms {
@@ -653,6 +658,7 @@
         opacity: 0;
         transform: translateX(100%);
       }
+
       to {
         opacity: 1;
         transform: translateX(0);
@@ -857,7 +863,8 @@
 
         <div class="form-group">
           <label>Message / Demandes spéciales</label>
-          <textarea name="message" id="message" placeholder="Vos demandes particulières, besoins spécifiques..."></textarea>
+          <textarea name="message" id="message"
+            placeholder="Vos demandes particulières, besoins spécifiques..."></textarea>
         </div>
 
         <!-- Affichage du prix -->
@@ -925,7 +932,7 @@
         </div>
 
         <button type="submit" class="submit-btn" id="submitButton">
-          <i class="fas fa-check-circle"></i> 
+          <i class="fas fa-check-circle"></i>
           <span id="submitText">Confirmer la réservation</span>
           <i class="fas fa-spinner spinner" id="submitSpinner"></i>
         </button>
@@ -981,14 +988,13 @@
       <p>&copy; <span id="year"></span> Even Travel. Tous droits réservés.</p>
     </div>
   </footer>
-
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       // Définir l'année du copyright
       document.getElementById('year').textContent = new Date().getFullYear();
 
       // API base URL
-      const API_BASE_URL = 'https://even-travel-backend.onrender.com';
+      const API_BASE_URL = 'http://127.0.0.1:5000';
 
       // Fonctions utilitaires
       function showToast(message, type = 'success') {
@@ -996,10 +1002,7 @@
         toast.textContent = message;
         toast.className = `alert-toast alert-${type}`;
         toast.style.display = 'block';
-        
-        setTimeout(() => {
-          toast.style.display = 'none';
-        }, 5000);
+        setTimeout(() => { toast.style.display = 'none'; }, 5000);
       }
 
       function showError(message) {
@@ -1007,10 +1010,7 @@
         const errorText = document.getElementById('errorText');
         errorText.textContent = message;
         errorEl.style.display = 'block';
-        
-        setTimeout(() => {
-          errorEl.style.display = 'none';
-        }, 5000);
+        setTimeout(() => { errorEl.style.display = 'none'; }, 5000);
       }
 
       function showLoading(show = true) {
@@ -1021,7 +1021,6 @@
         const button = document.getElementById('submitButton');
         const spinner = document.getElementById('submitSpinner');
         const text = document.getElementById('submitText');
-        
         if (loading) {
           button.disabled = true;
           spinner.style.display = 'inline-block';
@@ -1033,7 +1032,7 @@
         }
       }
 
-      // Fonction pour activer les cases
+      // Activer les cases sélectionnables
       function activateBox(selector) {
         const boxes = document.querySelectorAll(selector);
         boxes.forEach(b => {
@@ -1045,17 +1044,13 @@
           });
         });
       }
-
       activateBox('.payment-options .box-option');
       activateBox('.payment-methods .box-option');
 
-      // Récupérer les paramètres d'URL (support multiple formats)
+      // Récupérer les paramètres d'URL
       const urlParams = new URLSearchParams(window.location.search);
       console.log('Paramètres URL:', Object.fromEntries(urlParams.entries()));
-
       let type, id;
-      
-      // Support des différents formats de paramètres
       if (urlParams.get('type') && urlParams.get('id')) {
         type = urlParams.get('type');
         id = urlParams.get('id');
@@ -1065,32 +1060,20 @@
       } else if (urlParams.get('destinationId')) {
         type = 'destination';
         id = urlParams.get('destinationId');
-      } else if (urlParams.get('type') && urlParams.get('eventId')) {
-        type = urlParams.get('type');
-        id = urlParams.get('eventId');
-      } else if (urlParams.get('type') && urlParams.get('destinationId')) {
-        type = urlParams.get('type');
-        id = urlParams.get('destinationId');
       }
-
       console.log('Type détecté:', type);
       console.log('ID détecté:', id);
 
-      // Charger les détails de la réservation
+      // Charger les détails
       async function chargerDetailsReservation() {
         if (!type || !id) {
           showToast('Aucun événement ou destination sélectionné. Redirection...', 'error');
-          setTimeout(() => {
-            window.location.href = 'index.html';
-          }, 2000);
+          setTimeout(() => { window.location.href = 'index.html'; }, 2000);
           return;
         }
-
         showLoading(true);
-
         try {
           let endpoint, itemType;
-
           if (type === 'event') {
             endpoint = `${API_BASE_URL}/api/v1/events/${id}`;
             itemType = 'Événement';
@@ -1100,145 +1083,89 @@
           } else {
             throw new Error('Type de réservation non valide');
           }
-
           console.log('Chargement depuis:', endpoint);
-
           const response = await fetch(endpoint);
-          
-          if (!response.ok) {
-            throw new Error(`Erreur ${response.status}: ${response.statusText}`);
-          }
-
+          if (!response.ok) throw new Error(`Erreur ${response.status}`);
           const result = await response.json();
-          console.log('Réponse API:', result);
+          let item = result.data?.event || result.data?.destination || result.data;
+          if (!item) throw new Error('Élément non trouvé');
 
-          let item;
-          if (type === 'event') {
-            item = result.data?.event || result.data;
-          } else {
-            item = result.data?.destination || result.data;
-          }
-
-          if (!item) {
-            throw new Error('Élément non trouvé dans la réponse');
-          }
-
-          // Remplir les champs cachés
+          // Champs cachés
           document.getElementById('typeReservation').value = type;
           document.getElementById('referenceId').value = item._id;
           document.getElementById('referenceName').value = item.nom || item.titre;
           document.getElementById('referencePrice').value = item.prix || 0;
-          
-          // Déterminer les places disponibles
-          let placesDisponibles = 50; // Valeur par défaut
-          if (type === 'event' && item.placesRestantes !== undefined) {
-            placesDisponibles = item.placesRestantes;
-          } else if (type === 'destination' && item.placesDisponibles !== undefined) {
-            placesDisponibles = item.placesDisponibles;
-          }
+
+          let placesDisponibles = 50;
+          if (type === 'event' && item.placesRestantes !== undefined) placesDisponibles = item.placesRestantes;
+          else if (type === 'destination' && item.placesDisponibles !== undefined) placesDisponibles = item.placesDisponibles;
           document.getElementById('referencePlaces').value = placesDisponibles;
 
-          // Remplir le lieu
           const location = item.lieu || item.localisation || 'Non spécifié';
           document.getElementById('referenceLocation').value = location;
 
-          // Gérer la date
           let defaultDate = '';
           const today = new Date();
           today.setHours(0, 0, 0, 0);
-
           if (item.date) {
             const itemDate = new Date(item.date);
-            if (itemDate >= today) {
-              defaultDate = itemDate.toISOString().split('T')[0];
-            }
-          } else if (item.datesDisponibles && item.datesDisponibles.length > 0) {
-            // Trouver la première date future
-            for (const dateRange of item.datesDisponibles) {
-              const debut = new Date(dateRange.debut);
-              if (debut >= today) {
-                defaultDate = debut.toISOString().split('T')[0];
-                break;
-              }
+            if (itemDate >= today) defaultDate = itemDate.toISOString().split('T')[0];
+          }
+          if (!defaultDate && item.datesDisponibles?.length) {
+            for (const range of item.datesDisponibles) {
+              const debut = new Date(range.debut);
+              if (debut >= today) { defaultDate = debut.toISOString().split('T')[0]; break; }
             }
           }
-
-          // Si pas de date trouvée, utiliser aujourd'hui + 7 jours
           if (!defaultDate) {
-            const futureDate = new Date();
-            futureDate.setDate(futureDate.getDate() + 7);
-            defaultDate = futureDate.toISOString().split('T')[0];
+            const future = new Date();
+            future.setDate(future.getDate() + 7);
+            defaultDate = future.toISOString().split('T')[0];
           }
-
           document.getElementById('referenceDate').value = defaultDate;
           document.getElementById('selectedDate').value = defaultDate;
-          
-          // Définir la date minimum comme aujourd'hui
-          const todayStr = today.toISOString().split('T')[0];
-          document.getElementById('selectedDate').min = todayStr;
+          document.getElementById('selectedDate').min = today.toISOString().split('T')[0];
 
-          // Afficher le résumé
           afficherResume(item, itemType, defaultDate, placesDisponibles);
-
-          // Activer le calcul du total
           setupCalculTotal();
-
           showLoading(false);
-
         } catch (error) {
-          console.error('Erreur détaillée:', error);
+          console.error('Erreur:', error);
           showLoading(false);
           showError(`Impossible de charger les détails: ${error.message}`);
-          
-          setTimeout(() => {
-            window.location.href = 'index.html';
-          }, 3000);
+          setTimeout(() => { window.location.href = 'index.html'; }, 3000);
         }
       }
 
       function afficherResume(item, itemType, selectedDate, placesDisponibles) {
-        const summaryEl = document.getElementById('reservationSummary');
-        summaryEl.style.display = 'block';
-
-        const itemName = item.nom || item.titre;
-        const itemLocation = item.lieu || item.localisation || 'Non spécifié';
-        const itemPrice = item.prix || 0;
-
+        document.getElementById('reservationSummary').style.display = 'block';
         document.getElementById('summaryTitle').textContent = `Résumé de votre réservation`;
         document.getElementById('summaryType').textContent = itemType;
-        document.getElementById('summaryName').textContent = itemName;
-        document.getElementById('summaryLocation').textContent = itemLocation;
-        document.getElementById('summaryUnitPrice').textContent = `${itemPrice.toLocaleString('fr-FR')} FCFA`;
+        document.getElementById('summaryName').textContent = item.nom || item.titre;
+        document.getElementById('summaryLocation').textContent = item.lieu || item.localisation || 'Non spécifié';
+        document.getElementById('summaryUnitPrice').textContent = `${(item.prix || 0).toLocaleString('fr-FR')} FCFA`;
 
         if (selectedDate) {
           const dateObj = new Date(selectedDate);
           document.getElementById('summaryDate').textContent = dateObj.toLocaleDateString('fr-FR', {
-            weekday: 'long',
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
+            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
           });
         }
 
-        // Mettre à jour l'affichage du prix
-        document.getElementById('displayUnitPrice').textContent = `${itemPrice.toLocaleString('fr-FR')} FCFA`;
+        document.getElementById('displayUnitPrice').textContent = `${(item.prix || 0).toLocaleString('fr-FR')} FCFA`;
         document.getElementById('priceDisplay').style.display = 'block';
-
-        // Avertissement sur les places disponibles
         updatePlacesWarning(placesDisponibles);
-
         calculerTotal();
       }
 
-      function updatePlacesWarning(placesDisponibles) {
-        const warningEl = document.getElementById('placesWarning');
-        const warningText = document.getElementById('placesWarningText');
-        
-        if (placesDisponibles <= 10) {
-          warningText.textContent = `⚠️ Il ne reste que ${placesDisponibles} place${placesDisponibles > 1 ? 's' : ''} disponible${placesDisponibles > 1 ? 's' : ''}`;
-          warningEl.style.display = 'block';
+      function updatePlacesWarning(places) {
+        const el = document.getElementById('placesWarning');
+        const txt = document.getElementById('placesWarningText');
+        if (places <= 10) {
+          txt.textContent = `⚠️ Il ne reste que ${places} place${places > 1 ? 's' : ''} disponible${places > 1 ? 's' : ''}`;
+          el.style.display = 'block';
         } else {
-          warningEl.style.display = 'none';
+          el.style.display = 'none';
         }
       }
 
@@ -1246,200 +1173,147 @@
         const participantsInput = document.getElementById('participants');
         const dateInput = document.getElementById('selectedDate');
 
-        participantsInput.addEventListener('input', function() {
+        participantsInput.addEventListener('input', () => {
           calculerTotal();
-          // Vérifier les places disponibles
-          const maxPlaces = parseInt(document.getElementById('referencePlaces').value);
-          const participants = parseInt(this.value) || 1;
-          updatePlacesWarning(maxPlaces);
-          
-          if (participants > maxPlaces) {
-            showError(`Maximum ${maxPlaces} place${maxPlaces > 1 ? 's' : ''} disponible${maxPlaces > 1 ? 's' : ''}`);
-          }
+          const max = parseInt(document.getElementById('referencePlaces').value);
+          const val = parseInt(participantsInput.value) || 1;
+          updatePlacesWarning(max);
+          if (val > max) showError(`Maximum ${max} place${max > 1 ? 's' : ''} disponible${max > 1 ? 's' : ''}`);
         });
 
-        dateInput.addEventListener('change', function () {
-          document.getElementById('referenceDate').value = this.value;
+        dateInput.addEventListener('change', () => {
+          document.getElementById('referenceDate').value = dateInput.value;
           calculerTotal();
         });
 
-        document.querySelectorAll('input[name="plan"]').forEach(radio => {
-          radio.addEventListener('change', calculerTotal);
-        });
+        document.querySelectorAll('input[name="plan"]').forEach(r => r.addEventListener('change', calculerTotal));
       }
 
       function calculerTotal() {
-        const prixUnitaire = parseFloat(document.getElementById('referencePrice').value) || 0;
-        const participants = parseInt(document.getElementById('participants').value) || 1;
+        const prix = parseFloat(document.getElementById('referencePrice').value) || 0;
+        const nb = parseInt(document.getElementById('participants').value) || 1;
         const plan = document.querySelector('input[name="plan"]:checked').value;
+        const total = prix * nb;
+        const aPayer = plan === 'deux_tranches' ? Math.ceil(total / 2) : total;
 
-        const total = prixUnitaire * participants;
-        const montantAPayer = plan === 'deux_tranches' ? Math.ceil(total / 2) : total;
-
-        // Mettre à jour le résumé
-        document.getElementById('summaryParticipants').textContent = participants;
+        document.getElementById('summaryParticipants').textContent = nb;
         document.getElementById('summaryTotalPrice').textContent = `${total.toLocaleString('fr-FR')} FCFA`;
-
-        // Mettre à jour l'affichage du prix
-        document.getElementById('displayParticipants').textContent = participants;
+        document.getElementById('displayParticipants').textContent = nb;
         document.getElementById('displayTotalPrice').textContent = `${total.toLocaleString('fr-FR')} FCFA`;
-        document.getElementById('displayPaymentDue').textContent = `${montantAPayer.toLocaleString('fr-FR')} FCFA`;
+        document.getElementById('displayPaymentDue').textContent = `${aPayer.toLocaleString('fr-FR')} FCFA`;
       }
 
-      // Validation du formulaire
       function validateForm() {
         const nom = document.getElementById('nom').value.trim();
         const prenom = document.getElementById('prenom').value.trim();
         const email = document.getElementById('email').value.trim();
-        const telephone = document.getElementById('telephone').value.trim();
+        const tel = document.getElementById('telephone').value.trim();
         const participants = parseInt(document.getElementById('participants').value);
         const maxPlaces = parseInt(document.getElementById('referencePlaces').value);
         const date = document.getElementById('selectedDate').value;
 
-        if (!nom || !prenom || !email || !telephone) {
-          showError('Veuillez remplir tous les champs obligatoires');
-          return false;
-        }
+        if (!nom || !prenom || !email || !tel) return showError('Tous les champs obligatoires doivent être remplis'), false;
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showError('Email invalide'), false;
+        if (!/^[\+]?[0-9\s\-\(\)]{8,}$/.test(tel)) return showError('Téléphone invalide'), false;
+        if (participants < 1) return showError('Au moins 1 participant'), false;
+        if (participants > maxPlaces) return showError(`Maximum ${maxPlaces} places disponibles`), false;
+        if (!date) return showError('Sélectionnez une date'), false;
 
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-          showError('Veuillez saisir une adresse email valide');
-          return false;
-        }
-
-        if (!/^[\+]?[0-9\s\-\(\)]{8,}$/.test(telephone)) {
-          showError('Veuillez saisir un numéro de téléphone valide');
-          return false;
-        }
-
-        if (participants < 1) {
-          showError('Le nombre de participants doit être au moins 1');
-          return false;
-        }
-
-        if (participants > maxPlaces) {
-          showError(`Désolé, il ne reste que ${maxPlaces} place${maxPlaces > 1 ? 's' : ''} disponible${maxPlaces > 1 ? 's' : ''}`);
-          return false;
-        }
-
-        if (!date) {
-          showError('Veuillez sélectionner une date');
-          return false;
-        }
-
-        const selectedDate = new Date(date);
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-
-        if (selectedDate < today) {
-          showError('Veuillez sélectionner une date future');
-          return false;
-        }
+        const selDate = new Date(date);
+        const today = new Date(); today.setHours(0, 0, 0, 0);
+        if (selDate < today) return showError('Date future requise'), false;
 
         return true;
       }
 
-    // Gestion de la soumission du formulaire
-    document.getElementById('reservationForm').addEventListener('submit', async function (e) {
-      e.preventDefault();
+      // Soumission
 
-      if (!validateForm()) {
-        return;
-      }
+      // Soumission
+      document.getElementById('reservationForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+        if (!validateForm()) return;
 
-      const participants = parseInt(document.getElementById('participants').value);
-      const maxPlaces = parseInt(document.getElementById('referencePlaces').value);
+        const participants = parseInt(document.getElementById('participants').value);
+        const maxPlaces = parseInt(document.getElementById('referencePlaces').value);
+        if (participants > maxPlaces) {
+          showError(`Désolé, il ne reste que ${maxPlaces} places disponibles.`);
+          return;
+        }
 
-      if (participants > maxPlaces) {
-        showError(`Désolé, il ne reste que ${maxPlaces} places disponibles.`);
-        return;
-      }
-
-      const formData = new FormData(this);
-      const data = {
-        client: {
-          nom: formData.get('nom'),
-          prenom: formData.get('prenom'),
-          email: formData.get('email'),
-          telephone: formData.get('telephone'),
-        },
-        type: formData.get('type_reservation'),
-        itemId: formData.get('reference'),
-        date: formData.get('date'),
-        nombrePlaces: participants,
-        message: formData.get('message'),
-        planPaiement: formData.get('plan'),
-        methodePaiement: formData.get('methode'),
-      };
-
-      // Désactiver le bouton
-      setButtonLoading(true);
-
-      try {
-        const response = await fetch(`${API_BASE_URL}/api/v1/reservations/initier`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
+        const formData = new FormData(this);
+        const data = {
+          client: {
+            nom: formData.get('nom'),
+            prenom: formData.get('prenom'),
+            email: formData.get('email'),
+            telephone: formData.get('telephone'),
           },
-          body: JSON.stringify(data),
-        });
+          type: formData.get('type_reservation'),
+          itemId: formData.get('reference'),
+          date: formData.get('date'),
+          nombrePlaces: participants,
+          message: formData.get('message'),
+          planPaiement: formData.get('plan'),
+          methodePaiement: formData.get('methode'),
+        };
 
-        // Essayez d'abord de lire le texte pour voir ce que le serveur renvoie
-        const responseText = await response.text();
-        console.log('Réponse brute du serveur:', responseText);
+        setButtonLoading(true);
 
-        if (!response.ok) {
-          // Essayez de parser comme JSON, sinon utilisez le texte brut
-          let errorMessage = `Erreur ${response.status}: ${response.statusText}`;
-          try {
-            const errorData = JSON.parse(responseText);
-            errorMessage = errorData.message || errorMessage;
-          } catch (e) {
-            errorMessage = responseText || errorMessage;
-          }
-          throw new Error(errorMessage);
-        }
-
-        // Si la réponse est OK, essayez de la parser comme JSON
-        let result;
         try {
-          result = JSON.parse(responseText);
-        } catch (error) {
-          console.error('Erreur de parsing JSON:', error);
-          throw new Error('Le serveur a renvoyé une réponse invalide');
-        }
+          const res = await fetch(`${API_BASE_URL}/api/v1/reservations/initier`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data),
+          });
 
-        if (result.status === 'success') {
-          // Stocker l'ID de réservation
-          localStorage.setItem('reservationId', result.data.reservation._id);
-          localStorage.setItem('reservationData', JSON.stringify(data));
-
-          showToast(result.message || 'Réservation enregistrée avec succès !', 'success');
-
-          // Rediriger vers l'URL de paiement
-          if (result.data.reservation.paymentUrl) {
-            setTimeout(() => {
-              window.location.href = result.data.reservation.paymentUrl;
-            }, 1000);
-          } else {
-            // Fallback vers la page de paiement interne
-            setTimeout(() => {
-              window.location.href = `paiement.html?id=${result.data.reservation._id}`;
-            }, 2000);
+          const text = await res.text();
+          let result;
+          try {
+            result = JSON.parse(text);
+          } catch {
+            throw new Error(text || 'Réponse serveur invalide');
           }
-        } else {
-          throw new Error(result.message || 'Erreur lors de la réservation');
-        }
 
-      } catch (error) {
-        console.error('Erreur détaillée:', error);
-        showError(error.message || 'Erreur lors de l\'enregistrement de la réservation');
-        setButtonLoading(false);
-      }
-    });   
-    
-    // Initialiser
+          if (!res.ok || result.status === 'fail') {
+            throw new Error(result.message || 'Erreur lors de la création de la réservation');
+          }
+
+          // Correction ici : checkout_url est dans result.data.payment
+          const { reservation, payment } = result.data;
+          const checkout_url = payment?.checkout_url;
+
+          localStorage.setItem('reservationId', reservation._id);
+          localStorage.setItem('reservationData', JSON.stringify(data));
+          showToast('Réservation enregistrée !', 'success');
+
+          if (reservation.montantPaye >= reservation.montantTotal) {
+            showToast('Réservation déjà payée à 100%.', 'success');
+            setTimeout(() => {
+              window.location.href = `paiement.html?id=${reservation._id}&status=already_paid`;
+            }, 1500);
+            return;
+          }
+
+          if (!checkout_url) {
+            throw new Error('URL de paiement non reçue du serveur (vérifiez payment.checkout_url)');
+          }
+
+          showToast('Redirection vers le paiement sécurisé...', 'success');
+          setTimeout(() => {
+            window.location.href = checkout_url;
+          }, 1200);
+
+        } catch (err) {
+          console.error('Erreur complète:', err);
+          showError(err.message || 'Une erreur est survenue pendant le traitement');
+          setButtonLoading(false);
+        }
+      });
+
+      // Initialiser
       chargerDetailsReservation();
     });
   </script>
 </body>
+
 </html>

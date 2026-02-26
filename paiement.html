@@ -1,50 +1,74 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Paiement - Even Travel</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     body {
       font-family: 'Inter', sans-serif;
       background: #F5F1EA;
       margin: 0;
-      padding: 20px;
+      padding: 40px 20px;
       text-align: center;
+      color: #2A2420;
     }
-    
+
     .container {
       max-width: 600px;
-      margin: 80px auto;
+      margin: 0 auto;
       background: white;
       padding: 40px;
       border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     }
-    
+
     h1 {
       color: #5C4A3A;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
+      font-size: 2.2rem;
     }
-    
-    .status {
-      padding: 30px;
-      border-radius: 12px;
-      margin: 30px 0;
-    }
-    
+
     .success {
       background: #e8f5e8;
       color: #2e7d32;
+      padding: 25px;
+      border-radius: 12px;
+      margin: 25px 0;
+      font-size: 1.1rem;
     }
-    
-    .info {
-      background: #e3f2fd;
-      color: #1565c0;
+
+    .failed {
+      background: #ffebee;
+      color: #c62828;
+      padding: 25px;
+      border-radius: 12px;
+      margin: 25px 0;
+      font-size: 1.1rem;
     }
-    
+
+    .info-box {
+      background: #fff3cd;
+      color: #856404;
+      padding: 25px;
+      border-radius: 12px;
+      margin: 25px 0;
+      text-align: left;
+    }
+
+    .debug {
+      background: #f0f4f8;
+      padding: 15px;
+      border-radius: 10px;
+      margin: 20px 0;
+      font-size: 0.9rem;
+      color: #555;
+      text-align: left;
+    }
+
     .btn {
-      display: inline-block;
       background: #B8856A;
       color: white;
       padding: 12px 30px;
@@ -52,58 +76,132 @@
       text-decoration: none;
       font-weight: 600;
       margin: 10px;
-      transition: all 0.3s ease;
+      display: inline-block;
+      transition: all 0.3s;
     }
-    
+
     .btn:hover {
       background: #9a7b61;
       transform: translateY(-2px);
     }
+
+    ul {
+      margin: 15px 0 15px 25px;
+    }
   </style>
 </head>
+
 <body>
+
   <div class="container">
-    <h1>🔄 Paiement en cours d'implémentation</h1>
-    
-    <div class="status info">
-      <h2>Fonctionnalité à venir</h2>
-      <p>Le système de paiement est actuellement en développement.</p>
-      <p>Dans la version finale, vous serez redirigé vers Flutterwave pour effectuer le paiement.</p>
-    </div>
-    
-    <div class="status success">
-      <h2>✅ Réservation enregistrée</h2>
-      <p>Vos informations ont été sauvegardées avec succès.</p>
-      <p>Vous recevrez bientôt un email de confirmation.</p>
-    </div>
-    
-    <div style="margin-top: 40px;">
-      <a href="index.html" class="btn">Retour à l'accueil</a>
-      <a href="events.html" class="btn">Voir les événements</a>
-    </div>
-    
-    <div style="margin-top: 30px; font-size: 14px; color: #666;">
-      <p><strong>Note pour le développement :</strong></p>
-      <p>Connectez cette page à votre API backend et intégrez Flutterwave.</p>
-      <p>Vérifiez le localStorage pour les données de réservation.</p>
-    </div>
+    <h1>Paiement de votre réservation</h1>
+
+    <div id="statusContainer"></div>
+
+    <a href="index.html" class="btn">Retour à l'accueil</a>
   </div>
 
   <script>
-    // Récupérer l'ID de réservation depuis l'URL
     const urlParams = new URLSearchParams(window.location.search);
+
+    // Debug console (utile pour toi)
+    console.log("Query params reçus :", Object.fromEntries(urlParams.entries()));
+
+    const paymentId = urlParams.get('paymentId');
+    const paymentStatus = urlParams.get('paymentStatus');
+    const statusParam = urlParams.get('status');
     const reservationId = urlParams.get('id') || localStorage.getItem('reservationId');
-    
-    if (reservationId) {
-      console.log('ID de réservation:', reservationId);
-      // Ici, vous pouvez appeler votre API pour récupérer les détails
+
+    const container = document.getElementById('statusContainer');
+
+    let html = '';
+
+    // Bloc debug (à supprimer en production si tu veux)
+    html += `
+    <div class="debug">
+      <strong>Debug Retour (dev only)</strong><br>
+      URL : ${window.location.href}<br>
+      paymentId : ${paymentId || '—'}<br>
+      paymentStatus : ${paymentStatus || '—'}<br>
+      status (backend) : ${statusParam || '—'}<br>
+      reservationId : ${reservationId || '—'}
+    </div>
+  `;
+
+    // Cas 1 : Réservation déjà payée (redirection backend)
+    if (statusParam === 'already_paid') {
+      html += `
+      <div class="success">
+        <h2><i class="fas fa-check-circle"></i> Réservation déjà payée</h2>
+        <p>Votre réservation <strong>(ID : ${reservationId || '—'})</strong> est déjà entièrement réglée.</p>
+        <p>Vous allez recevoir les détails et la confirmation par email sous peu.</p>
+        <p>Aucun paiement supplémentaire n’est nécessaire.</p>
+      </div>
+    `;
     }
-    
-    // Récupérer les données de réservation
-    const reservationData = localStorage.getItem('reservationData');
-    if (reservationData) {
-      console.log('Données de réservation:', JSON.parse(reservationData));
+
+    // Cas 2 : Paiement Moneroo réussi
+    else if (paymentStatus === 'success') {
+      html += `
+      <div class="success">
+        <h2><i class="fas fa-check-circle"></i> Paiement réussi !</h2>
+        <p>ID de transaction Moneroo : <strong>${paymentId || '—'}</strong></p>
+        <p>Votre réservation est maintenant confirmée. Merci pour votre confiance !</p>
+        <p>Vous recevrez les détails par email très bientôt.</p>
+      </div>
+    `;
+      localStorage.removeItem('reservationId');
+      localStorage.removeItem('reservationData');
     }
+
+    // Cas 3 : Paiement échoué, annulé ou en attente
+    else if (['failed', 'cancelled', 'pending'].includes(paymentStatus)) {
+      html += `
+      <div class="failed">
+        <h2><i class="fas fa-times-circle"></i> Paiement ${paymentStatus === 'pending' ? 'en attente' : paymentStatus}</h2>
+        <p>Statut reçu : <strong>${paymentStatus}</strong></p>
+        <p>Votre réservation reste en attente de confirmation.</p>
+        <p>Vous pouvez réessayer le paiement ou contacter le support.</p>
+        <p style="margin-top: 25px;">
+          <a href="reservation.html" class="btn">Réessayer le paiement</a>
+          <a href="index.html" class="btn">Accueil</a>
+        </p>
+      </div>
+    `;
+    }
+
+    // Cas 4 : Aucun statut reconnu
+    else {
+      html += `
+      <div class="info-box">
+        <h2><i class="fas fa-info-circle"></i> Statut de retour non reconnu</h2>
+        <p>Aucun paramètre <code>paymentStatus</code> valide provenant de Moneroo n’a été reçu.</p>
+        <p>Possibles raisons :</p>
+        <ul>
+          <li>Le paiement n’a pas été finalisé sur la page Moneroo</li>
+          <li>Redirection effectuée par le backend (réservation déjà payée)</li>
+          <li>Problème de configuration du <code>return_url</code></li>
+        </ul>
+        <p>Vérifiez votre boîte mail ou contactez-nous pour confirmation.</p>
+      </div>
+    `;
+    }
+
+    container.innerHTML = html;
+
+    // Optionnel : Vérification serveur (décommente si tu as un endpoint verify)
+    /*
+    if (paymentId && reservationId) {
+      fetch(`http://127.0.0.1:5000/api/v1/payments/${paymentId}/verify`, {
+        headers: { 'Authorization': 'Bearer TON_TOKEN_SI_BESOIN' }
+      })
+      .then(r => r.json())
+      .then(data => console.log('Vérification serveur :', data))
+      .catch(err => console.error('Erreur vérif :', err));
+    }
+    */
   </script>
+
 </body>
+
 </html>
