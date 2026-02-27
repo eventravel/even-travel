@@ -104,7 +104,6 @@
   <script>
     const urlParams = new URLSearchParams(window.location.search);
 
-    // Debug console (utile pour toi)
     console.log("Query params reçus :", Object.fromEntries(urlParams.entries()));
 
     const paymentId = urlParams.get('paymentId');
@@ -114,34 +113,17 @@
 
     const container = document.getElementById('statusContainer');
 
-    let html = '';
 
-    // Bloc debug (à supprimer en production si tu veux)
-    html += `
-    <div class="debug">
-      <strong>Debug Retour (dev only)</strong><br>
-      URL : ${window.location.href}<br>
-      paymentId : ${paymentId || '—'}<br>
-      paymentStatus : ${paymentStatus || '—'}<br>
-      status (backend) : ${statusParam || '—'}<br>
-      reservationId : ${reservationId || '—'}
-    </div>
-  `;
-
-    // Cas 1 : Réservation déjà payée (redirection backend)
     if (statusParam === 'already_paid') {
       html += `
       <div class="success">
         <h2><i class="fas fa-check-circle"></i> Réservation déjà payée</h2>
         <p>Votre réservation <strong>(ID : ${reservationId || '—'})</strong> est déjà entièrement réglée.</p>
         <p>Vous allez recevoir les détails et la confirmation par email sous peu.</p>
-        <p>Aucun paiement supplémentaire n’est nécessaire.</p>
+        <p>Aucun paiement supplémentaire n'est nécessaire.</p>
       </div>
     `;
-    }
-
-    // Cas 2 : Paiement Moneroo réussi
-    else if (paymentStatus === 'success') {
+    } else if (paymentStatus === 'success') {
       html += `
       <div class="success">
         <h2><i class="fas fa-check-circle"></i> Paiement réussi !</h2>
@@ -152,10 +134,7 @@
     `;
       localStorage.removeItem('reservationId');
       localStorage.removeItem('reservationData');
-    }
-
-    // Cas 3 : Paiement échoué, annulé ou en attente
-    else if (['failed', 'cancelled', 'pending'].includes(paymentStatus)) {
+    } else if (['failed', 'cancelled', 'pending'].includes(paymentStatus)) {
       html += `
       <div class="failed">
         <h2><i class="fas fa-times-circle"></i> Paiement ${paymentStatus === 'pending' ? 'en attente' : paymentStatus}</h2>
@@ -168,17 +147,14 @@
         </p>
       </div>
     `;
-    }
-
-    // Cas 4 : Aucun statut reconnu
-    else {
+    } else {
       html += `
       <div class="info-box">
         <h2><i class="fas fa-info-circle"></i> Statut de retour non reconnu</h2>
-        <p>Aucun paramètre <code>paymentStatus</code> valide provenant de Moneroo n’a été reçu.</p>
+        <p>Aucun paramètre <code>paymentStatus</code> valide provenant de Moneroo n'a été reçu.</p>
         <p>Possibles raisons :</p>
         <ul>
-          <li>Le paiement n’a pas été finalisé sur la page Moneroo</li>
+          <li>Le paiement n'a pas été finalisé sur la page Moneroo</li>
           <li>Redirection effectuée par le backend (réservation déjà payée)</li>
           <li>Problème de configuration du <code>return_url</code></li>
         </ul>
@@ -188,18 +164,6 @@
     }
 
     container.innerHTML = html;
-
-    // Optionnel : Vérification serveur (décommente si tu as un endpoint verify)
-    /*
-    if (paymentId && reservationId) {
-      fetch(`http://127.0.0.1:5000/api/v1/payments/${paymentId}/verify`, {
-        headers: { 'Authorization': 'Bearer TON_TOKEN_SI_BESOIN' }
-      })
-      .then(r => r.json())
-      .then(data => console.log('Vérification serveur :', data))
-      .catch(err => console.error('Erreur vérif :', err));
-    }
-    */
   </script>
 
 </body>

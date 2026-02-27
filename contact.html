@@ -60,25 +60,14 @@
       color: var(--deep-brown);
     }
 
+    /* ===== HEADER & NAV ===== */
     header {
       background: #faf8f5;
-      padding: 0;
       position: sticky;
       top: 0;
       width: 100%;
       z-index: 1000;
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      animation: slideDown 0.5s ease-out;
-    }
-
-    @keyframes slideDown {
-      from {
-        transform: translateY(-100%);
-      }
-
-      to {
-        transform: translateY(0);
-      }
     }
 
     nav {
@@ -89,11 +78,6 @@
       height: 80px;
       margin: 0 auto;
       padding: 0 40px;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
     }
 
     .logo img {
@@ -139,6 +123,51 @@
       color: #C4916B;
     }
 
+    /* ===== HAMBURGER ===== */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      z-index: 1100;
+      padding: 5px;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 25px;
+      height: 3px;
+      background: #2c2c2c;
+      border-radius: 3px;
+      transition: all 0.3s ease;
+    }
+
+    .hamburger.active span:nth-child(1) {
+      transform: translateY(8px) rotate(45deg);
+    }
+
+    .hamburger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.active span:nth-child(3) {
+      transform: translateY(-8px) rotate(-45deg);
+    }
+
+    /* Overlay pour fermer le menu */
+    .nav-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+    }
+
+    .nav-overlay.active {
+      display: block;
+    }
+
+    /* ===== HERO ===== */
     .hero {
       position: relative;
       height: 50vh;
@@ -152,33 +181,10 @@
       background-position: center;
     }
 
-    .hero::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><path d="M0,300 Q300,100 600,300 T1200,300 L1200,600 L0,600 Z" fill="rgba(255,255,255,0.1)"/></svg>');
-      background-size: cover;
-      opacity: 0.3;
-      animation: wave 20s ease-in-out infinite;
-    }
-
-    @keyframes wave {
-
-      0%,
-      100% {
-        transform: translateY(0);
-      }
-
-      50% {
-        transform: translateY(-20px);
-      }
-    }
-
     .hero__overlay {
       position: relative;
       z-index: 3;
       text-align: center;
-      color: rgba(255, 255, 255, 0.95);
     }
 
     .hero h1 {
@@ -186,39 +192,26 @@
       font-size: 72px;
       margin: 0;
       line-height: 1;
-      color:#2A2420;
+      color: #2A2420;
       text-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-      animation: fadeInUp 0.8s ease-out;
     }
 
     .hero p {
       font-family: 'Playfair Display', serif;
       margin: 16px 0 0;
-      font-weight: 400;
       font-size: 20px;
       color: #2A2420;
       text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-      animation: fadeInUp 0.8s ease-out 0.2s backwards;
     }
 
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
+    /* ===== CONTAINER ===== */
     .container {
       width: 90%;
       max-width: 1200px;
       margin: 0 auto;
     }
 
+    /* ===== CONTACT SECTION ===== */
     section.contact-section {
       padding: var(--spacing-xl) 0;
       background: var(--white);
@@ -237,7 +230,6 @@
       border-radius: 16px;
       border: 1px solid var(--stone);
       box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-      animation: fadeInUp 0.8s ease-out;
     }
 
     .contact-form h2 {
@@ -306,10 +298,7 @@
       box-shadow: 0 8px 20px rgba(139, 111, 71, 0.4);
     }
 
-    .contact-info {
-      animation: fadeInUp 0.8s ease-out 0.2s backwards;
-    }
-
+    /* ===== CONTACT INFO ===== */
     .contact-info h2 {
       font-size: 32px;
       font-weight: 600;
@@ -362,22 +351,7 @@
       font-weight: 600;
     }
 
-    section.map-section {
-      padding: 0;
-      background: var(--sand);
-    }
-
-    .map-placeholder {
-      width: 100%;
-      height: 400px;
-      background: var(--stone);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--text-muted);
-      font-size: 18px;
-    }
-
+    /* ===== FOOTER ===== */
     footer {
       background: #bab2b2;
       color: rgb(0, 0, 0);
@@ -391,22 +365,6 @@
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 40px;
       margin-bottom: 40px;
-    }
-
-    .footer-section {
-      animation: fadeInUp 0.6s ease-out;
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
     }
 
     .footer-logo {
@@ -431,7 +389,7 @@
     .footer-text {
       font-size: 15px;
       line-height: 1.8;
-      color: #000000;
+      color: #000;
       margin-bottom: 10px;
     }
 
@@ -469,6 +427,7 @@
       color: #9ca3af;
     }
 
+    /* ===== RESPONSIVE ===== */
     @media (max-width: 900px) {
       .hero h1 {
         font-size: 56px;
@@ -480,13 +439,50 @@
     }
 
     @media (max-width: 768px) {
-      :root {
-        --spacing-lg: 48px;
-        --spacing-xl: 64px;
-      }
-
       nav {
         padding: 0 20px;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        height: 100vh;
+        width: 75%;
+        max-width: 320px;
+        background: #faf8f5;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 80px 40px 40px;
+        transition: right 0.35s ease;
+        box-shadow: -5px 0 30px rgba(0, 0, 0, 0.15);
+        z-index: 1050;
+        gap: 8px;
+      }
+
+      .nav-links.active {
+        right: 0;
+      }
+
+      .nav-links li {
+        width: 100%;
+        text-align: center;
+      }
+
+      .nav-links a {
+        display: block;
+        padding: 14px 20px;
+        font-size: 16px;
+        border-radius: 8px;
+      }
+
+      .nav-links a:hover {
+        background: var(--sand);
       }
 
       .contact-form h2,
@@ -500,13 +496,9 @@
         height: 70px;
       }
 
-      .nav-links {
-        display: none;
-      }
-
       .hero {
         height: 40vh;
-        min-height: 350px;
+        min-height: 300px;
       }
 
       .hero h1 {
@@ -517,22 +509,32 @@
         font-size: 16px;
       }
 
-      .contact-form,
-      .info-item {
+      .contact-form {
         padding: var(--spacing-md);
+      }
+
+      .info-item {
+        padding: var(--spacing-sm);
+      }
+
+      footer {
+        padding: 40px 20px 20px;
       }
     }
   </style>
 </head>
 
 <body>
+  <!-- Overlay fermeture menu -->
+  <div class="nav-overlay" id="navOverlay"></div>
+
   <header>
     <nav>
       <div class="logo">
         <img src="images/logo-01.png" alt="Even Travel Logo">
       </div>
 
-      <ul class="nav-links">
+      <ul class="nav-links" id="navLinks">
         <li><a href="index.html">Accueil</a></li>
         <li><a href="events.html">Événements</a></li>
         <li><a href="destinations.html">Destinations</a></li>
@@ -540,8 +542,13 @@
         <li><a href="contact.html">Contact</a></li>
         <li><a href="about.html">À propos</a></li>
         <li><a href="FAQ.html">FAQ</a></li>
-
       </ul>
+
+      <div class="hamburger" id="hamburger">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
     </nav>
   </header>
 
@@ -560,67 +567,61 @@
           <form id="contactForm">
             <div class="form-group">
               <label for="name">Nom complet</label>
-              <input type="text" id="name" name="name" required>
+              <input type="text" id="name" name="name" required placeholder="Votre nom complet">
             </div>
             <div class="form-group">
               <label for="email">Email</label>
-              <input type="email" id="email" name="email" required>
+              <input type="email" id="email" name="email" required placeholder="votre@email.com">
             </div>
             <div class="form-group">
               <label for="subject">Sujet</label>
               <select id="subject" name="subject" required>
                 <option value="">Sélectionnez un sujet</option>
-                <option value="reservation">Réservation</option>
-                <option value="information">Demande d'information</option>
-                <option value="partenariat">Partenariat</option>
-                <option value="autre">Autre</option>
+                <option value="Réservation">Réservation</option>
+                <option value="Demande d'information">Demande d'information</option>
+                <option value="Partenariat">Partenariat</option>
+                <option value="Autre">Autre</option>
               </select>
             </div>
             <div class="form-group">
               <label for="message">Message</label>
-              <textarea id="message" name="message" required></textarea>
+              <textarea id="message" name="message" required placeholder="Décrivez votre demande..."></textarea>
             </div>
-            <button type="submit" class="submit-btn">Envoyer le message</button>
+            <button type="submit" class="submit-btn">
+              <i class="fas fa-paper-plane" style="margin-right:8px;"></i>Envoyer le message
+            </button>
           </form>
         </div>
 
         <div class="contact-info">
           <h2>Informations de contact</h2>
           <div class="info-item">
-            <div class="info-icon">
-              <i class="fas fa-map-marker-alt"></i>
-            </div>
+            <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
             <div class="info-content">
               <h3>Adresse</h3>
               <p>Cotonou, Bénin</p>
             </div>
           </div>
           <div class="info-item">
-            <div class="info-icon">
-              <i class="fas fa-envelope"></i>
-            </div>
+            <div class="info-icon"><i class="fas fa-envelope"></i></div>
             <div class="info-content">
               <h3>Email</h3>
-              <p>eventravel2@gmail.com</p>
+              <p>eventravel79@gmail.com</p>
             </div>
           </div>
           <div class="info-item">
-            <div class="info-icon">
-              <i class="fas fa-phone"></i>
-            </div>
+            <div class="info-icon"><i class="fas fa-phone"></i></div>
             <div class="info-content">
               <h3>Téléphone</h3>
               <p>+33781800811</p>
             </div>
           </div>
           <div class="info-item">
-            <div class="info-icon">
-              <i class="fas fa-clock"></i>
-            </div>
+            <div class="info-icon"><i class="fas fa-clock"></i></div>
             <div class="info-content">
               <h3>Heures d'ouverture</h3>
-              <p><strong>Lundi au Vendredi:</strong> 9h00 - 19h00<br>
-                <strong>Samedi:</strong> 9h00 - 12h00
+              <p><strong>Lundi au Vendredi :</strong> 9h00 - 19h00<br>
+                <strong>Samedi :</strong> 9h00 - 12h00
               </p>
             </div>
           </div>
@@ -640,13 +641,13 @@
       <div class="footer-section">
         <h3 class="footer-title">Réservations</h3>
         <p class="footer-text">Cotonou, Bénin</p>
-        <p class="footer-text">eventravel2@gmail.com</p>
+        <p class="footer-text">eventravel79@gmail.com</p>
         <p class="footer-text">+33781800811</p>
       </div>
       <div class="footer-section">
         <h3 class="footer-title">Horaires d'ouverture</h3>
-        <p class="footer-text">Lundi au Vendredi: 9h00 à 19h00</p>
-        <p class="footer-text">Samedi: 9h00 à 12h00</p>
+        <p class="footer-text">Lundi au Vendredi : 9h00 à 19h00</p>
+        <p class="footer-text">Samedi : 9h00 à 12h00</p>
       </div>
       <div class="footer-section">
         <h3 class="footer-title">Suivez-nous</h3>
@@ -669,12 +670,39 @@
   </footer>
 
   <script>
-
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    const contactForm = document.getElementById('contactForm');
+    // ===== HAMBURGER MENU =====
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('navLinks');
+    const navOverlay = document.getElementById('navOverlay');
 
-    contactForm.addEventListener('submit', function (e) {
+    function openMenu() {
+      hamburger.classList.add('active');
+      navLinks.classList.add('active');
+      navOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+      hamburger.classList.remove('active');
+      navLinks.classList.remove('active');
+      navOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.contains('active') ? closeMenu() : openMenu();
+    });
+
+    navOverlay.addEventListener('click', closeMenu);
+
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', closeMenu);
+    });
+
+    // ===== FORMULAIRE → MAILTO =====
+    document.getElementById('contactForm').addEventListener('submit', function (e) {
       e.preventDefault();
 
       const name = document.getElementById('name').value.trim();
@@ -693,8 +721,26 @@
         return;
       }
 
-      alert('Merci pour votre message ! Nous vous répondrons bientôt.');
-      contactForm.reset();
+      // Construction du corps du mail
+      const body = `Nom : ${name}
+Email : ${email}
+Sujet : ${subject}
+
+Message :
+${message}`;
+
+      const mailtoLink = `mailto:eventravel79@gmail.com`
+        + `?subject=${encodeURIComponent('[Even Travel] ' + subject + ' - ' + name)}`
+        + `&body=${encodeURIComponent(body)}`;
+
+      // Ouvre le client mail avec les données pré-remplies
+      window.location.href = mailtoLink;
+
+      // Réinitialise le formulaire après un court délai
+      setTimeout(() => {
+        this.reset();
+        alert('Votre client mail va s\'ouvrir pour envoyer le message à eventravel79@gmail.com');
+      }, 500);
     });
   </script>
 </body>
