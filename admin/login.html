@@ -450,10 +450,6 @@
             Connexion réussie ! Redirection en cours...
         </div>
 
-        <div class="change-credentials">
-            <a href="#" id="changeCredentialsLink">Modifier les identifiants</a>
-        </div>
-
         <div class="change-form" id="changeForm">
             <h3>Modifier les identifiants</h3>
 
@@ -499,7 +495,7 @@
         </div>
 
         <div class="back-link">
-            <a href="admin-settings.html">← Retour à l'accueil</a>
+            <a href="index.html">← Retour à l'accueil</a>
         </div>
     </div>
 
@@ -545,7 +541,7 @@
                 try {
                     data = JSON.parse(text); // parse JSON si possible
                 } catch {
-                    throw new Error(text || "Erreur serveur inattendue"); // sinon on l’affiche brute
+                    throw new Error(text || "Erreur serveur inattendue");
                 }
 
                 if (!response.ok) {
@@ -558,7 +554,7 @@
 
                 // Stocker le token JWT
                 localStorage.setItem("authToken", data.token);
-                
+
                 setTimeout(() => {
                     window.location.href = "admin-dashboard.html";
                 }, 500);
@@ -575,4 +571,4 @@
     </script>
 </body>
 
-</html> 
+</html>
