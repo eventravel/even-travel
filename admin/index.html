@@ -1,255 +1,578 @@
 <!doctype html>
 <html lang="fr">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Even Travel - Tableau de Bord Admin</title>
-        
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-        <link href="https://fonts.googleapis.com/css2?family=Italiana&family=Marko+One&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
-        
-        <!-- CSS -->
-        <link rel="stylesheet" href="css/admin.css">
-    </head>
 
-    <body>
-        <header>
-            <nav>
-                <div class="logo">
-                    <span>Even</span><span style="color: var(--deep-brown)">Travel</span>
-                </div>
-                <div class="admin-actions">
-                    <span id="currentUser">Administrateur</span>
-                    <button class="logout-btn" id="logoutBtn">
-                        <i class="fas fa-sign-out-alt"></i> Déconnexion
-                    </button>
-                </div>
-            </nav>
-        </header>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Italiana&family=Marko+One&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet" />
+    <title>Even Travel - Admin Login</title>
+    <style>
+        :root {
+            --sand: #e8ddd0;
+            --stone: #d4c4b0;
+            --terracotta: #b8856a;
+            --ochre: #c4916b;
+            --bronze: #8b6f47;
+            --deep-brown: #5c4a3a;
+            --cream: #f5f1ea;
+            --white: #ffffff;
+            --text-dark: #2a2420;
+            --text-muted: #6b5d52;
+            --spacing-xs: 8px;
+            --spacing-sm: 16px;
+            --spacing-md: 32px;
+            --spacing-lg: 64px;
+        }
 
-        <div class="admin-container">
-            <aside class="sidebar">
-                <ul class="sidebar-menu">
-                    <li><a href="#" class="active" data-section="dashboard"><i class="fas fa-chart-line"></i> Tableau de Bord</a></li>
-                    <li><a href="#" data-section="events"><i class="fas fa-calendar-alt"></i> Événements</a></li>
-                    <li><a href="#" data-section="destinations"><i class="fas fa-map-marked-alt"></i> Destinations</a></li>
-                    <li><a href="#" data-section="blogs"><i class="fas fa-blog"></i> Articles</a></li>
-                    <li><a href="#" data-section="comments"><i class="fas fa-comments"></i> Commentaires</a></li>
-                    <li><a href="#" data-section="payments"><i class="fas fa-credit-card"></i> Paiements</a></li>
-                </ul>
-            </aside>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-            <main class="main-content">
-                <!-- Dashboard par défaut -->
-                <section id="dashboard" class="dashboard-section active">
-                    <div class="section-header">
-                        <h1 class="section-title">Tableau de Bord</h1>
-                    </div>
-                    <div class="stats-grid">
-                        <div class="stat-card"><div class="stat-icon"><i class="fas fa-ticket-alt"></i></div><div class="stat-number" id="totalReservations">0</div><div class="stat-label">Réservations</div></div>
-                        <div class="stat-card"><div class="stat-icon"><i class="fas fa-calendar-check"></i></div><div class="stat-number" id="totalEvents">0</div><div class="stat-label">Événements Actifs</div></div>
-                        <div class="stat-card"><div class="stat-icon"><i class="fas fa-globe-africa"></i></div><div class="stat-number" id="totalDestinations">0</div><div class="stat-label">Destinations</div></div>
-                        <div class="stat-card"><div class="stat-icon"><i class="fas fa-comment-dots"></i></div><div class="stat-number" id="totalComments">0</div><div class="stat-label">Commentaires</div></div>
-                    </div>
-                </section>
+        body {
+            font-family:
+                "Inter",
+                system-ui,
+                -apple-system,
+                sans-serif;
+            font-size: 16px;
+            line-height: 1.7;
+            overflow-x: hidden;
+            background-image: url(images/logo.jpg);
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            color: var(--text-dark);
+            -webkit-font-smoothing: antialiased;
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-                <!-- Contenu dynamique -->
-                <div id="dynamic-content"></div>
-            </main>
-        </div>
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(245, 241, 234, 0.92);
+            z-index: -1;
+            pointer-events: none;
+        }
 
-        <!-- MODAL ÉVÉNEMENT -->
-        <div id="eventModal" class="modal">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2 id="eventModalTitle" class="modal-title">Ajouter un Événement</h2>
-                    <button class="close-btn" onclick="closeModal('eventModal')">×</button>
-                </div>
-                <form id="eventForm">
-                    <input type="hidden" id="eventId">
-                    
-                    <div class="form-section">
-                        <h3 class="section-title-small">Informations Générales</h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="eventNom">Nom de l'événement *</label>
-                                <input type="text" id="eventNom" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="eventCategorie">Catégorie *</label>
-                                <select id="eventCategorie" required>
-                                    <option value="concert">Concert</option>
-                                    <option value="festival">Festival</option>
-                                    <option value="culture">Culturel</option>
-                                    <option value="sport">Sportif</option>
-                                    <option value="excursion">Excursion</option>
-                                    <option value="formation">Formation</option>
-                                    <option value="soiree">Soirée</option>
-                                    <option value="autre">Autre</option>
-                                </select>
-                            </div>
-                        </div>
+        .login-container {
+            background: var(--white);
+            padding: 60px 50px;
+            border-radius: 0;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+            max-width: 520px;
+            width: 100%;
+            margin: 20px;
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            border: 1px solid var(--stone);
+        }
 
-                        <div class="form-group">
-                            <label for="eventDescription">Description courte *</label>
-                            <textarea id="eventDescription" required></textarea>
-                        </div>
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
 
-                        <div class="form-group">
-                            <label for="eventDescriptionLongue">Description longue</label>
-                            <textarea id="eventDescriptionLongue"></textarea>
-                        </div>
-                    </div>
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-                    <div class="form-section">
-                        <h3 class="section-title-small">Dates et Lieu</h3>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="eventDate">Date de début *</label>
-                                <input type="datetime-local" id="eventDate" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="eventDateFin">Date de fin</label>
-                                <input type="datetime-local" id="eventDateFin">
-                            </div>
-                        </div>
+        .logo-section {
+            text-align: center;
+            margin-bottom: 48px;
+        }
 
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="eventDuree">Durée (jours) *</label>
-                                <input type="number" id="eventDuree" min="1" value="1" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="eventLieu">Lieu *</label>
-                                <input type="text" id="eventLieu" required>
-                            </div>
-                        </div>
-                    </div>
+        .logo {
+            margin-bottom: 16px;
+        }
 
-                    <div class="modal-actions">
-                        <button type="button" class="cancel-modal-btn" onclick="closeModal('eventModal')">
-                            Annuler
-                        </button>
-                        <button type="submit" class="save-btn">
-                            Enregistrer l'Événement
-                        </button>
-                    </div>
-                </form>
+        .logo img {
+            width: 200px;
+            height: auto;
+        }
+
+        .login-title {
+            font-family: "Inter", sans-serif;
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--deep-brown);
+            margin-bottom: 8px;
+            line-height: 1.2;
+        }
+
+        .login-subtitle {
+            color: var(--text-muted);
+            font-size: 15px;
+            font-weight: 400;
+        }
+
+        .login-form {
+            width: 100%;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--deep-brown);
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 16px 20px;
+            border: 2px solid var(--stone);
+            border-radius: 0;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            outline: none;
+            font-family: "Inter", sans-serif;
+            background: var(--white);
+            color: var(--text-dark);
+        }
+
+        .form-group input:focus {
+            border-color: var(--ochre);
+            box-shadow: 0 0 0 3px rgba(196, 145, 107, 0.1);
+        }
+
+        .form-group input::placeholder {
+            color: var(--text-muted);
+            opacity: 0.6;
+        }
+
+        .login-btn {
+            background: var(--terracotta);
+            color: white;
+            padding: 16px 32px;
+            border: none;
+            border-radius: 0;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 16px;
+            font-family: "Inter", sans-serif;
+        }
+
+        .login-btn:hover {
+            background: var(--bronze);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(139, 111, 71, 0.3);
+        }
+
+        .login-btn:disabled {
+            background: var(--stone);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 14px 18px;
+            border-radius: 0;
+            margin-top: 20px;
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid #c33;
+        }
+
+        .success-message {
+            background: #efe;
+            color: #363;
+            padding: 14px 18px;
+            border-radius: 0;
+            margin-top: 20px;
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid #363;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid var(--stone);
+        }
+
+        .back-link a {
+            color: var(--ochre);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .back-link a:hover {
+            color: var(--bronze);
+        }
+
+        .change-credentials {
+            text-align: center;
+            margin-top: 24px;
+        }
+
+        .change-credentials a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .change-credentials a:hover {
+            color: var(--ochre);
+        }
+
+        .change-form {
+            display: none;
+            margin-top: 32px;
+            padding-top: 32px;
+            border-top: 1px solid var(--stone);
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .change-form.show {
+            display: block;
+        }
+
+        .change-form h3 {
+            font-family: "Inter", sans-serif;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--deep-brown);
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .change-btn {
+            background: var(--deep-brown);
+            color: white;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 0;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 8px;
+        }
+
+        .change-btn:hover {
+            background: var(--bronze);
+            transform: translateY(-1px);
+        }
+
+        .cancel-btn {
+            background: transparent;
+            color: var(--text-muted);
+            padding: 14px 28px;
+            border: 2px solid var(--stone);
+            border-radius: 0;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 12px;
+        }
+
+        .cancel-btn:hover {
+            border-color: var(--bronze);
+            color: var(--bronze);
+        }
+
+        .security-notice {
+            background: rgba(184, 133, 106, 0.08);
+            border: 1px solid var(--terracotta);
+            border-radius: 0;
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            font-size: 14px;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .security-notice strong {
+            color: var(--terracotta);
+            font-weight: 600;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .current-credentials {
+            background: rgba(196, 145, 107, 0.05);
+            border: 1px solid var(--stone);
+            padding: 16px 20px;
+            margin-bottom: 24px;
+            border-radius: 0;
+        }
+
+        .current-credentials p {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin: 4px 0;
+        }
+
+        .current-credentials strong {
+            color: var(--deep-brown);
+            font-weight: 600;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .button-group button {
+            flex: 1;
+        }
+
+        @media (max-width: 600px) {
+            .login-container {
+                padding: 40px 30px;
+                margin: 15px;
+            }
+
+            .logo img {
+                width: 160px;
+            }
+
+            .login-title {
+                font-size: 26px;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+
+            .cancel-btn {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="logo-section">
+            <div class="logo">
+                <img src="../images/logo-001.png" alt="Even Travel Logo" />
             </div>
+            <h1 class="login-title">Administration</h1>
+            <p class="login-subtitle">Accès réservé aux administrateurs</p>
         </div>
 
-        <!-- MODAL CONFIRMATION -->
-        <div id="confirmModal" class="modal">
-            <div class="modal-content" style="max-width: 500px;">
-                <div class="modal-header">
-                    <h2 class="modal-title">Confirmation</h2>
-                    <button class="close-btn" onclick="closeModal('confirmModal')">×</button>
+        <div class="security-notice">
+            <strong>🔒 Sécurité :</strong> Cette page est protégée. Seuls
+            les administrateurs autorisés peuvent accéder au panneau
+            d'administration.
+        </div>
+
+        <form class="login-form" id="loginForm">
+            <div class="form-group">
+                <label for="username">Nom d'utilisateur</label>
+                <input type="text" id="email" name="email" placeholder="Entrez votre nom d'utilisateur" required
+                    autocomplete="email" />
+            </div>
+
+            <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <input type="password" id="password" name="password" placeholder="Entrez votre mot de passe" required
+                    autocomplete="current-password" />
+            </div>
+
+            <button type="submit" class="login-btn" id="loginBtn">
+                Se connecter
+            </button>
+        </form>
+
+        <div class="error-message" id="errorMessage">
+            Nom d'utilisateur ou mot de passe incorrect.
+        </div>
+
+        <div class="success-message" id="successMessage">
+            Connexion réussie ! Redirection en cours...
+        </div>
+
+        <div class="change-credentials">
+            <a href="#" id="changeCredentialsLink">Modifier les identifiants</a>
+        </div>
+
+        <div class="change-form" id="changeForm">
+            <h3>Modifier les identifiants</h3>
+
+            <div class="current-credentials">
+                <p><strong>Identifiants actuels :</strong></p>
+                <p>
+                    Utilisateur :
+                    <strong id="currentUsername">admin</strong>
+                </p>
+                <p>Mot de passe : <strong>••••••••</strong></p>
+            </div>
+
+            <form id="changeCredentialsForm">
+                <div class="form-group">
+                    <label for="currentPassword">Mot de passe actuel (requis)</label>
+                    <input type="password" id="currentPassword" name="currentPassword"
+                        placeholder="Confirmez votre mot de passe actuel" required />
                 </div>
-                <div class="form-section">
-                    <p id="confirmMessage">Êtes-vous sûr de vouloir effectuer cette action ?</p>
+                <div class="form-group">
+                    <label for="newUsername">Nouveau nom d'utilisateur</label>
+                    <input type="text" id="newUsername" name="newUsername" placeholder="Nouveau nom d'utilisateur"
+                        required />
                 </div>
-                <div class="modal-actions">
-                    <button type="button" class="cancel-modal-btn" onclick="closeModal('confirmModal')">
+                <div class="form-group">
+                    <label for="newPassword">Nouveau mot de passe</label>
+                    <input type="password" id="newPassword" name="newPassword" placeholder="Minimum 6 caractères"
+                        required />
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirmer le mot de passe</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword"
+                        placeholder="Confirmez le mot de passe" required />
+                </div>
+                <div class="button-group">
+                    <button type="submit" class="change-btn">
+                        Mettre à jour
+                    </button>
+                    <button type="button" class="cancel-btn" id="cancelChange">
                         Annuler
                     </button>
-                    <button type="button" class="save-btn" id="confirmActionBtn" onclick="executeConfirmedAction()">
-                        Confirmer
-                    </button>
                 </div>
-            </div>
+            </form>
         </div>
 
-        <!-- JavaScript -->
-        <script src="js/utils.js"></script>
-        <script src="js/admin.js"></script>
-        <script src="js/events.js"></script>
-        <script src="js/destinations.js"></script>
-        <script src="js/blogs.js"></script>
-        <script src="js/comments.js"></script>
-        <script src="js/payments.js"></script>
-        
-        <script>
-            // Initialiser au chargement
-            document.addEventListener('DOMContentLoaded', function() {
-                console.log('DOM chargé, initialisation du tableau de bord...');
-                
-                // Vérifier l'authentification
-                const token = localStorage.getItem("authToken");
-                if (!token) {
-                    console.log("Pas de token, redirection vers login");
-                    window.location.replace("admin-login.html");
-                    return;
+        <div class="back-link">
+            <a href="admin-settings.html">← Retour à l'accueil</a>
+        </div>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById("loginForm");
+        const loginBtn = document.getElementById("loginBtn");
+        const errorMessage = document.getElementById("errorMessage");
+        const successMessage = document.getElementById("successMessage");
+
+        loginForm.addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value;
+
+            loginBtn.disabled = true;
+            loginBtn.innerHTML =
+                '<span class="loading"></span>Connexion...';
+            errorMessage.style.display = "none";
+            successMessage.style.display = "none";
+
+            try {
+                const response = await fetch(
+                    "https://even-travel-backend.onrender.com/api/v1/auth/login",
+                    {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ email, password }),
+                    },
+                );
+
+                // Gestion du 429 avant tout parsing
+                if (response.status === 429) {
+                    throw new Error(
+                        "Trop de tentatives. Veuillez réessayer dans quelques minutes.",
+                    );
                 }
-                
-                console.log("Token trouvé, initialisation...");
-                
-                // Initialiser les événements de navigation
-                if (typeof setupNavigation === 'function') {
-                    setupNavigation();
-                    console.log("Navigation initialisée");
+
+                // On lit d’abord la réponse comme texte
+                const text = await response.text();
+                let data;
+
+                try {
+                    data = JSON.parse(text); // parse JSON si possible
+                } catch {
+                    throw new Error(text || "Erreur serveur inattendue"); // sinon on l’affiche brute
                 }
+
+                if (!response.ok) {
+                    throw new Error(data.message || "Erreur de connexion");
+                }
+
+                // ✅ Succès
+                successMessage.style.display = "block";
+                console.log("Connexion réussie:", data);
+
+                // Stocker le token JWT
+                localStorage.setItem("authToken", data.token);
                 
-                // Charger le dashboard
-                if (typeof loadDashboardData === 'function') {
-                    loadDashboardData();
-                    console.log("Dashboard chargé");
-                }
-                
-                // Initialiser le formulaire d'événement
-                const eventForm = document.getElementById('eventForm');
-                if (eventForm) {
-                    eventForm.addEventListener('submit', function(e) {
-                        e.preventDefault();
-                        if (typeof saveEvent === 'function') {
-                            saveEvent(e);
-                        }
-                    });
-                }
-                
-                // Initialiser le bouton de déconnexion
-                const logoutBtn = document.getElementById('logoutBtn');
-                if (logoutBtn) {
-                    logoutBtn.onclick = function() {
-                        if (typeof logout === 'function') {
-                            logout();
-                        }
-                    };
-                }
-            });
-            
-            // Fonctions globales
-            function closeModal(modalId) {
-                const modal = document.getElementById(modalId);
-                if (modal) {
-                    modal.classList.remove("show");
-                }
+                setTimeout(() => {
+                    window.location.href = "admin-dashboard.html";
+                }, 500);
+            } catch (error) {
+                errorMessage.textContent = error.message;
+                console.error("Erreur de connexion:", error);
+                errorMessage.style.display = "block";
+                document.getElementById("password").value = "";
+            } finally {
+                loginBtn.disabled = false;
+                loginBtn.innerHTML = "Se connecter";
             }
-            
-            function openEventModal(eventId = null) {
-                console.log("Ouverture modal événement:", eventId);
-                
-                const modal = document.getElementById('eventModal');
-                const title = document.getElementById('eventModalTitle');
-                
-                if (modal && title) {
-                    title.textContent = eventId ? "Modifier l'Événement" : "Ajouter un Événement";
-                    document.getElementById("eventId").value = eventId || "";
-                    
-                    const form = document.getElementById("eventForm");
-                    if (form) {
-                        form.reset();
-                    }
-                    
-                    if (eventId && typeof fillEventForm === 'function') {
-                        fillEventForm(eventId);
-                    }
-                    
-                    modal.classList.add("show");
-                    console.log("Modal ouvert avec succès");
-                }
-            }
-        </script>
-    </body>
-</html>
+        });
+    </script>
+</body>
+
+</html> 
