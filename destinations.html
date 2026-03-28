@@ -1,1142 +1,1257 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Even Travel - Destinations</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link
-    href="https://fonts.googleapis.com/css2?family=Italiana&family=Marko+One&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
-    rel="stylesheet">
-
-  <style>
-    :root {
-      --sand: #E8DDD0;
-      --stone: #D4C4B0;
-      --terracotta: #B8856A;
-      --ochre: #C4916B;
-      --bronze: #8B6F47;
-      --deep-brown: #5C4A3A;
-      --cream: #F5F1EA;
-      --white: #FFFFFF;
-      --text-dark: #2A2420;
-      --text-muted: #6B5D52;
-      --spacing-xs: 8px;
-      --spacing-sm: 16px;
-      --spacing-md: 32px;
-      --spacing-lg: 64px;
-      --spacing-xl: 96px;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      font-size: 16px;
-      line-height: 1.7;
-      background: var(--cream);
-      color: var(--text-dark);
-      -webkit-font-smoothing: antialiased;
-      font-weight: 400;
-    }
-
-    h1, h2, h3, h4 {
-      font-family: 'Inter', sans-serif;
-      font-weight: 600;
-      line-height: 1.2;
-      color: var(--deep-brown);
-    }
-
-    .container {
-      width: 90%;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    header {
-      background: #faf8f5;
-      padding: 0;
-      position: sticky;
-      top: 0;
-      width: 100%;
-      z-index: 1000;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      animation: slideDown 0.5s ease-out;
-    }
-
-    @keyframes slideDown {
-      from { transform: translateY(-100%); }
-      to { transform: translateY(0); }
-    }
-
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      max-width: 1400px;
-      height: 80px;
-      margin: 0 auto;
-      padding: 0 40px;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-    }
-
-    .logo img {
-      width: 180px;
-      height: auto;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 30px;
-      list-style: none;
-      align-items: center;
-      margin: 0;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: #2c2c2c;
-      font-size: 15px;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      position: relative;
-      padding: 8px 12px;
-    }
-
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      width: 0;
-      height: 2px;
-      background: #C4916B;
-      transition: all 0.3s ease;
-      transform: translateX(-50%);
-    }
-
-    .nav-links a:hover::after {
-      width: 80%;
-    }
-
-    .nav-links a:hover {
-      color: #C4916B;
-    }
-
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      z-index: 1001;
-    }
-
-    .hamburger span {
-      width: 25px;
-      height: 3px;
-      background: #2c2c2c;
-      transition: all 0.3s ease;
-    }
-
-    .hero {
-      position: relative;
-      height: 70vh;
-      min-height: 500px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-
-    .hero__bg {
-      position: absolute;
-      inset: 0;
-      background-image: url(images/travel.jpg);
-      background-size: cover;
-      background-position: center;
-      transition: transform 1200ms cubic-bezier(.2, .9, .2, 1);
-    }
-
-    .hero__overlay {
-      position: relative;
-      z-index: 3;
-      width: 90%;
-      max-width: 1000px;
-      background: linear-gradient(180deg, rgba(243, 86, 86, 0.08), rgba(255, 198, 198, 0.148));
-      border-radius: 16px;
-      padding: 60px 40px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(8px);
-      text-align: center;
-      color: rgba(255, 255, 255, 0.95);
-    }
-
-    .hero h1 {
-      font-family: 'Italiana', serif;
-      font-size: 72px;
-      margin: 0 0 16px;
-      line-height: 1;
-      color: rgba(79, 2, 2, 0.735);
-      text-shadow: 0 12px 36px rgba(212, 28, 28, 0.3);
-    }
-
-    .hero p {
-      font-family: 'Inter', sans-serif;
-      margin: 0 0 32px;
-      font-weight: 400;
-      font-size: 20px;
-      color: #2A2420;
-    }
-
-    .searchbar {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 12px;
-      max-width: 900px;
-      margin: 0 auto;
-      flex-wrap: wrap;
-    }
-
-    .searchbar input,
-    .searchbar select {
-      flex: 1;
-      min-width: 200px;
-      padding: 16px 24px;
-      border-radius: 50px;
-      border: none;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      font-size: 15px;
-      outline: none;
-      transition: all 0.3s ease;
-    }
-
-    .searchbar input::placeholder {
-      color: #666;
-    }
-
-    .searchbar input:focus,
-    .searchbar select:focus {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
-    }
-
-    .destinations-section {
-      padding: var(--spacing-xl) 0;
-      background: var(--white);
-    }
-
-    .section-title {
-      font-size: 42px;
-      font-weight: 600;
-      color: var(--deep-brown);
-      text-align: center;
-      margin: 0 0 var(--spacing-sm);
-    }
-
-    .section-subtitle {
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 17px;
-      margin: 0 auto var(--spacing-lg);
-      max-width: 700px;
-    }
-
-    .destinations-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: var(--spacing-md);
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-
-    .destination-card {
-      background: var(--white);
-      border: 1px solid var(--stone);
-      overflow: hidden;
-      transition: all 0.4s ease;
-      opacity: 0;
-      transform: translateY(30px);
-      position: relative;
-    }
-
-    .destination-card.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .destination-card:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
-    }
-
-    .destination-image-container {
-      position: relative;
-      overflow: hidden;
-      aspect-ratio: 4/3;
-      cursor: pointer;
-    }
-
-    .destination-image-container img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.6s ease;
-    }
-
-    .destination-card:hover .destination-image-container img {
-      transform: scale(1.08);
-    }
-
-    /* Badge en vedette */
-    .destination-featured {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      background: var(--terracotta);
-      color: white;
-      padding: 6px 12px;
-      border-radius: 50px;
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      z-index: 10;
-    }
-
-    /* Indicateur de multiples images */
-    .image-counter {
-      position: absolute;
-      bottom: 12px;
-      right: 12px;
-      background: rgba(0, 0, 0, 0.7);
-      color: white;
-      padding: 4px 10px;
-      border-radius: 50px;
-      font-size: 12px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      z-index: 10;
-      backdrop-filter: blur(4px);
-    }
-
-    .image-counter i {
-      font-size: 10px;
-    }
-
-    /* Carrousel modal */
-    .carousel-modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.95);
-      z-index: 2000;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .carousel-modal.active {
-      display: flex;
-    }
-
-    .carousel-container {
-      position: relative;
-      width: 90%;
-      max-width: 1200px;
-      height: 80vh;
-    }
-
-    .carousel-main-image {
-      width: 100%;
-      height: 80%;
-      object-fit: contain;
-      background: #000;
-    }
-
-    .carousel-thumbnails {
-      display: flex;
-      gap: 10px;
-      padding: 20px;
-      overflow-x: auto;
-      height: 20%;
-      background: rgba(0, 0, 0, 0.8);
-    }
-
-    .carousel-thumbnail {
-      width: 120px;
-      height: 80px;
-      object-fit: cover;
-      cursor: pointer;
-      opacity: 0.6;
-      transition: opacity 0.3s ease;
-      border: 2px solid transparent;
-    }
-
-    .carousel-thumbnail:hover,
-    .carousel-thumbnail.active {
-      opacity: 1;
-      border-color: var(--terracotta);
-    }
-
-    .carousel-nav {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(255, 255, 255, 0.1);
-      color: white;
-      border: none;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      font-size: 24px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.3s ease;
-      z-index: 10;
-    }
-
-    .carousel-nav:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
-
-    .carousel-prev {
-      left: 20px;
-    }
-
-    .carousel-next {
-      right: 20px;
-    }
-
-    .carousel-close {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: none;
-      border: none;
-      color: white;
-      font-size: 32px;
-      cursor: pointer;
-      z-index: 10;
-    }
-
-    .destination-details {
-      padding: var(--spacing-md);
-    }
-
-    .destination-title {
-      font-size: 22px;
-      font-weight: 600;
-      color: var(--deep-brown);
-      margin-bottom: var(--spacing-sm);
-    }
-
-    .destination-info {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-bottom: var(--spacing-sm);
-      color: var(--text-muted);
-      font-size: 14px;
-    }
-
-    .destination-info-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .destination-price {
-      color: var(--terracotta);
-      font-size: 24px;
-      font-weight: 700;
-      margin-bottom: var(--spacing-sm);
-    }
-
-    .destination-buttons {
-      display: flex;
-      gap: 10px;
-    }
-
-    .btn-details {
-      flex: 1;
-      padding: 12px 24px;
-      background: transparent;
-      border: 2px solid var(--bronze);
-      color: var(--bronze);
-      font-weight: 600;
-      font-size: 14px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .btn-details:hover {
-      background: var(--bronze);
-      color: white;
-    }
-
-    .btn-reserve {
-      flex: 2;
-      padding: 12px 24px;
-      background: var(--bronze);
-      border: 2px solid var(--bronze);
-      color: white;
-      font-weight: 600;
-      font-size: 14px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .btn-reserve:hover {
-      background: var(--bronze);
-      transform: translateY(-2px);
-    }
-
-    .loading {
-      text-align: center;
-      padding: 40px;
-      color: var(--text-muted);
-      grid-column: 1 / -1;
-    }
-
-    .error-message {
-      text-align: center;
-      padding: 40px;
-      color: #e53e3e;
-      background: #fed7d7;
-      border-radius: 8px;
-      margin: 20px;
-      grid-column: 1 / -1;
-    }
-
-    .no-destinations {
-      text-align: center;
-      padding: 60px 20px;
-      color: var(--text-muted);
-      grid-column: 1 / -1;
-    }
-
-    .no-destinations i {
-      font-size: 48px;
-      margin-bottom: 20px;
-      color: var(--stone);
-    }
-
-    footer {
-      background: #bab2b2;
-      color: rgb(0, 0, 0);
-      padding: 60px 40px 20px;
-    }
-
-    .footer-content {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 40px;
-      margin-bottom: 40px;
-    }
-
-    .footer-section {
-      animation: fadeInUp 0.6s ease-out;
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .footer-logo {
-      display: flex;
-      align-items: center;
-      margin-bottom: 15px;
-    }
-
-    .footer-logo img {
-      width: 180px;
-      height: auto;
-    }
-
-    .footer-title {
-      color: #493c31;
-      font-size: 25px;
-      margin-bottom: 15px;
-      font-weight: 600;
-      letter-spacing: 1px;
-    }
-
-    .footer-text {
-      font-size: 15px;
-      line-height: 1.8;
-      color: #000000;
-      margin-bottom: 10px;
-    }
-
-    .social-icons {
-      display: flex;
-      gap: 15px;
-      margin-top: 15px;
-    }
-
-    .social-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(255, 140, 66, 0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #5C4A3A;
-      text-decoration: none;
-      font-size: 18px;
-      transition: all 0.3s ease;
-    }
-
-    .social-icon:hover {
-      background: #9a7b61;
-      color: white;
-      transform: translateY(-3px);
-    }
-
-    .footer-bottom {
-      text-align: center;
-      padding-top: 30px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      font-size: 14px;
-      color: #9ca3af;
-    }
-
-    @media (max-width: 900px) {
-      .hero h1 {
-        font-size: 52px;
-      }
-
-      .searchbar {
-        flex-direction: column;
-      }
-
-      .searchbar input,
-      .searchbar select {
-        width: 100%;
-      }
-    }
-
-    @media (max-width: 768px) {
-      :root {
-        --spacing-lg: 48px;
-        --spacing-xl: 64px;
-      }
-
-      nav {
-        padding: 0 20px;
-      }
-
-      .nav-links {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        height: 100vh;
-        width: 70%;
-        background: #faf8f5;
-        flex-direction: column;
-        padding: 100px 40px;
-        transition: right 0.3s ease;
-        box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
-      }
-
-      .nav-links.active {
-        right: 0;
-      }
-
-      .hamburger {
-        display: flex;
-      }
-
-      .section-title {
-        font-size: 32px;
-      }
-
-      .destinations-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .carousel-container {
-        width: 95%;
-        height: 70vh;
-      }
-
-      .carousel-thumbnail {
-        width: 80px;
-        height: 60px;
-      }
-
-      .carousel-nav {
-        width: 40px;
-        height: 40px;
-        font-size: 20px;
-      }
-    }
-
-    @media (max-width: 600px) {
-      nav {
-        height: 70px;
-      }
-
-      .hero {
-        height: 60vh;
-        min-height: 400px;
-      }
-
-      .hero__overlay {
-        padding: 40px 24px;
-      }
-
-      .hero h1 {
-        font-size: 42px;
-      }
-
-      .hero p {
-        font-size: 16px;
-      }
-    }
-  </style>
-</head>
-
-<body>
-  <header>
-    <nav>
-      <div class="logo">
-        <img src="images/logo-01.png" alt="Even Travel Logo">
-      </div>
-      <ul class="nav-links" id="navLinks">
-        <li><a href="index.html">Accueil</a></li>
-        <li><a href="events.html">Événements</a></li>
-        <li><a href="destinations.html">Destinations</a></li>
-        <li><a href="blogs.html">Blog</a></li>
-        <li><a href="contact.html">Contact</a></li>
-        <li><a href="about.html">À propos</a></li>
-        <li><a href="FAQ.html">FAQ</a></li>
-      </ul>
-      <div class="hamburger" id="hamburger">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-    </nav>
-  </header>
-
-  <section class="hero">
-    <div class="hero__bg"></div>
-    <div class="hero__overlay">
-      <h1>Toutes les Destinations</h1>
-      <p>Découvrez nos destinations africaines uniques</p>
-      <div class="searchbar">
-        <input type="text" id="searchInput" placeholder="Recherchez une destination...">
-        <select id="countrySelect" aria-label="Sélectionner un pays">
-          <option value="all">Tous les pays</option>
-          <option value="bénin">Bénin</option>
-          <option value="ghana">Ghana</option>
-          <option value="maroc">Maroc</option>
-          <option value="togo">Togo</option>
-          <option value="tunisie">Tunisie</option>
-        </select>
-        <select id="categorySelect" aria-label="Sélectionner une catégorie">
-          <option value="all">Toutes les catégories</option>
-          <option value="culture">Culture</option>
-          <option value="weekend">Weekend</option>
-          <option value="nature">Nature</option>
-          <option value="urbaine">Urbaine</option>
-        </select>
-      </div>
-    </div>
-  </section>
-
-  <section class="destinations-section">
-    <div class="container">
-      <h2 class="section-title">Nos Destinations</h2>
-      <p class="section-subtitle">Explorez des lieux authentiques et découvrez la richesse culturelle de l'Afrique</p>
-      <div class="destinations-grid" id="destinationsGrid">
-        <div class="loading" id="loadingMessage">
-          <p>Chargement des destinations...</p>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Even Travel - Destinations</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Italiana&family=Marko+One&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+            rel="stylesheet"
+        />
+
+        <style>
+            :root {
+                --sand: #e8ddd0;
+                --stone: #d4c4b0;
+                --terracotta: #b8856a;
+                --ochre: #c4916b;
+                --bronze: #8b6f47;
+                --deep-brown: #5c4a3a;
+                --cream: #f5f1ea;
+                --white: #ffffff;
+                --text-dark: #2a2420;
+                --text-muted: #6b5d52;
+                --spacing-xs: 8px;
+                --spacing-sm: 16px;
+                --spacing-md: 32px;
+                --spacing-lg: 64px;
+                --spacing-xl: 96px;
+            }
+
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+
+            html {
+                scroll-behavior: smooth;
+            }
+
+            body {
+                font-family:
+                    "Inter",
+                    system-ui,
+                    -apple-system,
+                    sans-serif;
+                font-size: 16px;
+                line-height: 1.7;
+                background: var(--cream);
+                color: var(--text-dark);
+                -webkit-font-smoothing: antialiased;
+                font-weight: 400;
+            }
+
+            h1,
+            h2,
+            h3,
+            h4 {
+                font-family: "Inter", sans-serif;
+                font-weight: 600;
+                line-height: 1.2;
+                color: var(--deep-brown);
+            }
+
+            .container {
+                width: 90%;
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+
+            header {
+                background: #faf8f5;
+                padding: 0;
+                position: sticky;
+                top: 0;
+                width: 100%;
+                z-index: 1000;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                animation: slideDown 0.5s ease-out;
+            }
+
+            @keyframes slideDown {
+                from {
+                    transform: translateY(-100%);
+                }
+                to {
+                    transform: translateY(0);
+                }
+            }
+
+            nav {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                max-width: 1400px;
+                height: 80px;
+                margin: 0 auto;
+                padding: 0 40px;
+            }
+
+            .logo {
+                display: flex;
+                align-items: center;
+            }
+
+            .logo img {
+                width: 180px;
+                height: auto;
+            }
+
+            .nav-links {
+                display: flex;
+                gap: 30px;
+                list-style: none;
+                align-items: center;
+                margin: 0;
+            }
+
+            .nav-links a {
+                text-decoration: none;
+                color: #2c2c2c;
+                font-size: 15px;
+                font-weight: 500;
+                transition: all 0.3s ease;
+                position: relative;
+                padding: 8px 12px;
+            }
+
+            .nav-links a::after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                width: 0;
+                height: 2px;
+                background: #c4916b;
+                transition: all 0.3s ease;
+                transform: translateX(-50%);
+            }
+
+            .nav-links a:hover::after {
+                width: 80%;
+            }
+
+            .nav-links a:hover {
+                color: #c4916b;
+            }
+
+            .hamburger {
+                display: none;
+                flex-direction: column;
+                gap: 5px;
+                cursor: pointer;
+                z-index: 1001;
+            }
+
+            .hamburger span {
+                width: 25px;
+                height: 3px;
+                background: #2c2c2c;
+                transition: all 0.3s ease;
+            }
+
+            .hero {
+                position: relative;
+                height: 70vh;
+                min-height: 500px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+            }
+
+            .hero__bg {
+                position: absolute;
+                inset: 0;
+                background-image: url(images/travel.jpg);
+                background-size: cover;
+                background-position: center;
+                transition: transform 1200ms cubic-bezier(0.2, 0.9, 0.2, 1);
+            }
+
+            .hero__overlay {
+                position: relative;
+                z-index: 3;
+                width: 90%;
+                max-width: 1000px;
+                background: linear-gradient(
+                    180deg,
+                    rgba(243, 86, 86, 0.08),
+                    rgba(255, 198, 198, 0.148)
+                );
+                border-radius: 16px;
+                padding: 60px 40px;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(8px);
+                text-align: center;
+                color: rgba(255, 255, 255, 0.95);
+            }
+
+            .hero h1 {
+                font-family: "Italiana", serif;
+                font-size: 72px;
+                margin: 0 0 16px;
+                line-height: 1;
+                color: rgba(79, 2, 2, 0.735);
+                text-shadow: 0 12px 36px rgba(212, 28, 28, 0.3);
+            }
+
+            .hero p {
+                font-family: "Inter", sans-serif;
+                margin: 0 0 32px;
+                font-weight: 400;
+                font-size: 20px;
+                color: #2a2420;
+            }
+
+            .searchbar {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 12px;
+                max-width: 900px;
+                margin: 0 auto;
+                flex-wrap: wrap;
+            }
+
+            .searchbar input,
+            .searchbar select {
+                flex: 1;
+                min-width: 200px;
+                padding: 16px 24px;
+                border-radius: 50px;
+                border: none;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+                font-size: 15px;
+                outline: none;
+                transition: all 0.3s ease;
+            }
+
+            .searchbar input::placeholder {
+                color: #666;
+            }
+
+            .searchbar input:focus,
+            .searchbar select:focus {
+                transform: translateY(-2px);
+                box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+            }
+
+            .destinations-section {
+                padding: var(--spacing-xl) 0;
+                background: var(--white);
+            }
+
+            .section-title {
+                font-size: 42px;
+                font-weight: 600;
+                color: var(--deep-brown);
+                text-align: center;
+                margin: 0 0 var(--spacing-sm);
+            }
+
+            .section-subtitle {
+                text-align: center;
+                color: var(--text-muted);
+                font-size: 17px;
+                margin: 0 auto var(--spacing-lg);
+                max-width: 700px;
+            }
+
+            .destinations-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+                gap: var(--spacing-md);
+                max-width: 1400px;
+                margin: 0 auto;
+            }
+
+            .destination-card {
+                background: var(--white);
+                border: 1px solid var(--stone);
+                overflow: hidden;
+                transition: all 0.4s ease;
+                opacity: 0;
+                transform: translateY(30px);
+                position: relative;
+            }
+
+            .destination-card.visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+
+            .destination-card:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+            }
+
+            .destination-image-container {
+                position: relative;
+                overflow: hidden;
+                aspect-ratio: 4/3;
+                cursor: pointer;
+            }
+
+            .destination-image-container img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.6s ease;
+            }
+
+            .destination-card:hover .destination-image-container img {
+                transform: scale(1.08);
+            }
+
+            /* Badge en vedette */
+            .destination-featured {
+                position: absolute;
+                top: 12px;
+                right: 12px;
+                background: var(--terracotta);
+                color: white;
+                padding: 6px 12px;
+                border-radius: 50px;
+                font-size: 11px;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                z-index: 10;
+            }
+
+            /* Indicateur de multiples images */
+            .image-counter {
+                position: absolute;
+                bottom: 12px;
+                right: 12px;
+                background: rgba(0, 0, 0, 0.7);
+                color: white;
+                padding: 4px 10px;
+                border-radius: 50px;
+                font-size: 12px;
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                z-index: 10;
+                backdrop-filter: blur(4px);
+            }
+
+            .image-counter i {
+                font-size: 10px;
+            }
+
+            /* Carrousel modal */
+            .carousel-modal {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.95);
+                z-index: 2000;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .carousel-modal.active {
+                display: flex;
+            }
+
+            .carousel-container {
+                position: relative;
+                width: 90%;
+                max-width: 1200px;
+                height: 80vh;
+            }
+
+            .carousel-main-image {
+                width: 100%;
+                height: 80%;
+                object-fit: contain;
+                background: #000;
+            }
+
+            .carousel-thumbnails {
+                display: flex;
+                gap: 10px;
+                padding: 20px;
+                overflow-x: auto;
+                height: 20%;
+                background: rgba(0, 0, 0, 0.8);
+            }
+
+            .carousel-thumbnail {
+                width: 120px;
+                height: 80px;
+                object-fit: cover;
+                cursor: pointer;
+                opacity: 0.6;
+                transition: opacity 0.3s ease;
+                border: 2px solid transparent;
+            }
+
+            .carousel-thumbnail:hover,
+            .carousel-thumbnail.active {
+                opacity: 1;
+                border-color: var(--terracotta);
+            }
+
+            .carousel-nav {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                background: rgba(255, 255, 255, 0.1);
+                color: white;
+                border: none;
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                font-size: 24px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: all 0.3s ease;
+                z-index: 10;
+            }
+
+            .carousel-nav:hover {
+                background: rgba(255, 255, 255, 0.2);
+            }
+
+            .carousel-prev {
+                left: 20px;
+            }
+
+            .carousel-next {
+                right: 20px;
+            }
+
+            .carousel-close {
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                background: none;
+                border: none;
+                color: white;
+                font-size: 32px;
+                cursor: pointer;
+                z-index: 10;
+            }
+
+            .destination-details {
+                padding: var(--spacing-md);
+            }
+
+            .destination-title {
+                font-size: 22px;
+                font-weight: 600;
+                color: var(--deep-brown);
+                margin-bottom: var(--spacing-sm);
+            }
+
+            .destination-info {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+                margin-bottom: var(--spacing-sm);
+                color: var(--text-muted);
+                font-size: 14px;
+            }
+
+            .destination-info-item {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .destination-price {
+                color: var(--terracotta);
+                font-size: 24px;
+                font-weight: 700;
+                margin-bottom: var(--spacing-sm);
+            }
+
+            .destination-buttons {
+                display: flex;
+                gap: 10px;
+            }
+
+            .btn-details {
+                flex: 1;
+                padding: 12px 24px;
+                background: transparent;
+                border: 2px solid var(--bronze);
+                color: var(--bronze);
+                font-weight: 600;
+                font-size: 14px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+
+            .btn-details:hover {
+                background: var(--bronze);
+                color: white;
+            }
+
+            .btn-reserve {
+                flex: 2;
+                padding: 12px 24px;
+                background: var(--bronze);
+                border: 2px solid var(--bronze);
+                color: white;
+                font-weight: 600;
+                font-size: 14px;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                text-decoration: none;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .btn-reserve:hover {
+                background: var(--bronze);
+                transform: translateY(-2px);
+            }
+
+            .loading {
+                text-align: center;
+                padding: 40px;
+                color: var(--text-muted);
+                grid-column: 1 / -1;
+            }
+
+            .error-message {
+                text-align: center;
+                padding: 40px;
+                color: #e53e3e;
+                background: #fed7d7;
+                border-radius: 8px;
+                margin: 20px;
+                grid-column: 1 / -1;
+            }
+
+            .no-destinations {
+                text-align: center;
+                padding: 60px 20px;
+                color: var(--text-muted);
+                grid-column: 1 / -1;
+            }
+
+            .no-destinations i {
+                font-size: 48px;
+                margin-bottom: 20px;
+                color: var(--stone);
+            }
+
+            footer {
+                background: #bab2b2;
+                color: rgb(0, 0, 0);
+                padding: 60px 40px 20px;
+            }
+
+            .footer-content {
+                max-width: 1400px;
+                margin: 0 auto;
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 40px;
+                margin-bottom: 40px;
+            }
+
+            .footer-section {
+                animation: fadeInUp 0.6s ease-out;
+            }
+
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .footer-logo {
+                display: flex;
+                align-items: center;
+                margin-bottom: 15px;
+            }
+
+            .footer-logo img {
+                width: 180px;
+                height: auto;
+            }
+
+            .footer-title {
+                color: #493c31;
+                font-size: 25px;
+                margin-bottom: 15px;
+                font-weight: 600;
+                letter-spacing: 1px;
+            }
+
+            .footer-text {
+                font-size: 15px;
+                line-height: 1.8;
+                color: #000000;
+                margin-bottom: 10px;
+            }
+
+            .social-icons {
+                display: flex;
+                gap: 15px;
+                margin-top: 15px;
+            }
+
+            .social-icon {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background: rgba(255, 140, 66, 0.1);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #5c4a3a;
+                text-decoration: none;
+                font-size: 18px;
+                transition: all 0.3s ease;
+            }
+
+            .social-icon:hover {
+                background: #9a7b61;
+                color: white;
+                transform: translateY(-3px);
+            }
+
+            .footer-bottom {
+                text-align: center;
+                padding-top: 30px;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                font-size: 14px;
+                color: #9ca3af;
+            }
+
+            @media (max-width: 900px) {
+                .hero h1 {
+                    font-size: 52px;
+                }
+
+                .searchbar {
+                    flex-direction: column;
+                }
+
+                .searchbar input,
+                .searchbar select {
+                    width: 100%;
+                }
+            }
+
+            @media (max-width: 768px) {
+                :root {
+                    --spacing-lg: 48px;
+                    --spacing-xl: 64px;
+                }
+
+                nav {
+                    padding: 0 20px;
+                }
+
+                .nav-links {
+                    position: fixed;
+                    top: 0;
+                    right: -100%;
+                    height: 100vh;
+                    width: 70%;
+                    background: #faf8f5;
+                    flex-direction: column;
+                    padding: 100px 40px;
+                    transition: right 0.3s ease;
+                    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+                }
+
+                .nav-links.active {
+                    right: 0;
+                }
+
+                .hamburger {
+                    display: flex;
+                }
+
+                .section-title {
+                    font-size: 32px;
+                }
+
+                .destinations-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .carousel-container {
+                    width: 95%;
+                    height: 70vh;
+                }
+
+                .carousel-thumbnail {
+                    width: 80px;
+                    height: 60px;
+                }
+
+                .carousel-nav {
+                    width: 40px;
+                    height: 40px;
+                    font-size: 20px;
+                }
+            }
+
+            @media (max-width: 600px) {
+                nav {
+                    height: 70px;
+                }
+
+                .hero {
+                    height: 60vh;
+                    min-height: 400px;
+                }
+
+                .hero__overlay {
+                    padding: 40px 24px;
+                }
+
+                .hero h1 {
+                    font-size: 42px;
+                }
+
+                .hero p {
+                    font-size: 16px;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <header>
+            <nav>
+                <div class="logo">
+                    <img src="images/logo-01.png" alt="Even Travel Logo" />
+                </div>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="events.html">Événements</a></li>
+                    <li><a href="destinations.html">Destinations</a></li>
+                    <li><a href="blogs.html">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="about.html">À propos</a></li>
+                    <li><a href="FAQ.html">FAQ</a></li>
+                </ul>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </header>
+
+        <section class="hero">
+            <div class="hero__bg"></div>
+            <div class="hero__overlay">
+                <h1>Toutes les Destinations</h1>
+                <p>Découvrez nos destinations africaines uniques</p>
+                <div class="searchbar">
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="Recherchez une destination..."
+                    />
+                    <select
+                        id="countrySelect"
+                        aria-label="Sélectionner un pays"
+                    >
+                        <option value="all">Tous les pays</option>
+                        <option value="bénin">Bénin</option>
+                        <option value="ghana">Ghana</option>
+                        <option value="maroc">Maroc</option>
+                        <option value="togo">Togo</option>
+                        <option value="tunisie">Tunisie</option>
+                    </select>
+                    <select
+                        id="categorySelect"
+                        aria-label="Sélectionner une catégorie"
+                    >
+                        <option value="all">Toutes les catégories</option>
+                        <option value="culture">Culture</option>
+                        <option value="weekend">Weekend</option>
+                        <option value="nature">Nature</option>
+                        <option value="urbaine">Urbaine</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <section class="destinations-section">
+            <div class="container">
+                <h2 class="section-title">Nos Destinations</h2>
+                <p class="section-subtitle">
+                    Explorez des lieux authentiques et découvrez la richesse
+                    culturelle de l'Afrique
+                </p>
+                <div class="destinations-grid" id="destinationsGrid">
+                    <div class="loading" id="loadingMessage">
+                        <p>Chargement des destinations...</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Modal pour le carrousel d'images -->
+        <div class="carousel-modal" id="carouselModal">
+            <button class="carousel-close" id="carouselClose">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div class="carousel-container">
+                <img
+                    id="carouselMainImage"
+                    class="carousel-main-image"
+                    alt="Destination image"
+                />
+
+                <button class="carousel-nav carousel-prev" id="carouselPrev">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+
+                <button class="carousel-nav carousel-next" id="carouselNext">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+
+                <div class="carousel-thumbnails" id="carouselThumbnails">
+                    <!-- Les miniatures seront insérées ici -->
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- Modal pour le carrousel d'images -->
-  <div class="carousel-modal" id="carouselModal">
-    <button class="carousel-close" id="carouselClose">
-      <i class="fas fa-times"></i>
-    </button>
-    
-    <div class="carousel-container">
-      <img id="carouselMainImage" class="carousel-main-image" alt="Destination image">
-      
-      <button class="carousel-nav carousel-prev" id="carouselPrev">
-        <i class="fas fa-chevron-left"></i>
-      </button>
-      
-      <button class="carousel-nav carousel-next" id="carouselNext">
-        <i class="fas fa-chevron-right"></i>
-      </button>
-      
-      <div class="carousel-thumbnails" id="carouselThumbnails">
-        <!-- Les miniatures seront insérées ici -->
-      </div>
-    </div>
-  </div>
+        <footer>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="images/logo-01.png" alt="Even Travel Logo" />
+                    </div>
+                    <p class="footer-text">
+                        Explorez l'Afrique à travers des événements et
+                        destinations inoubliables.
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Réservations</h3>
+                    <p class="footer-text">Cotonou, Bénin</p>
+                    <p class="footer-text">eventravel79@gmail.com</p>
+                    <p class="footer-text">+33781800811</p>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Horaires d'ouverture</h3>
+                    <p class="footer-text">Lundi au Vendredi: 9h00 à 19h00</p>
+                    <p class="footer-text">Samedi: 9h00 à 12h00</p>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Suivez-nous</h3>
+                    <div class="social-icons">
+                        <a
+                            href="https://www.instagram.com/even_travel?igsh=MTgxbWwwM3lvMXgwaA=="
+                            class="social-icon"
+                            aria-label="Instagram"
+                            target="_blank"
+                        >
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a
+                            href="https://www.facebook.com/share/182Y393fWk/?mibextid=wwXIfr"
+                            class="social-icon"
+                            aria-label="Facebook"
+                            target="_blank"
+                        >
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                        <a
+                            href="https://www.tiktok.com/@eventravel4?_r=1&_t=ZN-94HL34bF0QU"
+                            class="social-icon"
+                            aria-label="TikTok"
+                            target="_blank"
+                        >
+                            <i class="fa-brands fa-tiktok"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>
+                    &copy; <span id="year"></span> Even Travel. Tous droits
+                    réservés.
+                </p>
+            </div>
+        </footer>
 
-  <footer>
-    <div class="footer-content">
-      <div class="footer-section">
-        <div class="footer-logo">
-          <img src="images/logo-01.png" alt="Even Travel Logo">
-        </div>
-        <p class="footer-text">Explorez l'Afrique à travers des événements et destinations inoubliables.</p>
-      </div>
-      <div class="footer-section">
-        <h3 class="footer-title">Réservations</h3>
-        <p class="footer-text">Cotonou, Bénin</p>
-        <p class="footer-text">eventravel79@gmail.com</p>
-        <p class="footer-text">+33781800811</p>
-      </div>
-      <div class="footer-section">
-        <h3 class="footer-title">Horaires d'ouverture</h3>
-        <p class="footer-text">Lundi au Vendredi: 9h00 à 19h00</p>
-        <p class="footer-text">Samedi: 9h00 à 12h00</p>
-      </div>
-      <div class="footer-section">
-        <h3 class="footer-title">Suivez-nous</h3>
-        <div class="social-icons">
-          <a href="https://www.instagram.com/even_travel?igsh=MTgxbWwwM3lvMXgwaA==" class="social-icon" aria-label="Instagram" target="_blank">
-            <i class="fa-brands fa-instagram"></i>
-          </a>
-          <a href="https://www.facebook.com/share/182Y393fWk/?mibextid=wwXIfr" class="social-icon" aria-label="Facebook" target="_blank">
-            <i class="fa-brands fa-facebook-f"></i>
-          </a>
-          <a href="https://www.tiktok.com/@eventravel4?_r=1&_t=ZN-94HL34bF0QU" class="social-icon" aria-label="TikTok" target="_blank">
-            <i class="fa-brands fa-tiktok"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; <span id="year"></span> Even Travel. Tous droits réservés.</p>
-    </div>
-  </footer>
+        <script>
+            const BASE_URL = "https://even-travel-backend-13wa.onrender.com";
+            const DESTINATIONS_URL = `${BASE_URL}/api/v1/destinations`;
 
-  <script>
-    const BASE_URL = 'https://even-travel-backend.onrender.com';
-    const DESTINATIONS_URL = `${BASE_URL}/api/v1/destinations`;
+            // Variables globales pour le carrousel
+            let currentCarouselImages = [];
+            let currentCarouselIndex = 0;
 
-    // Variables globales pour le carrousel
-    let currentCarouselImages = [];
-    let currentCarouselIndex = 0;
+            // Configuration du hamburger menu
+            const hamburger = document.getElementById("hamburger");
+            const navLinks = document.getElementById("navLinks");
 
-    // Configuration du hamburger menu
-    const hamburger = document.getElementById('hamburger');
-    const navLinks = document.getElementById('navLinks');
+            hamburger.addEventListener("click", () => {
+                hamburger.classList.toggle("active");
+                navLinks.classList.toggle("active");
+            });
 
-    hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('active');
-      navLinks.classList.toggle('active');
-    });
+            document.querySelectorAll(".nav-links a").forEach((link) => {
+                link.addEventListener("click", () => {
+                    hamburger.classList.remove("active");
+                    navLinks.classList.remove("active");
+                });
+            });
 
-    document.querySelectorAll('.nav-links a').forEach(link => {
-      link.addEventListener('click', () => {
-        hamburger.classList.remove('active');
-        navLinks.classList.remove('active');
-      });
-    });
+            // Mise à jour de l'année dans le footer
+            document.getElementById("year").textContent =
+                new Date().getFullYear();
 
-    // Mise à jour de l'année dans le footer
-    document.getElementById('year').textContent = new Date().getFullYear();
+            // Traduire la catégorie
+            function translateCategory(category) {
+                const categories = {
+                    culture: "Culture",
+                    weekend: "Weekend",
+                    nature: "Nature",
+                    urbaine: "Urbaine",
+                };
+                return categories[category] || category;
+            }
 
-    // Traduire la catégorie
-    function translateCategory(category) {
-      const categories = {
-        'culture': 'Culture',
-        'weekend': 'Weekend',
-        'nature': 'Nature',
-        'urbaine': 'Urbaine'
-      };
-      return categories[category] || category;
-    }
+            // Formater la date
+            function formatDate(dateString) {
+                const date = new Date(dateString);
+                return date.toLocaleDateString("fr-FR", {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                });
+            }
 
-    // Formater la date
-    function formatDate(dateString) {
-      const date = new Date(dateString);
-      return date.toLocaleDateString('fr-FR', {
-        day: 'numeric',
-        month: 'short',
-        year: 'numeric'
-      });
-    }
+            // Formater le prix
+            function formatPrice(price) {
+                if (!price) return "Gratuit";
+                return `À partir de ${price.toLocaleString("fr-FR")} FCFA`;
+            }
 
-    // Formater le prix
-    function formatPrice(price) {
-      if (!price) return 'Gratuit';
-      return `À partir de ${price.toLocaleString('fr-FR')} FCFA`;
-    }
+            // Obtenir une image par défaut basée sur la localisation
+            function getDefaultImage(localisation) {
+                const defaultImages = {
+                    Cotonou: "images/sofitel.webp",
+                    Ouidah: "images/ouidah.jpg",
+                    "Porto-Novo": "images/porto-novo.webp",
+                    default: "images/travel.jpg",
+                };
 
-    // Obtenir une image par défaut basée sur la localisation
-    function getDefaultImage(localisation) {
-      const defaultImages = {
-        'Cotonou': 'images/sofitel.webp',
-        'Ouidah': 'images/ouidah.jpg',
-        'Porto-Novo': 'images/porto-novo.webp',
-        'default': 'images/travel.jpg'
-      };
-      
-      return defaultImages[localisation] || defaultImages['default'];
-    }
+                return defaultImages[localisation] || defaultImages["default"];
+            }
 
-    // Vérifier si l'URL de l'image est valide
-    function isValidImageUrl(url) {
-      if (!url) return false;
-      
-      try {
-        // Vérifier que c'est une URL valide
-        new URL(url);
-        
-        // Vérifier que c'est une URL Cloudinary (optionnel)
-        if (url.includes('cloudinary.com') || url.includes('res.cloudinary.com')) {
-          return true;
-        }
-        
-        // Accepter aussi d'autres URLs d'images
-        const imageExtensions = ['.jpg', '.jpeg', '.png', '.webp', '.gif'];
-        return imageExtensions.some(ext => url.toLowerCase().includes(ext));
-      } catch (error) {
-        return false;
-      }
-    }
+            // Vérifier si l'URL de l'image est valide
+            function isValidImageUrl(url) {
+                if (!url) return false;
 
-    function showDestinationDetails(destinationId) {
-      window.location.href = `destination_detail.html?id=${destinationId}`;
-    }
+                try {
+                    // Vérifier que c'est une URL valide
+                    new URL(url);
 
-    // Ouvrir le carrousel d'images
-    function openCarousel(images, index = 0) {
-      if (!images || images.length === 0) return;
-      
-      currentCarouselImages = images;
-      currentCarouselIndex = index;
-      
-      const modal = document.getElementById('carouselModal');
-      const mainImage = document.getElementById('carouselMainImage');
-      const thumbnailsContainer = document.getElementById('carouselThumbnails');
-      
-      // Afficher l'image principale
-      mainImage.src = images[index]?.url || '';
-      
-      // Générer les miniatures
-      thumbnailsContainer.innerHTML = '';
-      images.forEach((img, i) => {
-        const thumbnail = document.createElement('img');
-        thumbnail.src = img.url;
-        thumbnail.alt = `Image ${i + 1}`;
-        thumbnail.className = `carousel-thumbnail ${i === index ? 'active' : ''}`;
-        thumbnail.addEventListener('click', () => {
-          updateCarousel(i);
-        });
-        thumbnailsContainer.appendChild(thumbnail);
-      });
-      
-      modal.classList.add('active');
-      document.body.style.overflow = 'hidden'; // Empêcher le défilement
-    }
+                    // Vérifier que c'est une URL Cloudinary (optionnel)
+                    if (
+                        url.includes("cloudinary.com") ||
+                        url.includes("res.cloudinary.com")
+                    ) {
+                        return true;
+                    }
 
-    // Fermer le carrousel
-    function closeCarousel() {
-      const modal = document.getElementById('carouselModal');
-      modal.classList.remove('active');
-      document.body.style.overflow = ''; // Réactiver le défilement
-      currentCarouselImages = [];
-      currentCarouselIndex = 0;
-    }
+                    // Accepter aussi d'autres URLs d'images
+                    const imageExtensions = [
+                        ".jpg",
+                        ".jpeg",
+                        ".png",
+                        ".webp",
+                        ".gif",
+                    ];
+                    return imageExtensions.some((ext) =>
+                        url.toLowerCase().includes(ext),
+                    );
+                } catch (error) {
+                    return false;
+                }
+            }
 
-    // Mettre à jour le carrousel
-    function updateCarousel(index) {
-      if (index < 0) index = currentCarouselImages.length - 1;
-      if (index >= currentCarouselImages.length) index = 0;
-      
-      currentCarouselIndex = index;
-      
-      const mainImage = document.getElementById('carouselMainImage');
-      const thumbnails = document.querySelectorAll('.carousel-thumbnail');
-      
-      mainImage.src = currentCarouselImages[index]?.url || '';
-      
-      thumbnails.forEach((thumb, i) => {
-        thumb.classList.toggle('active', i === index);
-      });
-    }
+            function showDestinationDetails(destinationId) {
+                window.location.href = `destination_detail.html?id=${destinationId}`;
+            }
 
-    // Navigation du carrousel
-    document.getElementById('carouselPrev').addEventListener('click', () => {
-      updateCarousel(currentCarouselIndex - 1);
-    });
+            // Ouvrir le carrousel d'images
+            function openCarousel(images, index = 0) {
+                if (!images || images.length === 0) return;
 
-    document.getElementById('carouselNext').addEventListener('click', () => {
-      updateCarousel(currentCarouselIndex + 1);
-    });
+                currentCarouselImages = images;
+                currentCarouselIndex = index;
 
-    document.getElementById('carouselClose').addEventListener('click', closeCarousel);
+                const modal = document.getElementById("carouselModal");
+                const mainImage = document.getElementById("carouselMainImage");
+                const thumbnailsContainer =
+                    document.getElementById("carouselThumbnails");
 
-    // Fermer le carrousel avec la touche Échap
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        closeCarousel();
-      } else if (e.key === 'ArrowLeft') {
-        updateCarousel(currentCarouselIndex - 1);
-      } else if (e.key === 'ArrowRight') {
-        updateCarousel(currentCarouselIndex + 1);
-      }
-    });
+                // Afficher l'image principale
+                mainImage.src = images[index]?.url || "";
 
-    // Chargement des destinations depuis l'API
-    async function loadDestinations() {
-      const destinationsGrid = document.getElementById('destinationsGrid');
-      const loadingMessage = document.getElementById('loadingMessage');
-      
-      try {
-        console.log('Chargement des destinations depuis:', DESTINATIONS_URL);
-        const response = await fetch(DESTINATIONS_URL);
-        
-        if (!response.ok) {
-          throw new Error(`Erreur HTTP: ${response.status}`);
-        }
-        
-        const result = await response.json();
-        console.log('Données reçues:', result);
-        
-        // Cacher le message de chargement
-        if (loadingMessage) {
-          loadingMessage.remove();
-        }
-        
-        const destinations = result?.data?.destinations || result?.destinations || [];
-        console.log(`Nombre de destinations: ${destinations.length}`);
-        
-        if (destinations.length === 0) {
-          showNoDestinationsMessage();
-          return;
-        }
-        
-        // Afficher le détail de la première destination pour le débogage
-        if (destinations.length > 0) {
-          console.log('Première destination:', destinations[0]);
-          console.log('Images de la première destination:', destinations[0].images);
-        }
-        
-        renderDestinations(destinations);
-        observeCards();
-        
-      } catch (error) {
-        console.error('Erreur lors du chargement des destinations:', error);
-        
-        // Cacher le message de chargement
-        if (loadingMessage) {
-          loadingMessage.remove();
-        }
-        
-        showErrorMessage(error.message);
-      }
-    }
+                // Générer les miniatures
+                thumbnailsContainer.innerHTML = "";
+                images.forEach((img, i) => {
+                    const thumbnail = document.createElement("img");
+                    thumbnail.src = img.url;
+                    thumbnail.alt = `Image ${i + 1}`;
+                    thumbnail.className = `carousel-thumbnail ${i === index ? "active" : ""}`;
+                    thumbnail.addEventListener("click", () => {
+                        updateCarousel(i);
+                    });
+                    thumbnailsContainer.appendChild(thumbnail);
+                });
 
-    function renderDestinations(destinations) {
-      const destinationsGrid = document.getElementById('destinationsGrid');
-      destinationsGrid.innerHTML = '';
+                modal.classList.add("active");
+                document.body.style.overflow = "hidden"; // Empêcher le défilement
+            }
 
-      destinations.forEach((destination, index) => {
-        const destinationCard = document.createElement('div');
-        destinationCard.className = 'destination-card';
-        destinationCard.setAttribute('data-title', destination.titre?.toLowerCase() || '');
-        destinationCard.setAttribute('data-country', destination.localisation?.toLowerCase() || '');
-        destinationCard.setAttribute('data-category', destination.categorie?.toLowerCase() || '');
-        destinationCard.style.transitionDelay = `${index * 0.1}s`;
+            // Fermer le carrousel
+            function closeCarousel() {
+                const modal = document.getElementById("carouselModal");
+                modal.classList.remove("active");
+                document.body.style.overflow = ""; // Réactiver le défilement
+                currentCarouselImages = [];
+                currentCarouselIndex = 0;
+            }
 
-        // 🔥 CORRECTION : Récupérer les images de Cloudinary
-        const images = destination.images || [];
-        const hasImages = images.length > 0;
-        const mainImageUrl = hasImages && isValidImageUrl(images[0]?.url) 
-          ? images[0].url 
-          : getDefaultImage(destination.localisation);
-        
-        // Formater le prix
-        const formattedPrice = formatPrice(destination.prix);
-        
-        // Catégorie traduite
-        const categoryTranslated = translateCategory(destination.categorie);
-        
-        // Formater les dates disponibles
-        let datesText = 'Dates flexibles';
-        if (destination.datesDisponibles && destination.datesDisponibles.length > 0) {
-          const firstDate = destination.datesDisponibles[0];
-          if (firstDate.debut && firstDate.fin) {
-            const debut = formatDate(firstDate.debut);
-            const fin = formatDate(firstDate.fin);
-            datesText = `${debut} - ${fin}`;
-          }
-        }
+            // Mettre à jour le carrousel
+            function updateCarousel(index) {
+                if (index < 0) index = currentCarouselImages.length - 1;
+                if (index >= currentCarouselImages.length) index = 0;
 
-        // Créer le HTML avec les images
-        destinationCard.innerHTML = `
+                currentCarouselIndex = index;
+
+                const mainImage = document.getElementById("carouselMainImage");
+                const thumbnails = document.querySelectorAll(
+                    ".carousel-thumbnail",
+                );
+
+                mainImage.src = currentCarouselImages[index]?.url || "";
+
+                thumbnails.forEach((thumb, i) => {
+                    thumb.classList.toggle("active", i === index);
+                });
+            }
+
+            // Navigation du carrousel
+            document
+                .getElementById("carouselPrev")
+                .addEventListener("click", () => {
+                    updateCarousel(currentCarouselIndex - 1);
+                });
+
+            document
+                .getElementById("carouselNext")
+                .addEventListener("click", () => {
+                    updateCarousel(currentCarouselIndex + 1);
+                });
+
+            document
+                .getElementById("carouselClose")
+                .addEventListener("click", closeCarousel);
+
+            // Fermer le carrousel avec la touche Échap
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "Escape") {
+                    closeCarousel();
+                } else if (e.key === "ArrowLeft") {
+                    updateCarousel(currentCarouselIndex - 1);
+                } else if (e.key === "ArrowRight") {
+                    updateCarousel(currentCarouselIndex + 1);
+                }
+            });
+
+            // Chargement des destinations depuis l'API
+            async function loadDestinations() {
+                const destinationsGrid =
+                    document.getElementById("destinationsGrid");
+                const loadingMessage =
+                    document.getElementById("loadingMessage");
+
+                try {
+                    console.log(
+                        "Chargement des destinations depuis:",
+                        DESTINATIONS_URL,
+                    );
+                    const response = await fetch(DESTINATIONS_URL);
+
+                    if (!response.ok) {
+                        throw new Error(`Erreur HTTP: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    console.log("Données reçues:", result);
+
+                    // Cacher le message de chargement
+                    if (loadingMessage) {
+                        loadingMessage.remove();
+                    }
+
+                    const destinations =
+                        result?.data?.destinations ||
+                        result?.destinations ||
+                        [];
+                    console.log(
+                        `Nombre de destinations: ${destinations.length}`,
+                    );
+
+                    if (destinations.length === 0) {
+                        showNoDestinationsMessage();
+                        return;
+                    }
+
+                    // Afficher le détail de la première destination pour le débogage
+                    if (destinations.length > 0) {
+                        console.log("Première destination:", destinations[0]);
+                        console.log(
+                            "Images de la première destination:",
+                            destinations[0].images,
+                        );
+                    }
+
+                    renderDestinations(destinations);
+                    observeCards();
+                } catch (error) {
+                    console.error(
+                        "Erreur lors du chargement des destinations:",
+                        error,
+                    );
+
+                    // Cacher le message de chargement
+                    if (loadingMessage) {
+                        loadingMessage.remove();
+                    }
+
+                    showErrorMessage(error.message);
+                }
+            }
+
+            function renderDestinations(destinations) {
+                const destinationsGrid =
+                    document.getElementById("destinationsGrid");
+                destinationsGrid.innerHTML = "";
+
+                destinations.forEach((destination, index) => {
+                    const destinationCard = document.createElement("div");
+                    destinationCard.className = "destination-card";
+                    destinationCard.setAttribute(
+                        "data-title",
+                        destination.titre?.toLowerCase() || "",
+                    );
+                    destinationCard.setAttribute(
+                        "data-country",
+                        destination.localisation?.toLowerCase() || "",
+                    );
+                    destinationCard.setAttribute(
+                        "data-category",
+                        destination.categorie?.toLowerCase() || "",
+                    );
+                    destinationCard.style.transitionDelay = `${index * 0.1}s`;
+
+                    // 🔥 CORRECTION : Récupérer les images de Cloudinary
+                    const images = destination.images || [];
+                    const hasImages = images.length > 0;
+                    const mainImageUrl =
+                        hasImages && isValidImageUrl(images[0]?.url)
+                            ? images[0].url
+                            : getDefaultImage(destination.localisation);
+
+                    // Formater le prix
+                    const formattedPrice = formatPrice(destination.prix);
+
+                    // Catégorie traduite
+                    const categoryTranslated = translateCategory(
+                        destination.categorie,
+                    );
+
+                    // Formater les dates disponibles
+                    let datesText = "Dates flexibles";
+                    if (
+                        destination.datesDisponibles &&
+                        destination.datesDisponibles.length > 0
+                    ) {
+                        const firstDate = destination.datesDisponibles[0];
+                        if (firstDate.debut && firstDate.fin) {
+                            const debut = formatDate(firstDate.debut);
+                            const fin = formatDate(firstDate.fin);
+                            datesText = `${debut} - ${fin}`;
+                        }
+                    }
+
+                    // Créer le HTML avec les images
+                    destinationCard.innerHTML = `
           <div class="destination-image-container" onclick="openCarousel(${JSON.stringify(images)}, 0)">
-            ${destination.featured ? '<span class="destination-featured">⭐ En vedette</span>' : ''}
-            <img src="${mainImageUrl}" alt="${destination.titre || 'Destination'}" loading="lazy">
-            
-            ${images.length > 1 ? `
+            ${destination.featured ? '<span class="destination-featured">⭐ En vedette</span>' : ""}
+            <img src="${mainImageUrl}" alt="${destination.titre || "Destination"}" loading="lazy">
+
+            ${
+                images.length > 1
+                    ? `
               <div class="image-counter">
                 <i class="fas fa-images"></i>
                 <span>${images.length}</span>
               </div>
-            ` : ''}
+            `
+                    : ""
+            }
           </div>
 
           <div class="destination-details">
             <h3 class="destination-title">
-              ${destination.titre || 'Destination sans titre'}
+              ${destination.titre || "Destination sans titre"}
             </h3>
 
             <div class="destination-info">
               <div class="destination-info-item">
                 <i class="fas fa-map-marker-alt"></i>
-                <span>${destination.localisation || 'Localisation non spécifiée'}</span>
+                <span>${destination.localisation || "Localisation non spécifiée"}</span>
               </div>
 
               <div class="destination-info-item">
@@ -1158,14 +1273,14 @@
             <div class="destination-price">${formattedPrice}</div>
 
             <div class="destination-buttons">
-              <button 
-                class="btn-details" 
+              <button
+                class="btn-details"
                 onclick="showDestinationDetails('${destination._id}')">
                 Détails
               </button>
 
-              <a 
-                href="reservation.html?type=destination&id=${destination._id}" 
+              <a
+                href="reservation.html?type=destination&id=${destination._id}"
                 class="btn-reserve">
                 Réserver
               </a>
@@ -1173,24 +1288,26 @@
           </div>
         `;
 
-        destinationsGrid.appendChild(destinationCard);
-      });
-    }
+                    destinationsGrid.appendChild(destinationCard);
+                });
+            }
 
-    function showNoDestinationsMessage() {
-      const destinationsGrid = document.getElementById('destinationsGrid');
-      destinationsGrid.innerHTML = `
+            function showNoDestinationsMessage() {
+                const destinationsGrid =
+                    document.getElementById("destinationsGrid");
+                destinationsGrid.innerHTML = `
         <div class="no-destinations">
           <i class="fas fa-map-marker-alt"></i>
           <h3>Aucune destination disponible</h3>
           <p>Revenez plus tard pour découvrir nos prochaines destinations.</p>
         </div>
       `;
-    }
+            }
 
-    function showErrorMessage(message) {
-      const destinationsGrid = document.getElementById('destinationsGrid');
-      destinationsGrid.innerHTML = `
+            function showErrorMessage(message) {
+                const destinationsGrid =
+                    document.getElementById("destinationsGrid");
+                destinationsGrid.innerHTML = `
         <div class="error-message">
           <i class="fas fa-exclamation-triangle"></i>
           <h3>Erreur de chargement</h3>
@@ -1206,66 +1323,73 @@
           ">Réessayer</button>
         </div>
       `;
-    }
+            }
 
-    // Animation d'apparition des cartes
-    function observeCards() {
-      const observerOptions = {
-        threshold: 0.15,
-        rootMargin: '0px'
-      };
+            // Animation d'apparition des cartes
+            function observeCards() {
+                const observerOptions = {
+                    threshold: 0.15,
+                    rootMargin: "0px",
+                };
 
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, observerOptions);
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            entry.target.classList.add("visible");
+                            observer.unobserve(entry.target);
+                        }
+                    });
+                }, observerOptions);
 
-      document.querySelectorAll('.destination-card').forEach(card => {
-        observer.observe(card);
-      });
-    }
+                document
+                    .querySelectorAll(".destination-card")
+                    .forEach((card) => {
+                        observer.observe(card);
+                    });
+            }
 
-    // Filtrage en temps réel
-    const searchInput = document.getElementById('searchInput');
-    const countrySelect = document.getElementById('countrySelect');
-    const categorySelect = document.getElementById('categorySelect');
+            // Filtrage en temps réel
+            const searchInput = document.getElementById("searchInput");
+            const countrySelect = document.getElementById("countrySelect");
+            const categorySelect = document.getElementById("categorySelect");
 
-    function liveFilter() {
-      const searchValue = searchInput.value.toLowerCase().trim();
-      const countryValue = countrySelect.value.toLowerCase();
-      const categoryValue = categorySelect.value.toLowerCase();
+            function liveFilter() {
+                const searchValue = searchInput.value.toLowerCase().trim();
+                const countryValue = countrySelect.value.toLowerCase();
+                const categoryValue = categorySelect.value.toLowerCase();
 
-      const destinationCards = document.querySelectorAll('.destination-card');
+                const destinationCards =
+                    document.querySelectorAll(".destination-card");
 
-      destinationCards.forEach(card => {
-        const title = card.dataset.title || '';
-        const country = card.dataset.country || '';
-        const category = card.dataset.category || '';
+                destinationCards.forEach((card) => {
+                    const title = card.dataset.title || "";
+                    const country = card.dataset.country || "";
+                    const category = card.dataset.category || "";
 
-        const matchSearch = title.includes(searchValue);
-        const matchCountry = countryValue === 'all' || country.includes(countryValue);
-        const matchCategory = categoryValue === 'all' || category.includes(categoryValue);
+                    const matchSearch = title.includes(searchValue);
+                    const matchCountry =
+                        countryValue === "all" ||
+                        country.includes(countryValue);
+                    const matchCategory =
+                        categoryValue === "all" ||
+                        category.includes(categoryValue);
 
-        if (matchSearch && matchCountry && matchCategory) {
-          card.style.display = '';
-        } else {
-          card.style.display = 'none';
-        }
-      });
-    }
+                    if (matchSearch && matchCountry && matchCategory) {
+                        card.style.display = "";
+                    } else {
+                        card.style.display = "none";
+                    }
+                });
+            }
 
-    searchInput.addEventListener('input', liveFilter);
-    countrySelect.addEventListener('change', liveFilter);
-    categorySelect.addEventListener('change', liveFilter);
+            searchInput.addEventListener("input", liveFilter);
+            countrySelect.addEventListener("change", liveFilter);
+            categorySelect.addEventListener("change", liveFilter);
 
-    // Initialisation
-    document.addEventListener('DOMContentLoaded', () => {
-      loadDestinations();
-    });
-  </script>
-</body>
+            // Initialisation
+            document.addEventListener("DOMContentLoaded", () => {
+                loadDestinations();
+            });
+        </script>
+    </body>
 </html>

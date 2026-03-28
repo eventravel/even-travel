@@ -1,1144 +1,1261 @@
-  <!DOCTYPE html>
-  <html lang="fr">
-
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Even Travel - Détail Événement</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <style>
-      :root {
-        --sand: #E8DDD0;
-        --stone: #D4C4B0;
-        --terracotta: #B8856A;
-        --ochre: #C4916B;
-        --bronze: #8B6F47;
-        --deep-brown: #5C4A3A;
-        --cream: #F5F1EA;
-        --white: #FFFFFF;
-        --text-dark: #2A2420;
-        --text-muted: #6B5D52;
-        --spacing-xs: 8px;
-        --spacing-sm: 16px;
-        --spacing-md: 32px;
-        --spacing-lg: 64px;
-        --spacing-xl: 96px;
-      }
-
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-
-      html {
-        scroll-behavior: smooth;
-      }
-
-      body {
-        font-family: 'Inter', system-ui, -apple-system, sans-serif;
-        font-size: 16px;
-        line-height: 1.7;
-        background: var(--cream);
-        color: var(--text-dark);
-        -webkit-font-smoothing: antialiased;
-        font-weight: 400;
-      }
-
-      h1,
-      h2,
-      h3,
-      h4 {
-        font-family: 'Inter', sans-serif;
-        font-weight: 600;
-        line-height: 1.2;
-        color: var(--deep-brown);
-      }
-
-      header {
-        background: #faf8f5;
-        padding: 0;
-        position: sticky;
-        top: 0;
-        width: 100%;
-        z-index: 1000;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        animation: slideDown 0.5s ease-out;
-      }
-
-      @keyframes slideDown {
-        from {
-          transform: translateY(-100%);
-        }
-
-        to {
-          transform: translateY(0);
-        }
-      }
-
-      nav {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        max-width: 1400px;
-        height: 80px;
-        margin: 0 auto;
-        padding: 0 40px;
-      }
-
-      .logo {
-        display: flex;
-        align-items: center;
-      }
-
-      .logo img {
-        width: 180px;
-        height: auto;
-      }
-
-      .nav-links {
-        display: flex;
-        gap: 30px;
-        list-style: none;
-        align-items: center;
-        margin: 0;
-      }
-
-      .nav-links a {
-        text-decoration: none;
-        color: #2c2c2c;
-        font-size: 15px;
-        font-weight: 500;
-        transition: all 0.3s ease;
-        position: relative;
-        padding: 8px 12px;
-      }
-
-      .nav-links a::after {
-        content: '';
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        width: 0;
-        height: 2px;
-        background: #C4916B;
-        transition: all 0.3s ease;
-        transform: translateX(-50%);
-      }
-
-      .nav-links a:hover::after {
-        width: 80%;
-      }
-
-      .nav-links a:hover {
-        color: #C4916B;
-      }
-
-      .hamburger {
-        display: none;
-        flex-direction: column;
-        gap: 5px;
-        cursor: pointer;
-        z-index: 1001;
-      }
-
-      .hamburger span {
-        width: 25px;
-        height: 3px;
-        background: #2c2c2c;
-        transition: all 0.3s ease;
-      }
-
-      .hero-section {
-        width: 100%;
-        max-width: 1400px;
-        margin: var(--spacing-md) auto;
-        padding: 0 40px;
-        animation: fadeIn 0.8s ease-out;
-      }
-
-      @keyframes fadeIn {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .hero-section img {
-        width: 100%;
-        height: auto;
-        max-height: 600px;
-        object-fit: cover;
-        border-radius: 0;
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-      }
-
-      .main-content {
-        max-width: 1400px;
-        margin: var(--spacing-lg) auto;
-        padding: 0 40px;
-        display: grid;
-        grid-template-columns: 1fr 420px;
-        gap: var(--spacing-lg);
-      }
-
-      .content-left {
-        background: var(--white);
-        padding: var(--spacing-lg);
-        border: 1px solid var(--stone);
-        animation: fadeIn 0.8s ease-out 0.2s backwards;
-      }
-
-      .content-left h1 {
-        font-size: 42px;
-        font-weight: 600;
-        color: var(--deep-brown);
-        margin-bottom: var(--spacing-sm);
-        line-height: 1.2;
-      }
-
-      .event-meta {
-        display: flex;
-        gap: var(--spacing-md);
-        margin-bottom: var(--spacing-lg);
-        font-size: 15px;
-        color: var(--text-muted);
-        flex-wrap: wrap;
-        padding-bottom: var(--spacing-md);
-        border-bottom: 1px solid var(--stone);
-      }
-
-      .event-meta span {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-weight: 500;
-      }
-
-      .content-left h2 {
-        font-size: 28px;
-        font-weight: 600;
-        color: var(--deep-brown);
-        margin: var(--spacing-lg) 0 var(--spacing-sm);
-      }
-
-      .eyebrow {
-        display: inline-block;
-        font-size: 12px;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        color: var(--terracotta);
-        font-weight: 600;
-        margin-bottom: var(--spacing-xs);
-      }
-
-      .content-left p {
-        font-size: 17px;
-        line-height: 1.8;
-        color: var(--text-muted);
-        margin-bottom: var(--spacing-md);
-      }
-
-      .content-left ul {
-        list-style: none;
-        padding: 0;
-        margin-bottom: var(--spacing-md);
-      }
-
-      .content-left ul li {
-        font-size: 16px;
-        line-height: 1.8;
-        color: var(--text-muted);
-        margin-bottom: 12px;
-        padding-left: 28px;
-        position: relative;
-      }
-
-      .content-left ul li::before {
-        content: '•';
-        color: var(--terracotta);
-        font-size: 24px;
-        position: absolute;
-        left: 0;
-        top: -2px;
-      }
-
-      .highlight-box {
-        background: var(--sand);
-        padding: var(--spacing-md);
-        border-left: 4px solid var(--terracotta);
-        margin: var(--spacing-md) 0;
-      }
-
-      .highlight-box h3 {
-        font-size: 20px;
-        margin-bottom: var(--spacing-sm);
-        color: var(--deep-brown);
-      }
-
-      .highlight-box p {
-        margin-bottom: 0;
-        font-size: 16px;
-      }
-
-      .itinerary-day {
-        margin-bottom: var(--spacing-md);
-        padding-bottom: var(--spacing-md);
-        border-bottom: 1px solid var(--sand);
-      }
-
-      .itinerary-day:last-child {
-        border-bottom: none;
-      }
-
-      .day-header {
-        display: flex;
-        align-items: center;
-        gap: var(--spacing-sm);
-        margin-bottom: var(--spacing-sm);
-      }
-
-      .day-number {
-        background: var(--terracotta);
-        color: white;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 700;
-        font-size: 18px;
-      }
-
-      .day-title {
-        font-size: 20px;
-        font-weight: 600;
-        color: var(--deep-brown);
-      }
-
-      .itinerary-activities {
-        margin-top: var(--spacing-sm);
-        padding-left: var(--spacing-md);
-      }
-
-      .itinerary-activities li {
-        font-size: 15px;
-        color: var(--text-muted);
-        margin-bottom: 6px;
-      }
-
-      .booking-card {
-        background: var(--white);
-        padding: var(--spacing-lg);
-        border: 1px solid var(--stone);
-        position: sticky;
-        top: 100px;
-        height: fit-content;
-        animation: fadeIn 0.8s ease-out 0.4s backwards;
-      }
-
-      .price-tag {
-        text-align: center;
-        margin-bottom: var(--spacing-md);
-        padding-bottom: var(--spacing-md);
-        border-bottom: 2px solid var(--stone);
-      }
-
-      .price-tag .eyebrow {
-        display: block;
-        margin-bottom: var(--spacing-xs);
-      }
-
-      .price-tag h1 {
-        font-size: 48px;
-        color: var(--terracotta);
-        font-weight: 700;
-        margin-bottom: var(--spacing-xs);
-      }
-
-      .price-tag h1::after {
-        content: 'FCFA';
-        font-size: 24px;
-        margin-left: 4px;
-        color: var(--text-muted);
-      }
-
-      .price-tag p {
-        font-size: 15px;
-        color: var(--text-muted);
-        margin: 0;
-      }
-
-      .booking-info {
-        margin-bottom: var(--spacing-md);
-      }
-
-      .info-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: var(--spacing-sm) 0;
-        border-bottom: 1px solid var(--sand);
-      }
-
-      .info-row:last-child {
-        border-bottom: none;
-      }
-
-      .info-label {
-        font-size: 15px;
-        color: var(--text-muted);
-        display: flex;
-        align-items: center;
-        gap: 8px;
-      }
-
-      .info-value {
-        font-size: 15px;
-        color: var(--text-dark);
-        font-weight: 600;
-      }
-
-      .book-button {
-        width: 100%;
-        background: var(--terracotta);
-        color: white;
-        border: none;
-        padding: 18px;
-        font-size: 16px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        margin-bottom: var(--spacing-sm);
-        text-transform: uppercase;
-        letter-spacing: 1.5px;
-      }
-
-      .book-button:hover {
-        background: var(--bronze);
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(184, 133, 106, 0.3);
-      }
-
-      .confirmation-note {
-        text-align: center;
-        font-size: 13px;
-        color: var(--text-muted);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-      }
-
-      .confirmation-note::before {
-        content: '✓';
-        font-size: 16px;
-        color: var(--terracotta);
-        font-weight: bold;
-      }
-
-      .moments-forts-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: var(--spacing-sm);
-        margin-top: var(--spacing-md);
-      }
-
-      .moment-fort-card {
-        background: var(--sand);
-        padding: var(--spacing-md);
-        border-radius: 8px;
-        border-left: 4px solid var(--ochre);
-      }
-
-      .moment-fort-card h4 {
-        font-size: 16px;
-        color: var(--deep-brown);
-        margin-bottom: var(--spacing-xs);
-      }
-
-      .loading {
-        text-align: center;
-        padding: 40px;
-        color: var(--text-muted);
-      }
-
-      .error-message {
-        text-align: center;
-        padding: 40px;
-        color: #e53e3e;
-        background: #fed7d7;
-        border-radius: 8px;
-        margin: 20px;
-      }
-
-      footer {
-        background: #bab2b2;
-        color: rgb(0, 0, 0);
-        padding: 60px 40px 20px;
-        margin-top: var(--spacing-xl);
-      }
-
-      .footer-content {
-        max-width: 1400px;
-        margin: 0 auto;
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 40px;
-        margin-bottom: 40px;
-      }
-
-      .footer-section {
-        animation: fadeInUp 0.6s ease-out;
-      }
-
-      @keyframes fadeInUp {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .footer-logo {
-        display: flex;
-        align-items: center;
-        margin-bottom: 15px;
-      }
-
-      .footer-logo img {
-        width: 180px;
-        height: auto;
-      }
-
-      .footer-title {
-        color: #493c31;
-        font-size: 25px;
-        margin-bottom: 15px;
-        font-weight: 600;
-        letter-spacing: 1px;
-      }
-
-      .footer-text {
-        font-size: 15px;
-        line-height: 1.8;
-        color: #000000;
-        margin-bottom: 10px;
-      }
-
-      .social-icons {
-        display: flex;
-        gap: 15px;
-        margin-top: 15px;
-      }
-
-      .social-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: rgba(255, 140, 66, 0.1);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #5C4A3A;
-        text-decoration: none;
-        font-size: 18px;
-        transition: all 0.3s ease;
-      }
-
-      .social-icon:hover {
-        background: #9a7b61;
-        color: white;
-        transform: translateY(-3px);
-      }
-
-      .footer-bottom {
-        text-align: center;
-        padding-top: 30px;
-        border-top: 1px solid rgba(255, 255, 255, 0.1);
-        font-size: 14px;
-        color: #9ca3af;
-      }
-
-      @media (max-width: 1024px) {
-        .main-content {
-          grid-template-columns: 1fr;
-        }
-
-        .booking-card {
-          position: relative;
-          top: 0;
-        }
-      }
-
-      @media (max-width: 768px) {
-        :root {
-          --spacing-lg: 48px;
-          --spacing-xl: 64px;
-        }
-
-        nav {
-          padding: 0 20px;
-        }
-
-        .nav-links {
-          position: fixed;
-          top: 0;
-          right: -100%;
-          height: 100vh;
-          width: 70%;
-          background: #faf8f5;
-          flex-direction: column;
-          padding: 100px 40px;
-          transition: right 0.3s ease;
-          box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .nav-links.active {
-          right: 0;
-        }
-
-        .hamburger {
-          display: flex;
-        }
-
-        .hero-section,
-        .main-content {
-          padding: 0 20px;
-        }
-
-        .content-left,
-        .booking-card {
-          padding: var(--spacing-md);
-        }
-
-        .content-left h1 {
-          font-size: 32px;
-        }
-
-        .content-left h2 {
-          font-size: 24px;
-        }
-
-        .price-tag h1 {
-          font-size: 42px;
-        }
-      }
-
-      @media (max-width: 600px) {
-        nav {
-          height: 70px;
-        }
-
-        .content-left h1 {
-          font-size: 28px;
-        }
-
-        .hero-section img {
-          max-height: 400px;
-        }
-      }
-    </style>
-  </head>
-
-  <body>
-    <header>
-      <nav>
-        <div class="logo">
-          <img src="images/logo-01.png" alt="Even Travel Logo">
-        </div>
-        <ul class="nav-links" id="navLinks">
-          <li><a href="index.html">Accueil</a></li>
-          <li><a href="events.html">Événements</a></li>
-          <li><a href="destinations.html">Destinations</a></li>
-          <li><a href="blogs.html">Blog</a></li>
-          <li><a href="contact.html">Contact</a></li>
-          <li><a href="about.html">À propos</a></li>
-          <li><a href="FAQ.html">FAQ</a></li>
-        </ul>
-        <div class="hamburger" id="hamburger">
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-      </nav>
-    </header>
-
-    <section class="hero-section">
-      <div class="loading" id="imageLoading">
-        <p>Chargement de l'image...</p>
-      </div>
-      <img src="" alt="Image de l'événement" id="eventImage" style="display: none;">
-    </section>
-
-    <section class="main-content">
-      <div class="content-left">
-        <div class="loading" id="contentLoading">
-          <p>Chargement des détails de l'événement...</p>
-        </div>
-        
-        <div id="eventContent" style="display: none;">
-          <h1 id="eventTitle">Chargement...</h1>
-          <div class="event-meta">
-            <span class="location">📍 <span id="eventLocation">Chargement...</span></span>
-            <span class="date">📅 <span id="eventDate">Chargement...</span></span>
-            <span class="capacity">👥 <span id="eventCapacity">Chargement...</span></span>
-          </div>
-
-          <span class="eyebrow">À propos</span>
-          <h2>Description de l'événement</h2>
-          <p id="eventDescription">
-            Chargement de la description...
-          </p>
-          <p id="eventDescriptionLongue" style="display: none;"></p>
-
-          <div id="momentsFortsSection" style="display: none;">
-            <span class="eyebrow">Moments forts</span>
-            <h2>Ce qui rend cet événement unique</h2>
-            <div class="moments-forts-container" id="momentsFortsContainer">
-              <!-- Les moments forts seront chargés dynamiquement -->
-            </div>
-          </div>
-
-          <span class="eyebrow">Programme détaillé</span>
-          <h2 id="itineraryTitle">Itinéraire</h2>
-          <div id="itineraryContainer">
-            <!-- L'itinéraire sera chargé dynamiquement -->
-            <div class="loading">
-              <p>Chargement de l'itinéraire...</p>
-            </div>
-          </div>
-
-          <span class="eyebrow">Services inclus</span>
-          <h2>Ce qui est inclus</h2>
-          <ul id="eventInclusions">
-            <li>Chargement des services inclus...</li>
-          </ul>
-
-          <span class="eyebrow">À prévoir</span>
-          <h2>Ce qui n'est pas inclus</h2>
-          <ul id="eventExclusions">
-            <li>Chargement des services non inclus...</li>
-          </ul>
-
-          <div id="informationsPratiquesSection" style="display: none;">
-            <span class="eyebrow">À savoir avant de partir</span>
-            <h2>Informations pratiques</h2>
-            <div class="highlight-box">
-              <h3>📋 Informations importantes</h3>
-              <p id="eventInformationsPratiques">Chargement...</p>
-            </div>
-          </div>
-
-          <div id="recommandationsSection" style="display: none;">
-            <div class="highlight-box">
-              <h3>💡 Recommandations</h3>
-              <p id="eventRecommandations">Chargement...</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="booking-card">
-        <div class="price-tag">
-          <span class="eyebrow">Tarif</span>
-          <h1 id="eventPrice">0</h1>
-          <p>Par personne</p>
-        </div>
-
-        <div class="booking-info">
-          <div class="info-row">
-            <span class="info-label">⏱️ Durée</span>
-            <span class="info-value" id="eventDuration">Chargement...</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">👥 Groupe</span>
-            <span class="info-value" id="eventGroup">Chargement...</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">🗣️ Langue</span>
-            <span class="info-value" id="eventLanguage">Chargement...</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">💪 Difficulté</span>
-            <span class="info-value" id="eventDifficulty">Chargement...</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">📅 Départ</span>
-            <span class="info-value" id="eventStartDate">Chargement...</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">🎯 Type</span>
-            <span class="info-value" id="eventCategory">Chargement...</span>
-          </div>
-          <div class="info-row">
-            <span class="info-label">🏛️ Catégorie</span>
-            <span class="info-value" id="eventCategoryFull">Chargement...</span>
-          </div>
-        </div>
-
-        <button class="book-button" id="reserveButton">Réserver maintenant</button>
-
-        <p class="confirmation-note">Confirmation sous 24h</p>
-      </div>
-    </section>
-
-    <footer>
-      <div class="footer-content">
-        <div class="footer-section">
-          <div class="footer-logo">
-            <img src="images/logo-01.png" alt="Even Travel Logo">
-          </div>
-          <p class="footer-text">Explorez l'Afrique à travers des événements et destinations inoubliables.</p>
-        </div>
-        <div class="footer-section">
-          <h3 class="footer-title">Réservations</h3>
-          <p class="footer-text">Cotonou, Bénin</p>
-          <p class="footer-text">eventravel79@gmail.com</p>
-          <p class="footer-text">+33781800811</p>
-        </div>
-        <div class="footer-section">
-          <h3 class="footer-title">Horaires d'ouverture</h3>
-          <p class="footer-text">Lundi au Vendredi: 9h00 à 19h00</p>
-          <p class="footer-text">Samedi: 9h00 à 12h00</p>
-        </div>
-        <div class="footer-section">
-          <h3 class="footer-title">Suivez-nous</h3>
-          <div class="social-icons">
-            <a href="https://www.instagram.com/even_travel?igsh=MTgxbWwwM3lvMXgwaA==" class="social-icon" aria-label="Instagram" target="_blank">
-              <i class="fa-brands fa-instagram"></i>
-            </a>
-            <a href="https://www.facebook.com/share/182Y393fWk/?mibextid=wwXIfr" class="social-icon" aria-label="Facebook" target="_blank">
-              <i class="fa-brands fa-facebook-f"></i>
-            </a>
-            <a href="https://www.tiktok.com/@eventravel4?_r=1&_t=ZN-94HL34bF0QU" class="social-icon" aria-label="TikTok" target="_blank">
-              <i class="fa-brands fa-tiktok"></i>
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>&copy; <span id="year"></span> Even Travel. Tous droits réservés.</p>
-      </div>
-    </footer>
-
-    <script>
-      const BASE_URL = 'https://even-travel-backend.onrender.com';
-
-      let currentEvent = null;
-      
-      // Menu mobile
-      const hamburger = document.getElementById('hamburger');
-      const navLinks = document.getElementById('navLinks');
-
-      hamburger.addEventListener('click', () => {
-        hamburger.classList.toggle('active');
-        navLinks.classList.toggle('active');
-      });
-
-      document.querySelectorAll('.nav-links a').forEach(link => {
-        link.addEventListener('click', () => {
-          hamburger.classList.remove('active');
-          navLinks.classList.remove('active');
-        });
-      });
-
-      // Mise à jour année
-      document.getElementById('year').textContent = new Date().getFullYear();
-
-      // Récupérer l'ID depuis l'URL
-      function getEventIdFromUrl() {
-        const urlParams = new URLSearchParams(window.location.search);
-        return urlParams.get('id');
-      }
-
-      // Formater la date
-      function formatDate(dateString) {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('fr-FR', {
-          day: 'numeric',
-          month: 'long',
-          year: 'numeric'
-        });
-      }
-
-      // Formater la date avec heure
-      function formatDateTime(dateString) {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('fr-FR', {
-          day: 'numeric',
-          month: 'long',
-          year: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit'
-        });
-      }
-
-      // Traduire la catégorie
-      function translateCategory(category) {
-        const categories = {
-          'concert': 'Concert',
-          'festival': 'Festival',
-          'culture': 'Culturel',
-          'sport': 'Sportif',
-          'excursion': 'Excursion',
-          'formation': 'Formation',
-          'soiree': 'Soirée',
-          'autre': 'Autre'
-        };
-        return categories[category] || category;
-      }
-
-      // Traduire la difficulté
-      function translateDifficulty(difficulty) {
-        const difficulties = {
-          'Très facile': 'Très facile',
-          'Facile': 'Facile',
-          'Modérée': 'Modérée',
-          'Difficile': 'Difficile',
-          'Très difficile': 'Très difficile'
-        };
-        return difficulties[difficulty] || difficulty;
-      }
-
-      // Charger les détails de l'événement
-      async function loadEventDetails() {
-        const eventId = getEventIdFromUrl();
-        
-        if (!eventId) {
-          showErrorMessage("Aucun événement spécifié");
-          return;
-        }
-
-        try {
-          const response = await fetch(`${BASE_URL}/api/v1/events/${eventId}`);
-          
-          if (!response.ok) {
-            throw new Error(`Erreur HTTP: ${response.status}`);
-          }
-          
-          const result = await response.json();
-          const event = result.data?.event || result.data;
-          
-          if (!event) {
-            throw new Error("Événement non trouvé");
-          }
-          
-          // Remplir les données
-          populateEventData(event);
-          
-          // Cacher les loaders
-          document.getElementById('imageLoading').style.display = 'none';
-          document.getElementById('contentLoading').style.display = 'none';
-          document.getElementById('eventContent').style.display = 'block';
-          
-        } catch (error) {
-          console.error('Erreur lors du chargement:', error);
-          showErrorMessage(error.message || "Impossible de charger l'événement");
-        }
-      }
-
-      // Remplir les données dans la page
-      function populateEventData(event) {
-
-        currentEvent = event
-        
-        // Titre
-        document.getElementById('eventTitle').textContent = event.nom || 'Événement';
-        document.title = `${event.nom} - Even Travel`;
-        
-        // Description
-        document.getElementById('eventDescription').textContent = event.description || '';
-        
-        // Description longue (si disponible)
-        if (event.descriptionLongue && event.descriptionLongue.trim() !== '') {
-          document.getElementById('eventDescriptionLongue').textContent = event.descriptionLongue;
-          document.getElementById('eventDescriptionLongue').style.display = 'block';
-        }
-        
-        // Localisation
-        document.getElementById('eventLocation').textContent = event.lieu || 'Non spécifié';
-        
-        // Dates
-        if (event.date) {
-          const startDate = new Date(event.date);
-          document.getElementById('eventStartDate').textContent = formatDateTime(event.date);
-          
-          if (event.dateFin) {
-            const endDate = new Date(event.dateFin);
-            if (startDate.toDateString() !== endDate.toDateString()) {
-              document.getElementById('eventDate').textContent = 
-                `${formatDate(event.date)} - ${formatDate(event.dateFin)}`;
-            } else {
-              document.getElementById('eventDate').textContent = formatDate(event.date);
+<!doctype html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Even Travel - Détail Événement</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        />
+
+        <style>
+            :root {
+                --sand: #e8ddd0;
+                --stone: #d4c4b0;
+                --terracotta: #b8856a;
+                --ochre: #c4916b;
+                --bronze: #8b6f47;
+                --deep-brown: #5c4a3a;
+                --cream: #f5f1ea;
+                --white: #ffffff;
+                --text-dark: #2a2420;
+                --text-muted: #6b5d52;
+                --spacing-xs: 8px;
+                --spacing-sm: 16px;
+                --spacing-md: 32px;
+                --spacing-lg: 64px;
+                --spacing-xl: 96px;
             }
-          } else {
-            document.getElementById('eventDate').textContent = formatDate(event.date);
-          }
-        }
-        
-        // Prix
-        if (event.prix) {
-          document.getElementById('eventPrice').textContent = 
-            `${event.prix.toLocaleString('fr-FR')}`;
-        }
-        
-        // Capacité
-        const placesRestantes = event.placesRestantes || 0;
-        const placesTotales = event.placesTotales || 0;
-        document.getElementById('eventCapacity').textContent = 
-          `${placesRestantes} places sur ${placesTotales}`;
-        
-        // Durée
-        if (event.duree) {
-          document.getElementById('eventDuration').textContent = 
-            `${event.duree} jour${event.duree > 1 ? 's' : ''}`;
-        }
-        
-        // Groupe
-        if (event.tailleGroupeMin && event.tailleGroupeMax) {
-          document.getElementById('eventGroup').textContent = 
-            `${event.tailleGroupeMin}-${event.tailleGroupeMax} personnes`;
-        } else if (event.placesTotales) {
-          document.getElementById('eventGroup').textContent = 
-            `Max ${event.placesTotales} personnes`;
-        }
-        
-        // Langue
-        if (event.langues) {
-          const langues = Array.isArray(event.langues) ? event.langues : [event.langues];
-          document.getElementById('eventLanguage').textContent = langues.join(' - ');
-        }
-        
-        // Difficulté
-        if (event.difficulte) {
-          document.getElementById('eventDifficulty').textContent = translateDifficulty(event.difficulte);
-        }
-        
-        // Catégorie
-        if (event.categorie) {
-          document.getElementById('eventCategory').textContent = translateCategory(event.categorie);
-          document.getElementById('eventCategoryFull').textContent = translateCategory(event.categorie);
-        }
-        
-        // Image
-        if (event.images && event.images[0]) {
-          const img = document.getElementById('eventImage');
-          img.src = event.images[0].url;
-          img.alt = event.nom || 'Événement';
-          img.style.display = 'block';
-          document.getElementById('imageLoading').style.display = 'none';
-        }
-        
-        // Services inclus
-        if (event.servicesInclus && event.servicesInclus.length > 0) {
-          const inclusionsList = document.getElementById('eventInclusions');
-          inclusionsList.innerHTML = '';
-          
-          event.servicesInclus.forEach(service => {
-            if (service && service.trim()) {
-              const li = document.createElement('li');
-              li.textContent = service;
-              inclusionsList.appendChild(li);
+
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
             }
-          });
-        }
-        
-        // Services non inclus
-        if (event.servicesNonInclus && event.servicesNonInclus.length > 0) {
-          const exclusionsList = document.getElementById('eventExclusions');
-          exclusionsList.innerHTML = '';
-          
-          event.servicesNonInclus.forEach(service => {
-            if (service && service.trim()) {
-              const li = document.createElement('li');
-              li.textContent = service;
-              exclusionsList.appendChild(li);
+
+            html {
+                scroll-behavior: smooth;
             }
-          });
-        }
-        
-        // Moments forts
-        if (event.momentsForts && event.momentsForts.length > 0) {
-          const container = document.getElementById('momentsFortsContainer');
-          container.innerHTML = '';
-          
-          event.momentsForts.forEach(moment => {
-            if (moment && moment.trim()) {
-              const card = document.createElement('div');
-              card.className = 'moment-fort-card';
-              card.innerHTML = `
+
+            body {
+                font-family:
+                    "Inter",
+                    system-ui,
+                    -apple-system,
+                    sans-serif;
+                font-size: 16px;
+                line-height: 1.7;
+                background: var(--cream);
+                color: var(--text-dark);
+                -webkit-font-smoothing: antialiased;
+                font-weight: 400;
+            }
+
+            h1,
+            h2,
+            h3,
+            h4 {
+                font-family: "Inter", sans-serif;
+                font-weight: 600;
+                line-height: 1.2;
+                color: var(--deep-brown);
+            }
+
+            header {
+                background: #faf8f5;
+                padding: 0;
+                position: sticky;
+                top: 0;
+                width: 100%;
+                z-index: 1000;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                animation: slideDown 0.5s ease-out;
+            }
+
+            @keyframes slideDown {
+                from {
+                    transform: translateY(-100%);
+                }
+
+                to {
+                    transform: translateY(0);
+                }
+            }
+
+            nav {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                max-width: 1400px;
+                height: 80px;
+                margin: 0 auto;
+                padding: 0 40px;
+            }
+
+            .logo {
+                display: flex;
+                align-items: center;
+            }
+
+            .logo img {
+                width: 180px;
+                height: auto;
+            }
+
+            .nav-links {
+                display: flex;
+                gap: 30px;
+                list-style: none;
+                align-items: center;
+                margin: 0;
+            }
+
+            .nav-links a {
+                text-decoration: none;
+                color: #2c2c2c;
+                font-size: 15px;
+                font-weight: 500;
+                transition: all 0.3s ease;
+                position: relative;
+                padding: 8px 12px;
+            }
+
+            .nav-links a::after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                width: 0;
+                height: 2px;
+                background: #c4916b;
+                transition: all 0.3s ease;
+                transform: translateX(-50%);
+            }
+
+            .nav-links a:hover::after {
+                width: 80%;
+            }
+
+            .nav-links a:hover {
+                color: #c4916b;
+            }
+
+            .hamburger {
+                display: none;
+                flex-direction: column;
+                gap: 5px;
+                cursor: pointer;
+                z-index: 1001;
+            }
+
+            .hamburger span {
+                width: 25px;
+                height: 3px;
+                background: #2c2c2c;
+                transition: all 0.3s ease;
+            }
+
+            .hero-section {
+                width: 100%;
+                max-width: 1400px;
+                margin: var(--spacing-md) auto;
+                padding: 0 40px;
+                animation: fadeIn 0.8s ease-out;
+            }
+
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .hero-section img {
+                width: 100%;
+                height: auto;
+                max-height: 600px;
+                object-fit: cover;
+                border-radius: 0;
+                box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            }
+
+            .main-content {
+                max-width: 1400px;
+                margin: var(--spacing-lg) auto;
+                padding: 0 40px;
+                display: grid;
+                grid-template-columns: 1fr 420px;
+                gap: var(--spacing-lg);
+            }
+
+            .content-left {
+                background: var(--white);
+                padding: var(--spacing-lg);
+                border: 1px solid var(--stone);
+                animation: fadeIn 0.8s ease-out 0.2s backwards;
+            }
+
+            .content-left h1 {
+                font-size: 42px;
+                font-weight: 600;
+                color: var(--deep-brown);
+                margin-bottom: var(--spacing-sm);
+                line-height: 1.2;
+            }
+
+            .event-meta {
+                display: flex;
+                gap: var(--spacing-md);
+                margin-bottom: var(--spacing-lg);
+                font-size: 15px;
+                color: var(--text-muted);
+                flex-wrap: wrap;
+                padding-bottom: var(--spacing-md);
+                border-bottom: 1px solid var(--stone);
+            }
+
+            .event-meta span {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                font-weight: 500;
+            }
+
+            .content-left h2 {
+                font-size: 28px;
+                font-weight: 600;
+                color: var(--deep-brown);
+                margin: var(--spacing-lg) 0 var(--spacing-sm);
+            }
+
+            .eyebrow {
+                display: inline-block;
+                font-size: 12px;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                color: var(--terracotta);
+                font-weight: 600;
+                margin-bottom: var(--spacing-xs);
+            }
+
+            .content-left p {
+                font-size: 17px;
+                line-height: 1.8;
+                color: var(--text-muted);
+                margin-bottom: var(--spacing-md);
+            }
+
+            .content-left ul {
+                list-style: none;
+                padding: 0;
+                margin-bottom: var(--spacing-md);
+            }
+
+            .content-left ul li {
+                font-size: 16px;
+                line-height: 1.8;
+                color: var(--text-muted);
+                margin-bottom: 12px;
+                padding-left: 28px;
+                position: relative;
+            }
+
+            .content-left ul li::before {
+                content: "•";
+                color: var(--terracotta);
+                font-size: 24px;
+                position: absolute;
+                left: 0;
+                top: -2px;
+            }
+
+            .highlight-box {
+                background: var(--sand);
+                padding: var(--spacing-md);
+                border-left: 4px solid var(--terracotta);
+                margin: var(--spacing-md) 0;
+            }
+
+            .highlight-box h3 {
+                font-size: 20px;
+                margin-bottom: var(--spacing-sm);
+                color: var(--deep-brown);
+            }
+
+            .highlight-box p {
+                margin-bottom: 0;
+                font-size: 16px;
+            }
+
+            .itinerary-day {
+                margin-bottom: var(--spacing-md);
+                padding-bottom: var(--spacing-md);
+                border-bottom: 1px solid var(--sand);
+            }
+
+            .itinerary-day:last-child {
+                border-bottom: none;
+            }
+
+            .day-header {
+                display: flex;
+                align-items: center;
+                gap: var(--spacing-sm);
+                margin-bottom: var(--spacing-sm);
+            }
+
+            .day-number {
+                background: var(--terracotta);
+                color: white;
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 700;
+                font-size: 18px;
+            }
+
+            .day-title {
+                font-size: 20px;
+                font-weight: 600;
+                color: var(--deep-brown);
+            }
+
+            .itinerary-activities {
+                margin-top: var(--spacing-sm);
+                padding-left: var(--spacing-md);
+            }
+
+            .itinerary-activities li {
+                font-size: 15px;
+                color: var(--text-muted);
+                margin-bottom: 6px;
+            }
+
+            .booking-card {
+                background: var(--white);
+                padding: var(--spacing-lg);
+                border: 1px solid var(--stone);
+                position: sticky;
+                top: 100px;
+                height: fit-content;
+                animation: fadeIn 0.8s ease-out 0.4s backwards;
+            }
+
+            .price-tag {
+                text-align: center;
+                margin-bottom: var(--spacing-md);
+                padding-bottom: var(--spacing-md);
+                border-bottom: 2px solid var(--stone);
+            }
+
+            .price-tag .eyebrow {
+                display: block;
+                margin-bottom: var(--spacing-xs);
+            }
+
+            .price-tag h1 {
+                font-size: 48px;
+                color: var(--terracotta);
+                font-weight: 700;
+                margin-bottom: var(--spacing-xs);
+            }
+
+            .price-tag h1::after {
+                content: "FCFA";
+                font-size: 24px;
+                margin-left: 4px;
+                color: var(--text-muted);
+            }
+
+            .price-tag p {
+                font-size: 15px;
+                color: var(--text-muted);
+                margin: 0;
+            }
+
+            .booking-info {
+                margin-bottom: var(--spacing-md);
+            }
+
+            .info-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: var(--spacing-sm) 0;
+                border-bottom: 1px solid var(--sand);
+            }
+
+            .info-row:last-child {
+                border-bottom: none;
+            }
+
+            .info-label {
+                font-size: 15px;
+                color: var(--text-muted);
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+
+            .info-value {
+                font-size: 15px;
+                color: var(--text-dark);
+                font-weight: 600;
+            }
+
+            .book-button {
+                width: 100%;
+                background: var(--terracotta);
+                color: white;
+                border: none;
+                padding: 18px;
+                font-size: 16px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                margin-bottom: var(--spacing-sm);
+                text-transform: uppercase;
+                letter-spacing: 1.5px;
+            }
+
+            .book-button:hover {
+                background: var(--bronze);
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(184, 133, 106, 0.3);
+            }
+
+            .confirmation-note {
+                text-align: center;
+                font-size: 13px;
+                color: var(--text-muted);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+            }
+
+            .confirmation-note::before {
+                content: "✓";
+                font-size: 16px;
+                color: var(--terracotta);
+                font-weight: bold;
+            }
+
+            .moments-forts-container {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: var(--spacing-sm);
+                margin-top: var(--spacing-md);
+            }
+
+            .moment-fort-card {
+                background: var(--sand);
+                padding: var(--spacing-md);
+                border-radius: 8px;
+                border-left: 4px solid var(--ochre);
+            }
+
+            .moment-fort-card h4 {
+                font-size: 16px;
+                color: var(--deep-brown);
+                margin-bottom: var(--spacing-xs);
+            }
+
+            .loading {
+                text-align: center;
+                padding: 40px;
+                color: var(--text-muted);
+            }
+
+            .error-message {
+                text-align: center;
+                padding: 40px;
+                color: #e53e3e;
+                background: #fed7d7;
+                border-radius: 8px;
+                margin: 20px;
+            }
+
+            footer {
+                background: #bab2b2;
+                color: rgb(0, 0, 0);
+                padding: 60px 40px 20px;
+                margin-top: var(--spacing-xl);
+            }
+
+            .footer-content {
+                max-width: 1400px;
+                margin: 0 auto;
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 40px;
+                margin-bottom: 40px;
+            }
+
+            .footer-section {
+                animation: fadeInUp 0.6s ease-out;
+            }
+
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .footer-logo {
+                display: flex;
+                align-items: center;
+                margin-bottom: 15px;
+            }
+
+            .footer-logo img {
+                width: 180px;
+                height: auto;
+            }
+
+            .footer-title {
+                color: #493c31;
+                font-size: 25px;
+                margin-bottom: 15px;
+                font-weight: 600;
+                letter-spacing: 1px;
+            }
+
+            .footer-text {
+                font-size: 15px;
+                line-height: 1.8;
+                color: #000000;
+                margin-bottom: 10px;
+            }
+
+            .social-icons {
+                display: flex;
+                gap: 15px;
+                margin-top: 15px;
+            }
+
+            .social-icon {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background: rgba(255, 140, 66, 0.1);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #5c4a3a;
+                text-decoration: none;
+                font-size: 18px;
+                transition: all 0.3s ease;
+            }
+
+            .social-icon:hover {
+                background: #9a7b61;
+                color: white;
+                transform: translateY(-3px);
+            }
+
+            .footer-bottom {
+                text-align: center;
+                padding-top: 30px;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                font-size: 14px;
+                color: #9ca3af;
+            }
+
+            @media (max-width: 1024px) {
+                .main-content {
+                    grid-template-columns: 1fr;
+                }
+
+                .booking-card {
+                    position: relative;
+                    top: 0;
+                }
+            }
+
+            @media (max-width: 768px) {
+                :root {
+                    --spacing-lg: 48px;
+                    --spacing-xl: 64px;
+                }
+
+                nav {
+                    padding: 0 20px;
+                }
+
+                .nav-links {
+                    position: fixed;
+                    top: 0;
+                    right: -100%;
+                    height: 100vh;
+                    width: 70%;
+                    background: #faf8f5;
+                    flex-direction: column;
+                    padding: 100px 40px;
+                    transition: right 0.3s ease;
+                    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.1);
+                }
+
+                .nav-links.active {
+                    right: 0;
+                }
+
+                .hamburger {
+                    display: flex;
+                }
+
+                .hero-section,
+                .main-content {
+                    padding: 0 20px;
+                }
+
+                .content-left,
+                .booking-card {
+                    padding: var(--spacing-md);
+                }
+
+                .content-left h1 {
+                    font-size: 32px;
+                }
+
+                .content-left h2 {
+                    font-size: 24px;
+                }
+
+                .price-tag h1 {
+                    font-size: 42px;
+                }
+            }
+
+            @media (max-width: 600px) {
+                nav {
+                    height: 70px;
+                }
+
+                .content-left h1 {
+                    font-size: 28px;
+                }
+
+                .hero-section img {
+                    max-height: 400px;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <header>
+            <nav>
+                <div class="logo">
+                    <img src="images/logo-01.png" alt="Even Travel Logo" />
+                </div>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="events.html">Événements</a></li>
+                    <li><a href="destinations.html">Destinations</a></li>
+                    <li><a href="blogs.html">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="about.html">À propos</a></li>
+                    <li><a href="FAQ.html">FAQ</a></li>
+                </ul>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </header>
+
+        <section class="hero-section">
+            <div class="loading" id="imageLoading">
+                <p>Chargement de l'image...</p>
+            </div>
+            <img
+                src=""
+                alt="Image de l'événement"
+                id="eventImage"
+                style="display: none"
+            />
+        </section>
+
+        <section class="main-content">
+            <div class="content-left">
+                <div class="loading" id="contentLoading">
+                    <p>Chargement des détails de l'événement...</p>
+                </div>
+
+                <div id="eventContent" style="display: none">
+                    <h1 id="eventTitle">Chargement...</h1>
+                    <div class="event-meta">
+                        <span class="location"
+                            >📍
+                            <span id="eventLocation">Chargement...</span></span
+                        >
+                        <span class="date"
+                            >📅 <span id="eventDate">Chargement...</span></span
+                        >
+                        <span class="capacity"
+                            >👥
+                            <span id="eventCapacity">Chargement...</span></span
+                        >
+                    </div>
+
+                    <span class="eyebrow">À propos</span>
+                    <h2>Description de l'événement</h2>
+                    <p id="eventDescription">Chargement de la description...</p>
+                    <p id="eventDescriptionLongue" style="display: none"></p>
+
+                    <div id="momentsFortsSection" style="display: none">
+                        <span class="eyebrow">Moments forts</span>
+                        <h2>Ce qui rend cet événement unique</h2>
+                        <div
+                            class="moments-forts-container"
+                            id="momentsFortsContainer"
+                        >
+                            <!-- Les moments forts seront chargés dynamiquement -->
+                        </div>
+                    </div>
+
+                    <span class="eyebrow">Programme détaillé</span>
+                    <h2 id="itineraryTitle">Itinéraire</h2>
+                    <div id="itineraryContainer">
+                        <!-- L'itinéraire sera chargé dynamiquement -->
+                        <div class="loading">
+                            <p>Chargement de l'itinéraire...</p>
+                        </div>
+                    </div>
+
+                    <span class="eyebrow">Services inclus</span>
+                    <h2>Ce qui est inclus</h2>
+                    <ul id="eventInclusions">
+                        <li>Chargement des services inclus...</li>
+                    </ul>
+
+                    <span class="eyebrow">À prévoir</span>
+                    <h2>Ce qui n'est pas inclus</h2>
+                    <ul id="eventExclusions">
+                        <li>Chargement des services non inclus...</li>
+                    </ul>
+
+                    <div
+                        id="informationsPratiquesSection"
+                        style="display: none"
+                    >
+                        <span class="eyebrow">À savoir avant de partir</span>
+                        <h2>Informations pratiques</h2>
+                        <div class="highlight-box">
+                            <h3>📋 Informations importantes</h3>
+                            <p id="eventInformationsPratiques">Chargement...</p>
+                        </div>
+                    </div>
+
+                    <div id="recommandationsSection" style="display: none">
+                        <div class="highlight-box">
+                            <h3>💡 Recommandations</h3>
+                            <p id="eventRecommandations">Chargement...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="booking-card">
+                <div class="price-tag">
+                    <span class="eyebrow">Tarif</span>
+                    <h1 id="eventPrice">0</h1>
+                    <p>Par personne</p>
+                </div>
+
+                <div class="booking-info">
+                    <div class="info-row">
+                        <span class="info-label">⏱️ Durée</span>
+                        <span class="info-value" id="eventDuration"
+                            >Chargement...</span
+                        >
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">👥 Groupe</span>
+                        <span class="info-value" id="eventGroup"
+                            >Chargement...</span
+                        >
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">🗣️ Langue</span>
+                        <span class="info-value" id="eventLanguage"
+                            >Chargement...</span
+                        >
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">💪 Difficulté</span>
+                        <span class="info-value" id="eventDifficulty"
+                            >Chargement...</span
+                        >
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">📅 Départ</span>
+                        <span class="info-value" id="eventStartDate"
+                            >Chargement...</span
+                        >
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">🎯 Type</span>
+                        <span class="info-value" id="eventCategory"
+                            >Chargement...</span
+                        >
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">🏛️ Catégorie</span>
+                        <span class="info-value" id="eventCategoryFull"
+                            >Chargement...</span
+                        >
+                    </div>
+                </div>
+
+                <button class="book-button" id="reserveButton">
+                    Réserver maintenant
+                </button>
+
+                <p class="confirmation-note">Confirmation sous 24h</p>
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="images/logo-01.png" alt="Even Travel Logo" />
+                    </div>
+                    <p class="footer-text">
+                        Explorez l'Afrique à travers des événements et
+                        destinations inoubliables.
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Réservations</h3>
+                    <p class="footer-text">Cotonou, Bénin</p>
+                    <p class="footer-text">eventravel79@gmail.com</p>
+                    <p class="footer-text">+33781800811</p>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Horaires d'ouverture</h3>
+                    <p class="footer-text">Lundi au Vendredi: 9h00 à 19h00</p>
+                    <p class="footer-text">Samedi: 9h00 à 12h00</p>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Suivez-nous</h3>
+                    <div class="social-icons">
+                        <a
+                            href="https://www.instagram.com/even_travel?igsh=MTgxbWwwM3lvMXgwaA=="
+                            class="social-icon"
+                            aria-label="Instagram"
+                            target="_blank"
+                        >
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a
+                            href="https://www.facebook.com/share/182Y393fWk/?mibextid=wwXIfr"
+                            class="social-icon"
+                            aria-label="Facebook"
+                            target="_blank"
+                        >
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                        <a
+                            href="https://www.tiktok.com/@eventravel4?_r=1&_t=ZN-94HL34bF0QU"
+                            class="social-icon"
+                            aria-label="TikTok"
+                            target="_blank"
+                        >
+                            <i class="fa-brands fa-tiktok"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>
+                    &copy; <span id="year"></span> Even Travel. Tous droits
+                    réservés.
+                </p>
+            </div>
+        </footer>
+
+        <script>
+            const BASE_URL = "https://even-travel-backend-13wa.onrender.com";
+
+            let currentEvent = null;
+
+            // Menu mobile
+            const hamburger = document.getElementById("hamburger");
+            const navLinks = document.getElementById("navLinks");
+
+            hamburger.addEventListener("click", () => {
+                hamburger.classList.toggle("active");
+                navLinks.classList.toggle("active");
+            });
+
+            document.querySelectorAll(".nav-links a").forEach((link) => {
+                link.addEventListener("click", () => {
+                    hamburger.classList.remove("active");
+                    navLinks.classList.remove("active");
+                });
+            });
+
+            // Mise à jour année
+            document.getElementById("year").textContent =
+                new Date().getFullYear();
+
+            // Récupérer l'ID depuis l'URL
+            function getEventIdFromUrl() {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get("id");
+            }
+
+            // Formater la date
+            function formatDate(dateString) {
+                const date = new Date(dateString);
+                return date.toLocaleDateString("fr-FR", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                });
+            }
+
+            // Formater la date avec heure
+            function formatDateTime(dateString) {
+                const date = new Date(dateString);
+                return date.toLocaleDateString("fr-FR", {
+                    day: "numeric",
+                    month: "long",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                });
+            }
+
+            // Traduire la catégorie
+            function translateCategory(category) {
+                const categories = {
+                    concert: "Concert",
+                    festival: "Festival",
+                    culture: "Culturel",
+                    sport: "Sportif",
+                    excursion: "Excursion",
+                    formation: "Formation",
+                    soiree: "Soirée",
+                    autre: "Autre",
+                };
+                return categories[category] || category;
+            }
+
+            // Traduire la difficulté
+            function translateDifficulty(difficulty) {
+                const difficulties = {
+                    "Très facile": "Très facile",
+                    Facile: "Facile",
+                    Modérée: "Modérée",
+                    Difficile: "Difficile",
+                    "Très difficile": "Très difficile",
+                };
+                return difficulties[difficulty] || difficulty;
+            }
+
+            // Charger les détails de l'événement
+            async function loadEventDetails() {
+                const eventId = getEventIdFromUrl();
+
+                if (!eventId) {
+                    showErrorMessage("Aucun événement spécifié");
+                    return;
+                }
+
+                try {
+                    const response = await fetch(
+                        `${BASE_URL}/api/v1/events/${eventId}`,
+                    );
+
+                    if (!response.ok) {
+                        throw new Error(`Erreur HTTP: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    const event = result.data?.event || result.data;
+
+                    if (!event) {
+                        throw new Error("Événement non trouvé");
+                    }
+
+                    // Remplir les données
+                    populateEventData(event);
+
+                    // Cacher les loaders
+                    document.getElementById("imageLoading").style.display =
+                        "none";
+                    document.getElementById("contentLoading").style.display =
+                        "none";
+                    document.getElementById("eventContent").style.display =
+                        "block";
+                } catch (error) {
+                    console.error("Erreur lors du chargement:", error);
+                    showErrorMessage(
+                        error.message || "Impossible de charger l'événement",
+                    );
+                }
+            }
+
+            // Remplir les données dans la page
+            function populateEventData(event) {
+                currentEvent = event;
+
+                // Titre
+                document.getElementById("eventTitle").textContent =
+                    event.nom || "Événement";
+                document.title = `${event.nom} - Even Travel`;
+
+                // Description
+                document.getElementById("eventDescription").textContent =
+                    event.description || "";
+
+                // Description longue (si disponible)
+                if (
+                    event.descriptionLongue &&
+                    event.descriptionLongue.trim() !== ""
+                ) {
+                    document.getElementById(
+                        "eventDescriptionLongue",
+                    ).textContent = event.descriptionLongue;
+                    document.getElementById(
+                        "eventDescriptionLongue",
+                    ).style.display = "block";
+                }
+
+                // Localisation
+                document.getElementById("eventLocation").textContent =
+                    event.lieu || "Non spécifié";
+
+                // Dates
+                if (event.date) {
+                    const startDate = new Date(event.date);
+                    document.getElementById("eventStartDate").textContent =
+                        formatDateTime(event.date);
+
+                    if (event.dateFin) {
+                        const endDate = new Date(event.dateFin);
+                        if (
+                            startDate.toDateString() !== endDate.toDateString()
+                        ) {
+                            document.getElementById("eventDate").textContent =
+                                `${formatDate(event.date)} - ${formatDate(event.dateFin)}`;
+                        } else {
+                            document.getElementById("eventDate").textContent =
+                                formatDate(event.date);
+                        }
+                    } else {
+                        document.getElementById("eventDate").textContent =
+                            formatDate(event.date);
+                    }
+                }
+
+                // Prix
+                if (event.prix) {
+                    document.getElementById("eventPrice").textContent =
+                        `${event.prix.toLocaleString("fr-FR")}`;
+                }
+
+                // Capacité
+                const placesRestantes = event.placesRestantes || 0;
+                const placesTotales = event.placesTotales || 0;
+                document.getElementById("eventCapacity").textContent =
+                    `${placesRestantes} places sur ${placesTotales}`;
+
+                // Durée
+                if (event.duree) {
+                    document.getElementById("eventDuration").textContent =
+                        `${event.duree} jour${event.duree > 1 ? "s" : ""}`;
+                }
+
+                // Groupe
+                if (event.tailleGroupeMin && event.tailleGroupeMax) {
+                    document.getElementById("eventGroup").textContent =
+                        `${event.tailleGroupeMin}-${event.tailleGroupeMax} personnes`;
+                } else if (event.placesTotales) {
+                    document.getElementById("eventGroup").textContent =
+                        `Max ${event.placesTotales} personnes`;
+                }
+
+                // Langue
+                if (event.langues) {
+                    const langues = Array.isArray(event.langues)
+                        ? event.langues
+                        : [event.langues];
+                    document.getElementById("eventLanguage").textContent =
+                        langues.join(" - ");
+                }
+
+                // Difficulté
+                if (event.difficulte) {
+                    document.getElementById("eventDifficulty").textContent =
+                        translateDifficulty(event.difficulte);
+                }
+
+                // Catégorie
+                if (event.categorie) {
+                    document.getElementById("eventCategory").textContent =
+                        translateCategory(event.categorie);
+                    document.getElementById("eventCategoryFull").textContent =
+                        translateCategory(event.categorie);
+                }
+
+                // Image
+                if (event.images && event.images[0]) {
+                    const img = document.getElementById("eventImage");
+                    img.src = event.images[0].url;
+                    img.alt = event.nom || "Événement";
+                    img.style.display = "block";
+                    document.getElementById("imageLoading").style.display =
+                        "none";
+                }
+
+                // Services inclus
+                if (event.servicesInclus && event.servicesInclus.length > 0) {
+                    const inclusionsList =
+                        document.getElementById("eventInclusions");
+                    inclusionsList.innerHTML = "";
+
+                    event.servicesInclus.forEach((service) => {
+                        if (service && service.trim()) {
+                            const li = document.createElement("li");
+                            li.textContent = service;
+                            inclusionsList.appendChild(li);
+                        }
+                    });
+                }
+
+                // Services non inclus
+                if (
+                    event.servicesNonInclus &&
+                    event.servicesNonInclus.length > 0
+                ) {
+                    const exclusionsList =
+                        document.getElementById("eventExclusions");
+                    exclusionsList.innerHTML = "";
+
+                    event.servicesNonInclus.forEach((service) => {
+                        if (service && service.trim()) {
+                            const li = document.createElement("li");
+                            li.textContent = service;
+                            exclusionsList.appendChild(li);
+                        }
+                    });
+                }
+
+                // Moments forts
+                if (event.momentsForts && event.momentsForts.length > 0) {
+                    const container = document.getElementById(
+                        "momentsFortsContainer",
+                    );
+                    container.innerHTML = "";
+
+                    event.momentsForts.forEach((moment) => {
+                        if (moment && moment.trim()) {
+                            const card = document.createElement("div");
+                            card.className = "moment-fort-card";
+                            card.innerHTML = `
                 <h4>${moment}</h4>
               `;
-              container.appendChild(card);
-            }
-          });
-          document.getElementById('momentsFortsSection').style.display = 'block';
-        }
-        
-        // Itinéraire
-        if (event.itineraire && event.itineraire.length > 0) {
-          const container = document.getElementById('itineraryContainer');
-          container.innerHTML = '';
-          
-          event.itineraire.sort((a, b) => (a.jour || 0) - (b.jour || 0)).forEach(jour => {
-            const dayElement = document.createElement('div');
-            dayElement.className = 'itinerary-day';
-            
-            let activitiesHtml = '';
-            if (jour.activites && jour.activites.length > 0) {
-              activitiesHtml = `
+                            container.appendChild(card);
+                        }
+                    });
+                    document.getElementById(
+                        "momentsFortsSection",
+                    ).style.display = "block";
+                }
+
+                // Itinéraire
+                if (event.itineraire && event.itineraire.length > 0) {
+                    const container =
+                        document.getElementById("itineraryContainer");
+                    container.innerHTML = "";
+
+                    event.itineraire
+                        .sort((a, b) => (a.jour || 0) - (b.jour || 0))
+                        .forEach((jour) => {
+                            const dayElement = document.createElement("div");
+                            dayElement.className = "itinerary-day";
+
+                            let activitiesHtml = "";
+                            if (jour.activites && jour.activites.length > 0) {
+                                activitiesHtml = `
                 <div class="itinerary-activities">
                   <ul>
-                    ${jour.activites.map(activity => `<li>${activity}</li>`).join('')}
+                    ${jour.activites.map((activity) => `<li>${activity}</li>`).join("")}
                   </ul>
                 </div>
               `;
-            }
-            
-            dayElement.innerHTML = `
+                            }
+
+                            dayElement.innerHTML = `
               <div class="day-header">
-                <div class="day-number">${jour.jour || '?'}</div>
-                <h3 class="day-title">${jour.titre || `Jour ${jour.jour || '?'}`}</h3>
+                <div class="day-number">${jour.jour || "?"}</div>
+                <h3 class="day-title">${jour.titre || `Jour ${jour.jour || "?"}`}</h3>
               </div>
-              <p>${jour.description || ''}</p>
+              <p>${jour.description || ""}</p>
               ${activitiesHtml}
             `;
-            
-            container.appendChild(dayElement);
-          });
-        }
-        
-        // Informations pratiques
-        if (event.informationsPratiques && event.informationsPratiques.trim() !== '') {
-          document.getElementById('eventInformationsPratiques').textContent = event.informationsPratiques;
-          document.getElementById('informationsPratiquesSection').style.display = 'block';
-        }
-        
-        // Recommandations
-        if (event.recommandations && event.recommandations.trim() !== '') {
-          document.getElementById('eventRecommandations').textContent = event.recommandations;
-          document.getElementById('recommandationsSection').style.display = 'block';
-        }
-      }
 
-      // Afficher un message d'erreur
-      function showErrorMessage(message) {
-        const mainContent = document.querySelector('.main-content');
-        if (mainContent) {
-          mainContent.innerHTML = `
+                            container.appendChild(dayElement);
+                        });
+                }
+
+                // Informations pratiques
+                if (
+                    event.informationsPratiques &&
+                    event.informationsPratiques.trim() !== ""
+                ) {
+                    document.getElementById(
+                        "eventInformationsPratiques",
+                    ).textContent = event.informationsPratiques;
+                    document.getElementById(
+                        "informationsPratiquesSection",
+                    ).style.display = "block";
+                }
+
+                // Recommandations
+                if (
+                    event.recommandations &&
+                    event.recommandations.trim() !== ""
+                ) {
+                    document.getElementById(
+                        "eventRecommandations",
+                    ).textContent = event.recommandations;
+                    document.getElementById(
+                        "recommandationsSection",
+                    ).style.display = "block";
+                }
+            }
+
+            // Afficher un message d'erreur
+            function showErrorMessage(message) {
+                const mainContent = document.querySelector(".main-content");
+                if (mainContent) {
+                    mainContent.innerHTML = `
             <div class="error-message" style="
               text-align: center;
               padding: 40px;
@@ -1162,28 +1279,28 @@
               ">Retour aux événements</button>
             </div>
           `;
-        }
-      }
-      
+                }
+            }
 
-      // Bouton de réservation
-      document.getElementById('reserveButton').addEventListener('click', () => {
-          const eventId = getEventIdFromUrl();
-          
-          if (currentEvent && currentEvent._id) {
-              
-              window.location.href = `reservation.html?type=event&id=${currentEvent._id}&nom=${encodeURIComponent(currentEvent.nom || 'Événement')}`;
-          } else if (eventId) {
-            
-              window.location.href = `reservation.html?type=event&id=${eventId}`;
-          } else {
-              alert('Impossible de procéder à la réservation. Veuillez réessayer.');
-          }
-      });
+            // Bouton de réservation
+            document
+                .getElementById("reserveButton")
+                .addEventListener("click", () => {
+                    const eventId = getEventIdFromUrl();
 
-      // Charger les données au démarrage
-      window.addEventListener('DOMContentLoaded', loadEventDetails);
-    </script>
-  </body>
+                    if (currentEvent && currentEvent._id) {
+                        window.location.href = `reservation.html?type=event&id=${currentEvent._id}&nom=${encodeURIComponent(currentEvent.nom || "Événement")}`;
+                    } else if (eventId) {
+                        window.location.href = `reservation.html?type=event&id=${eventId}`;
+                    } else {
+                        alert(
+                            "Impossible de procéder à la réservation. Veuillez réessayer.",
+                        );
+                    }
+                });
 
-  </html>
+            // Charger les données au démarrage
+            window.addEventListener("DOMContentLoaded", loadEventDetails);
+        </script>
+    </body>
+</html>

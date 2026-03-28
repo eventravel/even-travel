@@ -1,1169 +1,1563 @@
 <!doctype html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
-    <title>Even Travel — Gestion du Compte Admin</title>
-    <style>
-        :root {
-            --sand: #e8ddd0;
-            --stone: #d4c4b0;
-            --terracotta: #b8856a;
-            --ochre: #c4916b;
-            --bronze: #8b6f47;
-            --deep-brown: #5c4a3a;
-            --cream: #f5f1ea;
-            --white: #ffffff;
-            --text-dark: #2a2420;
-            --text-muted: #6b5d52;
-            --success: #2e7d32;
-            --success-bg: #f0faf0;
-            --error: #c62828;
-            --error-bg: #fff0f0;
-            --warning: #b45309;
-            --warning-bg: #fffbeb;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: 'DM Sans', system-ui, sans-serif;
-            background: var(--cream);
-            color: var(--text-dark);
-            min-height: 100vh;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* ── HEADER ── */
-        header {
-            background: var(--white);
-            border-bottom: 1px solid var(--stone);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 2px 12px rgba(92,74,58,0.08);
-        }
-
-        .header-inner {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 32px;
-            height: 72px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .back-btn {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 500;
-            padding: 8px 16px;
-            border: 1px solid var(--stone);
-            background: transparent;
-            border-radius: 0;
-            cursor: pointer;
-            transition: all 0.25s ease;
-        }
-
-        .back-btn:hover {
-            border-color: var(--bronze);
-            color: var(--bronze);
-            background: rgba(139,111,71,0.05);
-        }
-
-        .page-title-header {
-            font-family: 'DM Serif Display', serif;
-            font-size: 22px;
-            color: var(--deep-brown);
-        }
-
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .admin-badge {
-            background: var(--sand);
-            color: var(--deep-brown);
-            padding: 6px 14px;
-            font-size: 13px;
-            font-weight: 500;
-            border: 1px solid var(--stone);
-        }
-
-        /* ── LAYOUT ── */
-        .page-wrapper {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 48px 32px;
-        }
-
-        .page-hero {
-            margin-bottom: 48px;
-            padding-bottom: 40px;
-            border-bottom: 1px solid var(--stone);
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            gap: 24px;
-        }
-
-        .page-hero-text h1 {
-            font-family: 'DM Serif Display', serif;
-            font-size: 48px;
-            color: var(--deep-brown);
-            line-height: 1.1;
-            margin-bottom: 8px;
-        }
-
-        .page-hero-text p {
-            color: var(--text-muted);
-            font-size: 16px;
-        }
-
-        .hero-decoration {
-            width: 80px;
-            height: 80px;
-            border: 2px solid var(--terracotta);
-            opacity: 0.3;
-            flex-shrink: 0;
-            position: relative;
-        }
-
-        .hero-decoration::before {
-            content: '';
-            position: absolute;
-            inset: 8px;
-            border: 2px solid var(--ochre);
-        }
-
-        /* ── TABS ── */
-        .tabs {
-            display: flex;
-            gap: 0;
-            margin-bottom: 40px;
-            border-bottom: 2px solid var(--stone);
-        }
-
-        .tab-btn {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 16px 28px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 15px;
-            font-weight: 500;
-            color: var(--text-muted);
-            background: transparent;
-            border: none;
-            border-bottom: 2px solid transparent;
-            margin-bottom: -2px;
-            cursor: pointer;
-            transition: all 0.25s ease;
-        }
-
-        .tab-btn i { font-size: 16px; }
-
-        .tab-btn:hover {
-            color: var(--deep-brown);
-            background: rgba(92,74,58,0.03);
-        }
-
-        .tab-btn.active {
-            color: var(--terracotta);
-            border-bottom-color: var(--terracotta);
-            background: rgba(184,133,106,0.04);
-        }
-
-        /* ── TAB PANELS ── */
-        .tab-panel {
-            display: none;
-            animation: panelIn 0.35s ease;
-        }
-
-        .tab-panel.active { display: block; }
-
-        @keyframes panelIn {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* ── CARD ── */
-        .card {
-            background: var(--white);
-            border: 1px solid var(--stone);
-            padding: 40px;
-            margin-bottom: 24px;
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 32px;
-            padding-bottom: 24px;
-            border-bottom: 1px solid var(--sand);
-        }
-
-        .card-icon {
-            width: 48px;
-            height: 48px;
-            background: var(--sand);
-            border: 1px solid var(--stone);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            color: var(--terracotta);
-            flex-shrink: 0;
-        }
-
-        .card-header-text h2 {
-            font-family: 'DM Serif Display', serif;
-            font-size: 24px;
-            color: var(--deep-brown);
-            margin-bottom: 4px;
-        }
-
-        .card-header-text p {
-            font-size: 14px;
-            color: var(--text-muted);
-        }
-
-        /* ── INFO BOX ── */
-        .info-box {
-            background: rgba(196,145,107,0.06);
-            border: 1px solid var(--stone);
-            border-left: 3px solid var(--ochre);
-            padding: 16px 20px;
-            margin-bottom: 28px;
-            font-size: 14px;
-            color: var(--text-muted);
-            line-height: 1.6;
-        }
-
-        .info-box strong { color: var(--deep-brown); }
-
-        .info-box.warning {
-            background: var(--warning-bg);
-            border-left-color: var(--warning);
-        }
-
-        .info-box.warning strong { color: var(--warning); }
-
-        /* ── FORM ── */
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 24px;
-            margin-bottom: 24px;
-        }
-
-        .form-grid.single { grid-template-columns: 1fr; }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .form-group label {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--deep-brown);
-            text-transform: uppercase;
-            letter-spacing: 0.6px;
-        }
-
-        .input-wrapper {
-            position: relative;
-        }
-
-        .input-wrapper i {
-            position: absolute;
-            left: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-            font-size: 15px;
-            pointer-events: none;
-        }
-
-        .input-wrapper .toggle-pw {
-            position: absolute;
-            right: 14px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-muted);
-            font-size: 15px;
-            cursor: pointer;
-            pointer-events: all;
-            padding: 4px;
-            transition: color 0.2s;
-        }
-
-        .input-wrapper .toggle-pw:hover { color: var(--terracotta); }
-
-        .form-group input {
-            width: 100%;
-            padding: 14px 16px 14px 44px;
-            border: 2px solid var(--stone);
-            background: var(--cream);
-            font-family: 'DM Sans', sans-serif;
-            font-size: 15px;
-            color: var(--text-dark);
-            outline: none;
-            transition: all 0.25s ease;
-        }
-
-        .form-group input:focus {
-            border-color: var(--terracotta);
-            background: var(--white);
-            box-shadow: 0 0 0 3px rgba(184,133,106,0.12);
-        }
-
-        .form-group input.error-field { border-color: var(--error); }
-        .form-group input.success-field { border-color: var(--success); }
-
-        .field-hint {
-            font-size: 12px;
-            color: var(--text-muted);
-        }
-
-        /* Strength bar */
-        .strength-bar {
-            margin-top: 8px;
-            display: none;
-        }
-
-        .strength-bar.visible { display: block; }
-
-        .strength-track {
-            height: 4px;
-            background: var(--stone);
-            border-radius: 2px;
-            overflow: hidden;
-            margin-bottom: 4px;
-        }
-
-        .strength-fill {
-            height: 100%;
-            border-radius: 2px;
-            transition: width 0.3s ease, background 0.3s ease;
-            width: 0%;
-        }
-
-        .strength-label {
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        /* ── ALERT ── */
-        .alert {
-            display: none;
-            padding: 14px 18px;
-            font-size: 14px;
-            line-height: 1.5;
-            border-left: 3px solid;
-            margin-bottom: 24px;
-            animation: alertIn 0.3s ease;
-        }
-
-        @keyframes alertIn {
-            from { opacity: 0; transform: translateY(-6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .alert.show { display: flex; align-items: flex-start; gap: 10px; }
-        .alert i { margin-top: 1px; flex-shrink: 0; }
-
-        .alert.success { background: var(--success-bg); border-color: var(--success); color: var(--success); }
-        .alert.error { background: var(--error-bg); border-color: var(--error); color: var(--error); }
-        .alert.warning { background: var(--warning-bg); border-color: var(--warning); color: var(--warning); }
-
-        /* ── BUTTONS ── */
-        .btn-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding-top: 8px;
-        }
-
-        .btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 14px 28px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            border: none;
-            transition: all 0.25s ease;
-        }
-
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none !important;
-        }
-
-        .btn-primary {
-            background: var(--terracotta);
-            color: white;
-        }
-
-        .btn-primary:not(:disabled):hover {
-            background: var(--bronze);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(139,111,71,0.3);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--text-muted);
-            border: 2px solid var(--stone);
-        }
-
-        .btn-secondary:not(:disabled):hover {
-            border-color: var(--bronze);
-            color: var(--bronze);
-        }
-
-        .btn-danger {
-            background: transparent;
-            color: var(--error);
-            border: 2px solid rgba(198,40,40,0.3);
-        }
-
-        .btn-danger:not(:disabled):hover {
-            background: var(--error-bg);
-            border-color: var(--error);
-        }
-
-        .btn .spinner {
-            width: 16px;
-            height: 16px;
-            border: 2px solid rgba(255,255,255,0.4);
-            border-top-color: white;
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            display: none;
-        }
-
-        .btn.loading .spinner { display: inline-block; }
-        .btn.loading .btn-text { display: none; }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* ── PROFILE DISPLAY ── */
-        .profile-display {
-            display: flex;
-            align-items: center;
-            gap: 24px;
-            padding: 24px;
-            background: var(--cream);
-            border: 1px solid var(--stone);
-            margin-bottom: 32px;
-        }
-
-        .avatar {
-            width: 64px;
-            height: 64px;
-            background: linear-gradient(135deg, var(--terracotta), var(--ochre));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'DM Serif Display', serif;
-            font-size: 26px;
-            color: white;
-            flex-shrink: 0;
-        }
-
-        .profile-info h3 {
-            font-family: 'DM Serif Display', serif;
-            font-size: 20px;
-            color: var(--deep-brown);
-            margin-bottom: 4px;
-        }
-
-        .profile-info p {
-            font-size: 14px;
-            color: var(--text-muted);
-        }
-
-        .profile-meta {
-            margin-left: auto;
-            text-align: right;
-        }
-
-        .profile-meta span {
-            display: inline-block;
-            background: rgba(184,133,106,0.15);
-            color: var(--terracotta);
-            font-size: 12px;
-            font-weight: 600;
-            padding: 4px 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-        }
-
-        /* ── DIVIDER ── */
-        .divider {
-            height: 1px;
-            background: var(--sand);
-            margin: 32px 0;
-        }
-
-        /* ── NEW ADMIN SECTION ── */
-        .danger-zone {
-            border: 1px solid rgba(198,40,40,0.2);
-            background: rgba(198,40,40,0.02);
-        }
-
-        .danger-zone .card-icon {
-            background: rgba(198,40,40,0.08);
-            border-color: rgba(198,40,40,0.2);
-            color: var(--error);
-        }
-
-        /* ── SECTION LABEL ── */
-        .section-label {
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1.2px;
-            color: var(--text-muted);
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .section-label::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: var(--stone);
-        }
-
-        /* ── RESPONSIVE ── */
-        @media (max-width: 768px) {
-            .page-wrapper { padding: 32px 20px; }
-            .header-inner { padding: 0 20px; }
-            .page-hero { flex-direction: column; align-items: flex-start; }
-            .page-hero-text h1 { font-size: 36px; }
-            .hero-decoration { display: none; }
-            .form-grid { grid-template-columns: 1fr; }
-            .card { padding: 24px 20px; }
-            .tabs { overflow-x: auto; }
-            .tab-btn { padding: 14px 18px; white-space: nowrap; font-size: 14px; }
-            .btn-row { flex-direction: column; align-items: stretch; }
-            .btn-row .btn { justify-content: center; }
-            .profile-display { flex-direction: column; align-items: flex-start; }
-            .profile-meta { margin-left: 0; text-align: left; }
-        }
-    </style>
-</head>
-<body>
-
-    <!-- HEADER -->
-    <header>
-        <div class="header-inner">
-            <div class="header-left">
-                <a href="admin-dashboard.html" class="back-btn">
-                    <i class="fas fa-arrow-left"></i> Tableau de bord
-                </a>
-                <span class="page-title-header">Gestion du compte</span>
-            </div>
-            <div class="header-right">
-                <span class="admin-badge" id="headerAdminName">Administrateur</span>
-            </div>
-        </div>
-    </header>
-
-    <div class="page-wrapper">
-
-        <!-- HERO -->
-        <div class="page-hero">
-            <div class="page-hero-text">
-                <h1>Paramètres<br><em style="font-style:italic; color:var(--terracotta);">du compte</em></h1>
-                <p>Gérez vos identifiants, sécurisez votre accès, créez de nouveaux comptes administrateurs.</p>
-            </div>
-            <div class="hero-decoration"></div>
-        </div>
-
-        <!-- TABS -->
-        <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('profile', this)">
-                <i class="fas fa-user-circle"></i> Mon profil
-            </button>
-            <button class="tab-btn" onclick="switchTab('password', this)">
-                <i class="fas fa-lock"></i> Mot de passe
-            </button>
-            <button class="tab-btn" onclick="switchTab('new-admin', this)">
-                <i class="fas fa-user-plus"></i> Nouveau compte
-            </button>
-        </div>
-
-        <!-- ======================== PANEL 1 : PROFIL ======================== -->
-        <div id="panel-profile" class="tab-panel active">
-
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon"><i class="fas fa-id-card"></i></div>
-                    <div class="card-header-text">
-                        <h2>Informations du compte</h2>
-                        <p>Modifiez votre nom d'affichage et votre adresse email de connexion.</p>
-                    </div>
-                </div>
-
-                <!-- Profil actuel -->
-                <div class="profile-display" id="profileDisplay">
-                    <div class="avatar" id="profileAvatar">?</div>
-                    <div class="profile-info">
-                        <h3 id="profileName">Chargement…</h3>
-                        <p id="profileEmail">—</p>
-                    </div>
-                    <div class="profile-meta">
-                        <span>Administrateur</span>
-                    </div>
-                </div>
-
-                <!-- Alerte -->
-                <div class="alert" id="profileAlert">
-                    <i class="fas fa-check-circle"></i>
-                    <span id="profileAlertText"></span>
-                </div>
-
-                <div class="section-label">Modifier les informations</div>
-
-                <form id="profileForm">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="inputNom">Nom d'affichage</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-user"></i>
-                                <input type="text" id="inputNom" placeholder="Votre nom complet" autocomplete="name" />
-                            </div>
-                            <span class="field-hint">Affiché dans le tableau de bord</span>
-                        </div>
-                        <div class="form-group">
-                            <label for="inputEmail">Adresse email</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-envelope"></i>
-                                <input type="email" id="inputEmail" placeholder="admin@eventravel.com" autocomplete="email" />
-                            </div>
-                            <span class="field-hint">Utilisée pour la connexion</span>
-                        </div>
-                    </div>
-                    <div class="btn-row">
-                        <button type="submit" class="btn btn-primary" id="btnUpdateProfile">
-                            <span class="spinner"></span>
-                            <span class="btn-text"><i class="fas fa-save"></i> Enregistrer les modifications</span>
-                        </button>
-                        <button type="button" class="btn btn-secondary" onclick="resetProfileForm()">
-                            <i class="fas fa-undo"></i> Annuler
-                        </button>
-                    </div>
-                </form>
-            </div>
-
-        </div>
-
-        <!-- ======================== PANEL 2 : MOT DE PASSE ======================== -->
-        <div id="panel-password" class="tab-panel">
-
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon"><i class="fas fa-shield-alt"></i></div>
-                    <div class="card-header-text">
-                        <h2>Changer le mot de passe</h2>
-                        <p>Renforcez la sécurité de votre compte avec un mot de passe robuste.</p>
-                    </div>
-                </div>
-
-                <div class="info-box">
-                    <strong><i class="fas fa-info-circle"></i> Bonne pratique :</strong>
-                    Utilisez au moins 8 caractères, mélangez majuscules, chiffres et symboles. Après la modification,
-                    vous serez automatiquement reconnecté avec le nouveau token.
-                </div>
-
-                <div class="alert" id="passwordAlert">
-                    <i class="fas fa-check-circle"></i>
-                    <span id="passwordAlertText"></span>
-                </div>
-
-                <form id="passwordForm">
-                    <div class="section-label">Mot de passe actuel</div>
-                    <div class="form-grid single">
-                        <div class="form-group">
-                            <label for="currentPw">Mot de passe actuel</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-lock"></i>
-                                <input type="password" id="currentPw" placeholder="Votre mot de passe actuel" autocomplete="current-password" />
-                                <span class="toggle-pw" onclick="togglePw('currentPw', this)"><i class="fas fa-eye"></i></span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="divider"></div>
-                    <div class="section-label">Nouveau mot de passe</div>
-
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="newPw">Nouveau mot de passe</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-key"></i>
-                                <input type="password" id="newPw" placeholder="Minimum 6 caractères" autocomplete="new-password" oninput="checkStrength(this.value)" />
-                                <span class="toggle-pw" onclick="togglePw('newPw', this)"><i class="fas fa-eye"></i></span>
-                            </div>
-                            <div class="strength-bar" id="strengthBar">
-                                <div class="strength-track">
-                                    <div class="strength-fill" id="strengthFill"></div>
-                                </div>
-                                <span class="strength-label" id="strengthLabel"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="confirmPw">Confirmer le mot de passe</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-check-double"></i>
-                                <input type="password" id="confirmPw" placeholder="Répétez le mot de passe" autocomplete="new-password" oninput="checkMatch()" />
-                                <span class="toggle-pw" onclick="togglePw('confirmPw', this)"><i class="fas fa-eye"></i></span>
-                            </div>
-                            <span class="field-hint" id="matchHint"></span>
-                        </div>
-                    </div>
-
-                    <div class="btn-row">
-                        <button type="submit" class="btn btn-primary" id="btnUpdatePassword">
-                            <span class="spinner"></span>
-                            <span class="btn-text"><i class="fas fa-lock"></i> Mettre à jour le mot de passe</span>
-                        </button>
-                        <button type="button" class="btn btn-secondary" onclick="document.getElementById('passwordForm').reset(); clearStrength();">
-                            <i class="fas fa-undo"></i> Annuler
-                        </button>
-                    </div>
-                </form>
-            </div>
-
-        </div>
-
-        <!-- ======================== PANEL 3 : NOUVEAU ADMIN ======================== -->
-        <div id="panel-new-admin" class="tab-panel">
-
-            <div class="info-box warning" style="margin-bottom: 24px;">
-                <strong><i class="fas fa-exclamation-triangle"></i> Attention :</strong>
-                La création d'un nouveau compte administrateur accorde un accès complet au panneau d'administration.
-                Ne partagez ces identifiants qu'avec des personnes de confiance.
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-icon"><i class="fas fa-user-plus"></i></div>
-                    <div class="card-header-text">
-                        <h2>Créer un nouveau compte admin</h2>
-                        <p>Ce compte aura accès à toutes les fonctionnalités du tableau de bord.</p>
-                    </div>
-                </div>
-
-                <div class="alert" id="newAdminAlert">
-                    <i class="fas fa-check-circle"></i>
-                    <span id="newAdminAlertText"></span>
-                </div>
-
-                <form id="newAdminForm">
-                    <div class="section-label">Informations du nouveau compte</div>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="newAdminNom">Nom complet *</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-user"></i>
-                                <input type="text" id="newAdminNom" placeholder="Prénom Nom" required />
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="newAdminEmail">Email *</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-envelope"></i>
-                                <input type="email" id="newAdminEmail" placeholder="email@eventravel.com" required />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label for="newAdminPw">Mot de passe *</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-key"></i>
-                                <input type="password" id="newAdminPw" placeholder="Minimum 6 caractères" required oninput="checkStrengthNew(this.value)" />
-                                <span class="toggle-pw" onclick="togglePw('newAdminPw', this)"><i class="fas fa-eye"></i></span>
-                            </div>
-                            <div class="strength-bar" id="strengthBarNew">
-                                <div class="strength-track">
-                                    <div class="strength-fill" id="strengthFillNew"></div>
-                                </div>
-                                <span class="strength-label" id="strengthLabelNew"></span>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="newAdminPwConfirm">Confirmer le mot de passe *</label>
-                            <div class="input-wrapper">
-                                <i class="fas fa-check-double"></i>
-                                <input type="password" id="newAdminPwConfirm" placeholder="Répétez le mot de passe" required oninput="checkMatchNew()" />
-                                <span class="toggle-pw" onclick="togglePw('newAdminPwConfirm', this)"><i class="fas fa-eye"></i></span>
-                            </div>
-                            <span class="field-hint" id="matchHintNew"></span>
-                        </div>
-                    </div>
-
-                    <div class="btn-row">
-                        <button type="submit" class="btn btn-primary" id="btnCreateAdmin">
-                            <span class="spinner"></span>
-                            <span class="btn-text"><i class="fas fa-user-plus"></i> Créer le compte administrateur</span>
-                        </button>
-                        <button type="button" class="btn btn-secondary" onclick="document.getElementById('newAdminForm').reset(); clearStrengthNew();">
-                            <i class="fas fa-undo"></i> Réinitialiser
-                        </button>
-                    </div>
-                </form>
-            </div>
-
-        </div>
-
-    </div><!-- end page-wrapper -->
-
-    <script>
-        const API = "https://even-travel-backend.onrender.com/api/v1";
-        // const API = "http://localhost:5000/api/v1";
-
-        // ── AUTH GUARD ──
-        const token = localStorage.getItem("authToken");
-        if (!token) window.location.replace("admin-login.html");
-
-        // ── TABS ──
-        function switchTab(name, btn) {
-            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('panel-' + name).classList.add('active');
-            btn.classList.add('active');
-        }
-
-        // ── LOAD PROFILE ──
-        async function loadProfile() {
-            try {
-                const res = await fetch(`${API}/auth/me`, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                if (!res.ok) throw new Error();
-                const data = await res.json();
-                const admin = data.data?.admin;
-                if (!admin) throw new Error();
-
-                const nom = admin.nom || 'Admin';
-                const email = admin.email || '';
-
-                document.getElementById('profileName').textContent = nom;
-                document.getElementById('profileEmail').textContent = email;
-                document.getElementById('profileAvatar').textContent = nom.charAt(0).toUpperCase();
-                document.getElementById('headerAdminName').textContent = nom;
-                document.getElementById('inputNom').value = nom;
-                document.getElementById('inputEmail').value = email;
-            } catch {
-                document.getElementById('profileName').textContent = 'Administrateur';
-                document.getElementById('profileEmail').textContent = '—';
-                document.getElementById('profileAvatar').textContent = 'A';
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap"
+            rel="stylesheet"
+        />
+        <title>Even Travel — Gestion du Compte Admin</title>
+        <style>
+            :root {
+                --sand: #e8ddd0;
+                --stone: #d4c4b0;
+                --terracotta: #b8856a;
+                --ochre: #c4916b;
+                --bronze: #8b6f47;
+                --deep-brown: #5c4a3a;
+                --cream: #f5f1ea;
+                --white: #ffffff;
+                --text-dark: #2a2420;
+                --text-muted: #6b5d52;
+                --success: #2e7d32;
+                --success-bg: #f0faf0;
+                --error: #c62828;
+                --error-bg: #fff0f0;
+                --warning: #b45309;
+                --warning-bg: #fffbeb;
             }
-        }
 
-        function resetProfileForm() {
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: "DM Sans", system-ui, sans-serif;
+                background: var(--cream);
+                color: var(--text-dark);
+                min-height: 100vh;
+                -webkit-font-smoothing: antialiased;
+            }
+
+            /* ── HEADER ── */
+            header {
+                background: var(--white);
+                border-bottom: 1px solid var(--stone);
+                position: sticky;
+                top: 0;
+                z-index: 100;
+                box-shadow: 0 2px 12px rgba(92, 74, 58, 0.08);
+            }
+
+            .header-inner {
+                max-width: 1100px;
+                margin: 0 auto;
+                padding: 0 32px;
+                height: 72px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+
+            .header-left {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+            }
+
+            .back-btn {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                color: var(--text-muted);
+                text-decoration: none;
+                font-size: 14px;
+                font-weight: 500;
+                padding: 8px 16px;
+                border: 1px solid var(--stone);
+                background: transparent;
+                border-radius: 0;
+                cursor: pointer;
+                transition: all 0.25s ease;
+            }
+
+            .back-btn:hover {
+                border-color: var(--bronze);
+                color: var(--bronze);
+                background: rgba(139, 111, 71, 0.05);
+            }
+
+            .page-title-header {
+                font-family: "DM Serif Display", serif;
+                font-size: 22px;
+                color: var(--deep-brown);
+            }
+
+            .header-right {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+
+            .admin-badge {
+                background: var(--sand);
+                color: var(--deep-brown);
+                padding: 6px 14px;
+                font-size: 13px;
+                font-weight: 500;
+                border: 1px solid var(--stone);
+            }
+
+            /* ── LAYOUT ── */
+            .page-wrapper {
+                max-width: 1100px;
+                margin: 0 auto;
+                padding: 48px 32px;
+            }
+
+            .page-hero {
+                margin-bottom: 48px;
+                padding-bottom: 40px;
+                border-bottom: 1px solid var(--stone);
+                display: flex;
+                align-items: flex-end;
+                justify-content: space-between;
+                gap: 24px;
+            }
+
+            .page-hero-text h1 {
+                font-family: "DM Serif Display", serif;
+                font-size: 48px;
+                color: var(--deep-brown);
+                line-height: 1.1;
+                margin-bottom: 8px;
+            }
+
+            .page-hero-text p {
+                color: var(--text-muted);
+                font-size: 16px;
+            }
+
+            .hero-decoration {
+                width: 80px;
+                height: 80px;
+                border: 2px solid var(--terracotta);
+                opacity: 0.3;
+                flex-shrink: 0;
+                position: relative;
+            }
+
+            .hero-decoration::before {
+                content: "";
+                position: absolute;
+                inset: 8px;
+                border: 2px solid var(--ochre);
+            }
+
+            /* ── TABS ── */
+            .tabs {
+                display: flex;
+                gap: 0;
+                margin-bottom: 40px;
+                border-bottom: 2px solid var(--stone);
+            }
+
+            .tab-btn {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 16px 28px;
+                font-family: "DM Sans", sans-serif;
+                font-size: 15px;
+                font-weight: 500;
+                color: var(--text-muted);
+                background: transparent;
+                border: none;
+                border-bottom: 2px solid transparent;
+                margin-bottom: -2px;
+                cursor: pointer;
+                transition: all 0.25s ease;
+            }
+
+            .tab-btn i {
+                font-size: 16px;
+            }
+
+            .tab-btn:hover {
+                color: var(--deep-brown);
+                background: rgba(92, 74, 58, 0.03);
+            }
+
+            .tab-btn.active {
+                color: var(--terracotta);
+                border-bottom-color: var(--terracotta);
+                background: rgba(184, 133, 106, 0.04);
+            }
+
+            /* ── TAB PANELS ── */
+            .tab-panel {
+                display: none;
+                animation: panelIn 0.35s ease;
+            }
+
+            .tab-panel.active {
+                display: block;
+            }
+
+            @keyframes panelIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(12px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            /* ── CARD ── */
+            .card {
+                background: var(--white);
+                border: 1px solid var(--stone);
+                padding: 40px;
+                margin-bottom: 24px;
+            }
+
+            .card-header {
+                display: flex;
+                align-items: center;
+                gap: 16px;
+                margin-bottom: 32px;
+                padding-bottom: 24px;
+                border-bottom: 1px solid var(--sand);
+            }
+
+            .card-icon {
+                width: 48px;
+                height: 48px;
+                background: var(--sand);
+                border: 1px solid var(--stone);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 20px;
+                color: var(--terracotta);
+                flex-shrink: 0;
+            }
+
+            .card-header-text h2 {
+                font-family: "DM Serif Display", serif;
+                font-size: 24px;
+                color: var(--deep-brown);
+                margin-bottom: 4px;
+            }
+
+            .card-header-text p {
+                font-size: 14px;
+                color: var(--text-muted);
+            }
+
+            /* ── INFO BOX ── */
+            .info-box {
+                background: rgba(196, 145, 107, 0.06);
+                border: 1px solid var(--stone);
+                border-left: 3px solid var(--ochre);
+                padding: 16px 20px;
+                margin-bottom: 28px;
+                font-size: 14px;
+                color: var(--text-muted);
+                line-height: 1.6;
+            }
+
+            .info-box strong {
+                color: var(--deep-brown);
+            }
+
+            .info-box.warning {
+                background: var(--warning-bg);
+                border-left-color: var(--warning);
+            }
+
+            .info-box.warning strong {
+                color: var(--warning);
+            }
+
+            /* ── FORM ── */
+            .form-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 24px;
+                margin-bottom: 24px;
+            }
+
+            .form-grid.single {
+                grid-template-columns: 1fr;
+            }
+
+            .form-group {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .form-group label {
+                font-size: 13px;
+                font-weight: 600;
+                color: var(--deep-brown);
+                text-transform: uppercase;
+                letter-spacing: 0.6px;
+            }
+
+            .input-wrapper {
+                position: relative;
+            }
+
+            .input-wrapper i {
+                position: absolute;
+                left: 16px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: var(--text-muted);
+                font-size: 15px;
+                pointer-events: none;
+            }
+
+            .input-wrapper .toggle-pw {
+                position: absolute;
+                right: 14px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: var(--text-muted);
+                font-size: 15px;
+                cursor: pointer;
+                pointer-events: all;
+                padding: 4px;
+                transition: color 0.2s;
+            }
+
+            .input-wrapper .toggle-pw:hover {
+                color: var(--terracotta);
+            }
+
+            .form-group input {
+                width: 100%;
+                padding: 14px 16px 14px 44px;
+                border: 2px solid var(--stone);
+                background: var(--cream);
+                font-family: "DM Sans", sans-serif;
+                font-size: 15px;
+                color: var(--text-dark);
+                outline: none;
+                transition: all 0.25s ease;
+            }
+
+            .form-group input:focus {
+                border-color: var(--terracotta);
+                background: var(--white);
+                box-shadow: 0 0 0 3px rgba(184, 133, 106, 0.12);
+            }
+
+            .form-group input.error-field {
+                border-color: var(--error);
+            }
+            .form-group input.success-field {
+                border-color: var(--success);
+            }
+
+            .field-hint {
+                font-size: 12px;
+                color: var(--text-muted);
+            }
+
+            /* Strength bar */
+            .strength-bar {
+                margin-top: 8px;
+                display: none;
+            }
+
+            .strength-bar.visible {
+                display: block;
+            }
+
+            .strength-track {
+                height: 4px;
+                background: var(--stone);
+                border-radius: 2px;
+                overflow: hidden;
+                margin-bottom: 4px;
+            }
+
+            .strength-fill {
+                height: 100%;
+                border-radius: 2px;
+                transition:
+                    width 0.3s ease,
+                    background 0.3s ease;
+                width: 0%;
+            }
+
+            .strength-label {
+                font-size: 11px;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            /* ── ALERT ── */
+            .alert {
+                display: none;
+                padding: 14px 18px;
+                font-size: 14px;
+                line-height: 1.5;
+                border-left: 3px solid;
+                margin-bottom: 24px;
+                animation: alertIn 0.3s ease;
+            }
+
+            @keyframes alertIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(-6px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .alert.show {
+                display: flex;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .alert i {
+                margin-top: 1px;
+                flex-shrink: 0;
+            }
+
+            .alert.success {
+                background: var(--success-bg);
+                border-color: var(--success);
+                color: var(--success);
+            }
+            .alert.error {
+                background: var(--error-bg);
+                border-color: var(--error);
+                color: var(--error);
+            }
+            .alert.warning {
+                background: var(--warning-bg);
+                border-color: var(--warning);
+                color: var(--warning);
+            }
+
+            /* ── BUTTONS ── */
+            .btn-row {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding-top: 8px;
+            }
+
+            .btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                padding: 14px 28px;
+                font-family: "DM Sans", sans-serif;
+                font-size: 15px;
+                font-weight: 600;
+                cursor: pointer;
+                border: none;
+                transition: all 0.25s ease;
+            }
+
+            .btn:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+                transform: none !important;
+            }
+
+            .btn-primary {
+                background: var(--terracotta);
+                color: white;
+            }
+
+            .btn-primary:not(:disabled):hover {
+                background: var(--bronze);
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(139, 111, 71, 0.3);
+            }
+
+            .btn-secondary {
+                background: transparent;
+                color: var(--text-muted);
+                border: 2px solid var(--stone);
+            }
+
+            .btn-secondary:not(:disabled):hover {
+                border-color: var(--bronze);
+                color: var(--bronze);
+            }
+
+            .btn-danger {
+                background: transparent;
+                color: var(--error);
+                border: 2px solid rgba(198, 40, 40, 0.3);
+            }
+
+            .btn-danger:not(:disabled):hover {
+                background: var(--error-bg);
+                border-color: var(--error);
+            }
+
+            .btn .spinner {
+                width: 16px;
+                height: 16px;
+                border: 2px solid rgba(255, 255, 255, 0.4);
+                border-top-color: white;
+                border-radius: 50%;
+                animation: spin 0.8s linear infinite;
+                display: none;
+            }
+
+            .btn.loading .spinner {
+                display: inline-block;
+            }
+            .btn.loading .btn-text {
+                display: none;
+            }
+
+            @keyframes spin {
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+
+            /* ── PROFILE DISPLAY ── */
+            .profile-display {
+                display: flex;
+                align-items: center;
+                gap: 24px;
+                padding: 24px;
+                background: var(--cream);
+                border: 1px solid var(--stone);
+                margin-bottom: 32px;
+            }
+
+            .avatar {
+                width: 64px;
+                height: 64px;
+                background: linear-gradient(
+                    135deg,
+                    var(--terracotta),
+                    var(--ochre)
+                );
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-family: "DM Serif Display", serif;
+                font-size: 26px;
+                color: white;
+                flex-shrink: 0;
+            }
+
+            .profile-info h3 {
+                font-family: "DM Serif Display", serif;
+                font-size: 20px;
+                color: var(--deep-brown);
+                margin-bottom: 4px;
+            }
+
+            .profile-info p {
+                font-size: 14px;
+                color: var(--text-muted);
+            }
+
+            .profile-meta {
+                margin-left: auto;
+                text-align: right;
+            }
+
+            .profile-meta span {
+                display: inline-block;
+                background: rgba(184, 133, 106, 0.15);
+                color: var(--terracotta);
+                font-size: 12px;
+                font-weight: 600;
+                padding: 4px 12px;
+                text-transform: uppercase;
+                letter-spacing: 0.8px;
+            }
+
+            /* ── DIVIDER ── */
+            .divider {
+                height: 1px;
+                background: var(--sand);
+                margin: 32px 0;
+            }
+
+            /* ── NEW ADMIN SECTION ── */
+            .danger-zone {
+                border: 1px solid rgba(198, 40, 40, 0.2);
+                background: rgba(198, 40, 40, 0.02);
+            }
+
+            .danger-zone .card-icon {
+                background: rgba(198, 40, 40, 0.08);
+                border-color: rgba(198, 40, 40, 0.2);
+                color: var(--error);
+            }
+
+            /* ── SECTION LABEL ── */
+            .section-label {
+                font-size: 11px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 1.2px;
+                color: var(--text-muted);
+                margin-bottom: 16px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+
+            .section-label::after {
+                content: "";
+                flex: 1;
+                height: 1px;
+                background: var(--stone);
+            }
+
+            /* ── RESPONSIVE ── */
+            @media (max-width: 768px) {
+                .page-wrapper {
+                    padding: 32px 20px;
+                }
+                .header-inner {
+                    padding: 0 20px;
+                }
+                .page-hero {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+                .page-hero-text h1 {
+                    font-size: 36px;
+                }
+                .hero-decoration {
+                    display: none;
+                }
+                .form-grid {
+                    grid-template-columns: 1fr;
+                }
+                .card {
+                    padding: 24px 20px;
+                }
+                .tabs {
+                    overflow-x: auto;
+                }
+                .tab-btn {
+                    padding: 14px 18px;
+                    white-space: nowrap;
+                    font-size: 14px;
+                }
+                .btn-row {
+                    flex-direction: column;
+                    align-items: stretch;
+                }
+                .btn-row .btn {
+                    justify-content: center;
+                }
+                .profile-display {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+                .profile-meta {
+                    margin-left: 0;
+                    text-align: left;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- HEADER -->
+        <header>
+            <div class="header-inner">
+                <div class="header-left">
+                    <a href="admin-dashboard.html" class="back-btn">
+                        <i class="fas fa-arrow-left"></i> Tableau de bord
+                    </a>
+                    <span class="page-title-header">Gestion du compte</span>
+                </div>
+                <div class="header-right">
+                    <span class="admin-badge" id="headerAdminName"
+                        >Administrateur</span
+                    >
+                </div>
+            </div>
+        </header>
+
+        <div class="page-wrapper">
+            <!-- HERO -->
+            <div class="page-hero">
+                <div class="page-hero-text">
+                    <h1>
+                        Paramètres<br /><em
+                            style="font-style: italic; color: var(--terracotta)"
+                            >du compte</em
+                        >
+                    </h1>
+                    <p>
+                        Gérez vos identifiants, sécurisez votre accès, créez de
+                        nouveaux comptes administrateurs.
+                    </p>
+                </div>
+                <div class="hero-decoration"></div>
+            </div>
+
+            <!-- TABS -->
+            <div class="tabs">
+                <button
+                    class="tab-btn active"
+                    onclick="switchTab('profile', this)"
+                >
+                    <i class="fas fa-user-circle"></i> Mon profil
+                </button>
+                <button class="tab-btn" onclick="switchTab('password', this)">
+                    <i class="fas fa-lock"></i> Mot de passe
+                </button>
+                <button class="tab-btn" onclick="switchTab('new-admin', this)">
+                    <i class="fas fa-user-plus"></i> Nouveau compte
+                </button>
+            </div>
+
+            <!-- ======================== PANEL 1 : PROFIL ======================== -->
+            <div id="panel-profile" class="tab-panel active">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-id-card"></i>
+                        </div>
+                        <div class="card-header-text">
+                            <h2>Informations du compte</h2>
+                            <p>
+                                Modifiez votre nom d'affichage et votre adresse
+                                email de connexion.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Profil actuel -->
+                    <div class="profile-display" id="profileDisplay">
+                        <div class="avatar" id="profileAvatar">?</div>
+                        <div class="profile-info">
+                            <h3 id="profileName">Chargement…</h3>
+                            <p id="profileEmail">—</p>
+                        </div>
+                        <div class="profile-meta">
+                            <span>Administrateur</span>
+                        </div>
+                    </div>
+
+                    <!-- Alerte -->
+                    <div class="alert" id="profileAlert">
+                        <i class="fas fa-check-circle"></i>
+                        <span id="profileAlertText"></span>
+                    </div>
+
+                    <div class="section-label">Modifier les informations</div>
+
+                    <form id="profileForm">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="inputNom">Nom d'affichage</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-user"></i>
+                                    <input
+                                        type="text"
+                                        id="inputNom"
+                                        placeholder="Votre nom complet"
+                                        autocomplete="name"
+                                    />
+                                </div>
+                                <span class="field-hint"
+                                    >Affiché dans le tableau de bord</span
+                                >
+                            </div>
+                            <div class="form-group">
+                                <label for="inputEmail">Adresse email</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-envelope"></i>
+                                    <input
+                                        type="email"
+                                        id="inputEmail"
+                                        placeholder="admin@eventravel.com"
+                                        autocomplete="email"
+                                    />
+                                </div>
+                                <span class="field-hint"
+                                    >Utilisée pour la connexion</span
+                                >
+                            </div>
+                        </div>
+                        <div class="btn-row">
+                            <button
+                                type="submit"
+                                class="btn btn-primary"
+                                id="btnUpdateProfile"
+                            >
+                                <span class="spinner"></span>
+                                <span class="btn-text"
+                                    ><i class="fas fa-save"></i> Enregistrer les
+                                    modifications</span
+                                >
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                onclick="resetProfileForm()"
+                            >
+                                <i class="fas fa-undo"></i> Annuler
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ======================== PANEL 2 : MOT DE PASSE ======================== -->
+            <div id="panel-password" class="tab-panel">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div class="card-header-text">
+                            <h2>Changer le mot de passe</h2>
+                            <p>
+                                Renforcez la sécurité de votre compte avec un
+                                mot de passe robuste.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <strong
+                            ><i class="fas fa-info-circle"></i> Bonne pratique
+                            :</strong
+                        >
+                        Utilisez au moins 8 caractères, mélangez majuscules,
+                        chiffres et symboles. Après la modification, vous serez
+                        automatiquement reconnecté avec le nouveau token.
+                    </div>
+
+                    <div class="alert" id="passwordAlert">
+                        <i class="fas fa-check-circle"></i>
+                        <span id="passwordAlertText"></span>
+                    </div>
+
+                    <form id="passwordForm">
+                        <div class="section-label">Mot de passe actuel</div>
+                        <div class="form-grid single">
+                            <div class="form-group">
+                                <label for="currentPw"
+                                    >Mot de passe actuel</label
+                                >
+                                <div class="input-wrapper">
+                                    <i class="fas fa-lock"></i>
+                                    <input
+                                        type="password"
+                                        id="currentPw"
+                                        placeholder="Votre mot de passe actuel"
+                                        autocomplete="current-password"
+                                    />
+                                    <span
+                                        class="toggle-pw"
+                                        onclick="togglePw('currentPw', this)"
+                                        ><i class="fas fa-eye"></i
+                                    ></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="divider"></div>
+                        <div class="section-label">Nouveau mot de passe</div>
+
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="newPw">Nouveau mot de passe</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-key"></i>
+                                    <input
+                                        type="password"
+                                        id="newPw"
+                                        placeholder="Minimum 6 caractères"
+                                        autocomplete="new-password"
+                                        oninput="checkStrength(this.value)"
+                                    />
+                                    <span
+                                        class="toggle-pw"
+                                        onclick="togglePw('newPw', this)"
+                                        ><i class="fas fa-eye"></i
+                                    ></span>
+                                </div>
+                                <div class="strength-bar" id="strengthBar">
+                                    <div class="strength-track">
+                                        <div
+                                            class="strength-fill"
+                                            id="strengthFill"
+                                        ></div>
+                                    </div>
+                                    <span
+                                        class="strength-label"
+                                        id="strengthLabel"
+                                    ></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmPw"
+                                    >Confirmer le mot de passe</label
+                                >
+                                <div class="input-wrapper">
+                                    <i class="fas fa-check-double"></i>
+                                    <input
+                                        type="password"
+                                        id="confirmPw"
+                                        placeholder="Répétez le mot de passe"
+                                        autocomplete="new-password"
+                                        oninput="checkMatch()"
+                                    />
+                                    <span
+                                        class="toggle-pw"
+                                        onclick="togglePw('confirmPw', this)"
+                                        ><i class="fas fa-eye"></i
+                                    ></span>
+                                </div>
+                                <span class="field-hint" id="matchHint"></span>
+                            </div>
+                        </div>
+
+                        <div class="btn-row">
+                            <button
+                                type="submit"
+                                class="btn btn-primary"
+                                id="btnUpdatePassword"
+                            >
+                                <span class="spinner"></span>
+                                <span class="btn-text"
+                                    ><i class="fas fa-lock"></i> Mettre à jour
+                                    le mot de passe</span
+                                >
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                onclick="
+                                    document
+                                        .getElementById('passwordForm')
+                                        .reset();
+                                    clearStrength();
+                                "
+                            >
+                                <i class="fas fa-undo"></i> Annuler
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- ======================== PANEL 3 : NOUVEAU ADMIN ======================== -->
+            <div id="panel-new-admin" class="tab-panel">
+                <div class="info-box warning" style="margin-bottom: 24px">
+                    <strong
+                        ><i class="fas fa-exclamation-triangle"></i> Attention
+                        :</strong
+                    >
+                    La création d'un nouveau compte administrateur accorde un
+                    accès complet au panneau d'administration. Ne partagez ces
+                    identifiants qu'avec des personnes de confiance.
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-icon">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                        <div class="card-header-text">
+                            <h2>Créer un nouveau compte admin</h2>
+                            <p>
+                                Ce compte aura accès à toutes les
+                                fonctionnalités du tableau de bord.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="alert" id="newAdminAlert">
+                        <i class="fas fa-check-circle"></i>
+                        <span id="newAdminAlertText"></span>
+                    </div>
+
+                    <form id="newAdminForm">
+                        <div class="section-label">
+                            Informations du nouveau compte
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="newAdminNom">Nom complet *</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-user"></i>
+                                    <input
+                                        type="text"
+                                        id="newAdminNom"
+                                        placeholder="Prénom Nom"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="newAdminEmail">Email *</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-envelope"></i>
+                                    <input
+                                        type="email"
+                                        id="newAdminEmail"
+                                        placeholder="email@eventravel.com"
+                                        required
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="newAdminPw">Mot de passe *</label>
+                                <div class="input-wrapper">
+                                    <i class="fas fa-key"></i>
+                                    <input
+                                        type="password"
+                                        id="newAdminPw"
+                                        placeholder="Minimum 6 caractères"
+                                        required
+                                        oninput="checkStrengthNew(this.value)"
+                                    />
+                                    <span
+                                        class="toggle-pw"
+                                        onclick="togglePw('newAdminPw', this)"
+                                        ><i class="fas fa-eye"></i
+                                    ></span>
+                                </div>
+                                <div class="strength-bar" id="strengthBarNew">
+                                    <div class="strength-track">
+                                        <div
+                                            class="strength-fill"
+                                            id="strengthFillNew"
+                                        ></div>
+                                    </div>
+                                    <span
+                                        class="strength-label"
+                                        id="strengthLabelNew"
+                                    ></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="newAdminPwConfirm"
+                                    >Confirmer le mot de passe *</label
+                                >
+                                <div class="input-wrapper">
+                                    <i class="fas fa-check-double"></i>
+                                    <input
+                                        type="password"
+                                        id="newAdminPwConfirm"
+                                        placeholder="Répétez le mot de passe"
+                                        required
+                                        oninput="checkMatchNew()"
+                                    />
+                                    <span
+                                        class="toggle-pw"
+                                        onclick="
+                                            togglePw('newAdminPwConfirm', this)
+                                        "
+                                        ><i class="fas fa-eye"></i
+                                    ></span>
+                                </div>
+                                <span
+                                    class="field-hint"
+                                    id="matchHintNew"
+                                ></span>
+                            </div>
+                        </div>
+
+                        <div class="btn-row">
+                            <button
+                                type="submit"
+                                class="btn btn-primary"
+                                id="btnCreateAdmin"
+                            >
+                                <span class="spinner"></span>
+                                <span class="btn-text"
+                                    ><i class="fas fa-user-plus"></i> Créer le
+                                    compte administrateur</span
+                                >
+                            </button>
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                onclick="
+                                    document
+                                        .getElementById('newAdminForm')
+                                        .reset();
+                                    clearStrengthNew();
+                                "
+                            >
+                                <i class="fas fa-undo"></i> Réinitialiser
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- end page-wrapper -->
+
+        <script>
+            const API = "https://even-travel-backend-13wa.onrender.com/api/v1";
+            // const API = "http://localhost:5000/api/v1";
+
+            // ── AUTH GUARD ──
+            const token = localStorage.getItem("authToken");
+            if (!token) window.location.replace("admin-login.html");
+
+            // ── TABS ──
+            function switchTab(name, btn) {
+                document
+                    .querySelectorAll(".tab-panel")
+                    .forEach((p) => p.classList.remove("active"));
+                document
+                    .querySelectorAll(".tab-btn")
+                    .forEach((b) => b.classList.remove("active"));
+                document
+                    .getElementById("panel-" + name)
+                    .classList.add("active");
+                btn.classList.add("active");
+            }
+
+            // ── LOAD PROFILE ──
+            async function loadProfile() {
+                try {
+                    const res = await fetch(`${API}/auth/me`, {
+                        headers: { Authorization: `Bearer ${token}` },
+                    });
+                    if (!res.ok) throw new Error();
+                    const data = await res.json();
+                    const admin = data.data?.admin;
+                    if (!admin) throw new Error();
+
+                    const nom = admin.nom || "Admin";
+                    const email = admin.email || "";
+
+                    document.getElementById("profileName").textContent = nom;
+                    document.getElementById("profileEmail").textContent = email;
+                    document.getElementById("profileAvatar").textContent = nom
+                        .charAt(0)
+                        .toUpperCase();
+                    document.getElementById("headerAdminName").textContent =
+                        nom;
+                    document.getElementById("inputNom").value = nom;
+                    document.getElementById("inputEmail").value = email;
+                } catch {
+                    document.getElementById("profileName").textContent =
+                        "Administrateur";
+                    document.getElementById("profileEmail").textContent = "—";
+                    document.getElementById("profileAvatar").textContent = "A";
+                }
+            }
+
+            function resetProfileForm() {
+                loadProfile();
+                hideAlert("profileAlert");
+            }
+
+            // ── UPDATE PROFILE ──
+            document
+                .getElementById("profileForm")
+                .addEventListener("submit", async (e) => {
+                    e.preventDefault();
+                    const btn = document.getElementById("btnUpdateProfile");
+                    const nom = document
+                        .getElementById("inputNom")
+                        .value.trim();
+                    const email = document
+                        .getElementById("inputEmail")
+                        .value.trim();
+
+                    if (!nom || !email) {
+                        showAlert(
+                            "profileAlert",
+                            "error",
+                            "Veuillez remplir tous les champs.",
+                        );
+                        return;
+                    }
+                    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                        showAlert(
+                            "profileAlert",
+                            "error",
+                            "Adresse email invalide.",
+                        );
+                        return;
+                    }
+
+                    setLoading(btn, true);
+                    try {
+                        const res = await fetch(`${API}/auth/update-me`, {
+                            method: "PATCH",
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: `Bearer ${token}`,
+                            },
+                            body: JSON.stringify({ nom, email }),
+                        });
+                        const data = await res.json();
+                        if (!res.ok)
+                            throw new Error(
+                                data.message || "Erreur lors de la mise à jour",
+                            );
+
+                        showAlert(
+                            "profileAlert",
+                            "success",
+                            "Profil mis à jour avec succès !",
+                        );
+                        const admin = data.data?.admin;
+                        if (admin) {
+                            document.getElementById("profileName").textContent =
+                                admin.nom || nom;
+                            document.getElementById(
+                                "profileEmail",
+                            ).textContent = admin.email || email;
+                            document.getElementById(
+                                "profileAvatar",
+                            ).textContent = (admin.nom || nom)
+                                .charAt(0)
+                                .toUpperCase();
+                            document.getElementById(
+                                "headerAdminName",
+                            ).textContent = admin.nom || nom;
+                        }
+                    } catch (err) {
+                        showAlert("profileAlert", "error", err.message);
+                    } finally {
+                        setLoading(btn, false);
+                    }
+                });
+
+            // ── UPDATE PASSWORD ──
+            document
+                .getElementById("passwordForm")
+                .addEventListener("submit", async (e) => {
+                    e.preventDefault();
+                    const btn = document.getElementById("btnUpdatePassword");
+                    const currentPassword =
+                        document.getElementById("currentPw").value;
+                    const newPassword = document.getElementById("newPw").value;
+                    const confirmPassword =
+                        document.getElementById("confirmPw").value;
+
+                    if (!currentPassword || !newPassword || !confirmPassword) {
+                        showAlert(
+                            "passwordAlert",
+                            "error",
+                            "Veuillez remplir tous les champs.",
+                        );
+                        return;
+                    }
+                    if (newPassword.length < 6) {
+                        showAlert(
+                            "passwordAlert",
+                            "error",
+                            "Le nouveau mot de passe doit contenir au moins 6 caractères.",
+                        );
+                        return;
+                    }
+                    if (newPassword !== confirmPassword) {
+                        showAlert(
+                            "passwordAlert",
+                            "error",
+                            "Les mots de passe ne correspondent pas.",
+                        );
+                        return;
+                    }
+
+                    setLoading(btn, true);
+                    try {
+                        const res = await fetch(`${API}/auth/update-password`, {
+                            method: "PATCH",
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: `Bearer ${token}`,
+                            },
+                            body: JSON.stringify({
+                                currentPassword,
+                                newPassword,
+                            }),
+                        });
+                        const data = await res.json();
+                        if (!res.ok)
+                            throw new Error(
+                                data.message || "Erreur lors de la mise à jour",
+                            );
+
+                        // Sauvegarder le nouveau token
+                        if (data.token) {
+                            localStorage.setItem("authToken", data.token);
+                        }
+
+                        showAlert(
+                            "passwordAlert",
+                            "success",
+                            "Mot de passe mis à jour avec succès ! Votre session a été renouvelée.",
+                        );
+                        document.getElementById("passwordForm").reset();
+                        clearStrength();
+                    } catch (err) {
+                        showAlert("passwordAlert", "error", err.message);
+                    } finally {
+                        setLoading(btn, false);
+                    }
+                });
+
+            // ── CREATE NEW ADMIN ──
+            document
+                .getElementById("newAdminForm")
+                .addEventListener("submit", async (e) => {
+                    e.preventDefault();
+                    const btn = document.getElementById("btnCreateAdmin");
+                    const nom = document
+                        .getElementById("newAdminNom")
+                        .value.trim();
+                    const email = document
+                        .getElementById("newAdminEmail")
+                        .value.trim();
+                    const password =
+                        document.getElementById("newAdminPw").value;
+                    const confirmPassword =
+                        document.getElementById("newAdminPwConfirm").value;
+
+                    if (!nom || !email || !password || !confirmPassword) {
+                        showAlert(
+                            "newAdminAlert",
+                            "error",
+                            "Veuillez remplir tous les champs obligatoires.",
+                        );
+                        return;
+                    }
+                    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                        showAlert(
+                            "newAdminAlert",
+                            "error",
+                            "Adresse email invalide.",
+                        );
+                        return;
+                    }
+                    if (password.length < 6) {
+                        showAlert(
+                            "newAdminAlert",
+                            "error",
+                            "Le mot de passe doit contenir au moins 6 caractères.",
+                        );
+                        return;
+                    }
+                    if (password !== confirmPassword) {
+                        showAlert(
+                            "newAdminAlert",
+                            "error",
+                            "Les mots de passe ne correspondent pas.",
+                        );
+                        return;
+                    }
+
+                    setLoading(btn, true);
+                    try {
+                        const res = await fetch(`${API}/auth/register`, {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: `Bearer ${token}`,
+                            },
+                            body: JSON.stringify({ nom, email, password }),
+                        });
+                        const data = await res.json();
+                        if (!res.ok)
+                            throw new Error(
+                                data.message || "Erreur lors de la création",
+                            );
+
+                        showAlert(
+                            "newAdminAlert",
+                            "success",
+                            `Compte administrateur créé avec succès pour <strong>${nom}</strong> (${email}).`,
+                        );
+                        document.getElementById("newAdminForm").reset();
+                        clearStrengthNew();
+                    } catch (err) {
+                        showAlert("newAdminAlert", "error", err.message);
+                    } finally {
+                        setLoading(btn, false);
+                    }
+                });
+
+            // ── PASSWORD VISIBILITY ──
+            function togglePw(inputId, icon) {
+                const input = document.getElementById(inputId);
+                const isHidden = input.type === "password";
+                input.type = isHidden ? "text" : "password";
+                icon.innerHTML = isHidden
+                    ? '<i class="fas fa-eye-slash"></i>'
+                    : '<i class="fas fa-eye"></i>';
+            }
+
+            // ── PASSWORD STRENGTH ──
+            function calcStrength(pw) {
+                let score = 0;
+                if (pw.length >= 6) score++;
+                if (pw.length >= 10) score++;
+                if (/[A-Z]/.test(pw)) score++;
+                if (/[0-9]/.test(pw)) score++;
+                if (/[^A-Za-z0-9]/.test(pw)) score++;
+                return score;
+            }
+
+            const strengthConfig = [
+                { label: "", color: "", width: "0%" },
+                { label: "Très faible", color: "#ef4444", width: "20%" },
+                { label: "Faible", color: "#f97316", width: "40%" },
+                { label: "Moyen", color: "#eab308", width: "60%" },
+                { label: "Fort", color: "#22c55e", width: "80%" },
+                { label: "Très fort", color: "#16a34a", width: "100%" },
+            ];
+
+            function checkStrength(pw) {
+                if (!pw) {
+                    clearStrength();
+                    return;
+                }
+                const score = calcStrength(pw);
+                const cfg = strengthConfig[score];
+                const bar = document.getElementById("strengthBar");
+                const fill = document.getElementById("strengthFill");
+                const label = document.getElementById("strengthLabel");
+                bar.classList.add("visible");
+                fill.style.width = cfg.width;
+                fill.style.background = cfg.color;
+                label.textContent = cfg.label;
+                label.style.color = cfg.color;
+            }
+
+            function clearStrength() {
+                document
+                    .getElementById("strengthBar")
+                    .classList.remove("visible");
+                document.getElementById("strengthFill").style.width = "0%";
+                document.getElementById("strengthLabel").textContent = "";
+            }
+
+            function checkMatch() {
+                const pw = document.getElementById("newPw").value;
+                const confirm = document.getElementById("confirmPw").value;
+                const hint = document.getElementById("matchHint");
+                if (!confirm) {
+                    hint.textContent = "";
+                    return;
+                }
+                if (pw === confirm) {
+                    hint.textContent = "✓ Les mots de passe correspondent";
+                    hint.style.color = "var(--success)";
+                } else {
+                    hint.textContent =
+                        "✗ Les mots de passe ne correspondent pas";
+                    hint.style.color = "var(--error)";
+                }
+            }
+
+            function checkStrengthNew(pw) {
+                if (!pw) {
+                    clearStrengthNew();
+                    return;
+                }
+                const score = calcStrength(pw);
+                const cfg = strengthConfig[score];
+                const bar = document.getElementById("strengthBarNew");
+                const fill = document.getElementById("strengthFillNew");
+                const label = document.getElementById("strengthLabelNew");
+                bar.classList.add("visible");
+                fill.style.width = cfg.width;
+                fill.style.background = cfg.color;
+                label.textContent = cfg.label;
+                label.style.color = cfg.color;
+            }
+
+            function clearStrengthNew() {
+                document
+                    .getElementById("strengthBarNew")
+                    .classList.remove("visible");
+                document.getElementById("strengthFillNew").style.width = "0%";
+                document.getElementById("strengthLabelNew").textContent = "";
+            }
+
+            function checkMatchNew() {
+                const pw = document.getElementById("newAdminPw").value;
+                const confirm =
+                    document.getElementById("newAdminPwConfirm").value;
+                const hint = document.getElementById("matchHintNew");
+                if (!confirm) {
+                    hint.textContent = "";
+                    return;
+                }
+                if (pw === confirm) {
+                    hint.textContent = "✓ Les mots de passe correspondent";
+                    hint.style.color = "var(--success)";
+                } else {
+                    hint.textContent =
+                        "✗ Les mots de passe ne correspondent pas";
+                    hint.style.color = "var(--error)";
+                }
+            }
+
+            // ── ALERTS ──
+            function showAlert(id, type, message) {
+                const el = document.getElementById(id);
+                const textEl = el.querySelector("span");
+                const iconEl = el.querySelector("i");
+                el.className = `alert ${type} show`;
+                textEl.innerHTML = message;
+                const icons = {
+                    success: "fa-check-circle",
+                    error: "fa-exclamation-circle",
+                    warning: "fa-exclamation-triangle",
+                };
+                iconEl.className = `fas ${icons[type] || "fa-info-circle"}`;
+                // Auto-hide après 6s pour les succès
+                if (type === "success") setTimeout(() => hideAlert(id), 6000);
+                // Scroll to alert
+                el.scrollIntoView({ behavior: "smooth", block: "nearest" });
+            }
+
+            function hideAlert(id) {
+                document.getElementById(id).classList.remove("show");
+            }
+
+            // ── LOADING ──
+            function setLoading(btn, loading) {
+                btn.disabled = loading;
+                btn.classList.toggle("loading", loading);
+            }
+
+            // ── INIT ──
             loadProfile();
-            hideAlert('profileAlert');
-        }
-
-        // ── UPDATE PROFILE ──
-        document.getElementById('profileForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('btnUpdateProfile');
-            const nom = document.getElementById('inputNom').value.trim();
-            const email = document.getElementById('inputEmail').value.trim();
-
-            if (!nom || !email) {
-                showAlert('profileAlert', 'error', 'Veuillez remplir tous les champs.');
-                return;
-            }
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                showAlert('profileAlert', 'error', 'Adresse email invalide.');
-                return;
-            }
-
-            setLoading(btn, true);
-            try {
-                const res = await fetch(`${API}/auth/update-me`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`
-                    },
-                    body: JSON.stringify({ nom, email })
-                });
-                const data = await res.json();
-                if (!res.ok) throw new Error(data.message || 'Erreur lors de la mise à jour');
-
-                showAlert('profileAlert', 'success', 'Profil mis à jour avec succès !');
-                const admin = data.data?.admin;
-                if (admin) {
-                    document.getElementById('profileName').textContent = admin.nom || nom;
-                    document.getElementById('profileEmail').textContent = admin.email || email;
-                    document.getElementById('profileAvatar').textContent = (admin.nom || nom).charAt(0).toUpperCase();
-                    document.getElementById('headerAdminName').textContent = admin.nom || nom;
-                }
-            } catch (err) {
-                showAlert('profileAlert', 'error', err.message);
-            } finally {
-                setLoading(btn, false);
-            }
-        });
-
-        // ── UPDATE PASSWORD ──
-        document.getElementById('passwordForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('btnUpdatePassword');
-            const currentPassword = document.getElementById('currentPw').value;
-            const newPassword = document.getElementById('newPw').value;
-            const confirmPassword = document.getElementById('confirmPw').value;
-
-            if (!currentPassword || !newPassword || !confirmPassword) {
-                showAlert('passwordAlert', 'error', 'Veuillez remplir tous les champs.');
-                return;
-            }
-            if (newPassword.length < 6) {
-                showAlert('passwordAlert', 'error', 'Le nouveau mot de passe doit contenir au moins 6 caractères.');
-                return;
-            }
-            if (newPassword !== confirmPassword) {
-                showAlert('passwordAlert', 'error', 'Les mots de passe ne correspondent pas.');
-                return;
-            }
-
-            setLoading(btn, true);
-            try {
-                const res = await fetch(`${API}/auth/update-password`, {
-                    method: 'PATCH',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`
-                    },
-                    body: JSON.stringify({ currentPassword, newPassword })
-                });
-                const data = await res.json();
-                if (!res.ok) throw new Error(data.message || 'Erreur lors de la mise à jour');
-
-                // Sauvegarder le nouveau token
-                if (data.token) {
-                    localStorage.setItem('authToken', data.token);
-                }
-
-                showAlert('passwordAlert', 'success', 'Mot de passe mis à jour avec succès ! Votre session a été renouvelée.');
-                document.getElementById('passwordForm').reset();
-                clearStrength();
-            } catch (err) {
-                showAlert('passwordAlert', 'error', err.message);
-            } finally {
-                setLoading(btn, false);
-            }
-        });
-
-        // ── CREATE NEW ADMIN ──
-        document.getElementById('newAdminForm').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('btnCreateAdmin');
-            const nom = document.getElementById('newAdminNom').value.trim();
-            const email = document.getElementById('newAdminEmail').value.trim();
-            const password = document.getElementById('newAdminPw').value;
-            const confirmPassword = document.getElementById('newAdminPwConfirm').value;
-
-            if (!nom || !email || !password || !confirmPassword) {
-                showAlert('newAdminAlert', 'error', 'Veuillez remplir tous les champs obligatoires.');
-                return;
-            }
-            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-                showAlert('newAdminAlert', 'error', 'Adresse email invalide.');
-                return;
-            }
-            if (password.length < 6) {
-                showAlert('newAdminAlert', 'error', 'Le mot de passe doit contenir au moins 6 caractères.');
-                return;
-            }
-            if (password !== confirmPassword) {
-                showAlert('newAdminAlert', 'error', 'Les mots de passe ne correspondent pas.');
-                return;
-            }
-
-            setLoading(btn, true);
-            try {
-                const res = await fetch(`${API}/auth/register`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${token}`
-                    },
-                    body: JSON.stringify({ nom, email, password })
-                });
-                const data = await res.json();
-                if (!res.ok) throw new Error(data.message || 'Erreur lors de la création');
-
-                showAlert('newAdminAlert', 'success', `Compte administrateur créé avec succès pour <strong>${nom}</strong> (${email}).`);
-                document.getElementById('newAdminForm').reset();
-                clearStrengthNew();
-            } catch (err) {
-                showAlert('newAdminAlert', 'error', err.message);
-            } finally {
-                setLoading(btn, false);
-            }
-        });
-
-        // ── PASSWORD VISIBILITY ──
-        function togglePw(inputId, icon) {
-            const input = document.getElementById(inputId);
-            const isHidden = input.type === 'password';
-            input.type = isHidden ? 'text' : 'password';
-            icon.innerHTML = isHidden ? '<i class="fas fa-eye-slash"></i>' : '<i class="fas fa-eye"></i>';
-        }
-
-        // ── PASSWORD STRENGTH ──
-        function calcStrength(pw) {
-            let score = 0;
-            if (pw.length >= 6) score++;
-            if (pw.length >= 10) score++;
-            if (/[A-Z]/.test(pw)) score++;
-            if (/[0-9]/.test(pw)) score++;
-            if (/[^A-Za-z0-9]/.test(pw)) score++;
-            return score;
-        }
-
-        const strengthConfig = [
-            { label: '', color: '', width: '0%' },
-            { label: 'Très faible', color: '#ef4444', width: '20%' },
-            { label: 'Faible', color: '#f97316', width: '40%' },
-            { label: 'Moyen', color: '#eab308', width: '60%' },
-            { label: 'Fort', color: '#22c55e', width: '80%' },
-            { label: 'Très fort', color: '#16a34a', width: '100%' },
-        ];
-
-        function checkStrength(pw) {
-            if (!pw) { clearStrength(); return; }
-            const score = calcStrength(pw);
-            const cfg = strengthConfig[score];
-            const bar = document.getElementById('strengthBar');
-            const fill = document.getElementById('strengthFill');
-            const label = document.getElementById('strengthLabel');
-            bar.classList.add('visible');
-            fill.style.width = cfg.width;
-            fill.style.background = cfg.color;
-            label.textContent = cfg.label;
-            label.style.color = cfg.color;
-        }
-
-        function clearStrength() {
-            document.getElementById('strengthBar').classList.remove('visible');
-            document.getElementById('strengthFill').style.width = '0%';
-            document.getElementById('strengthLabel').textContent = '';
-        }
-
-        function checkMatch() {
-            const pw = document.getElementById('newPw').value;
-            const confirm = document.getElementById('confirmPw').value;
-            const hint = document.getElementById('matchHint');
-            if (!confirm) { hint.textContent = ''; return; }
-            if (pw === confirm) {
-                hint.textContent = '✓ Les mots de passe correspondent';
-                hint.style.color = 'var(--success)';
-            } else {
-                hint.textContent = '✗ Les mots de passe ne correspondent pas';
-                hint.style.color = 'var(--error)';
-            }
-        }
-
-        function checkStrengthNew(pw) {
-            if (!pw) { clearStrengthNew(); return; }
-            const score = calcStrength(pw);
-            const cfg = strengthConfig[score];
-            const bar = document.getElementById('strengthBarNew');
-            const fill = document.getElementById('strengthFillNew');
-            const label = document.getElementById('strengthLabelNew');
-            bar.classList.add('visible');
-            fill.style.width = cfg.width;
-            fill.style.background = cfg.color;
-            label.textContent = cfg.label;
-            label.style.color = cfg.color;
-        }
-
-        function clearStrengthNew() {
-            document.getElementById('strengthBarNew').classList.remove('visible');
-            document.getElementById('strengthFillNew').style.width = '0%';
-            document.getElementById('strengthLabelNew').textContent = '';
-        }
-
-        function checkMatchNew() {
-            const pw = document.getElementById('newAdminPw').value;
-            const confirm = document.getElementById('newAdminPwConfirm').value;
-            const hint = document.getElementById('matchHintNew');
-            if (!confirm) { hint.textContent = ''; return; }
-            if (pw === confirm) {
-                hint.textContent = '✓ Les mots de passe correspondent';
-                hint.style.color = 'var(--success)';
-            } else {
-                hint.textContent = '✗ Les mots de passe ne correspondent pas';
-                hint.style.color = 'var(--error)';
-            }
-        }
-
-        // ── ALERTS ──
-        function showAlert(id, type, message) {
-            const el = document.getElementById(id);
-            const textEl = el.querySelector('span');
-            const iconEl = el.querySelector('i');
-            el.className = `alert ${type} show`;
-            textEl.innerHTML = message;
-            const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', warning: 'fa-exclamation-triangle' };
-            iconEl.className = `fas ${icons[type] || 'fa-info-circle'}`;
-            // Auto-hide après 6s pour les succès
-            if (type === 'success') setTimeout(() => hideAlert(id), 6000);
-            // Scroll to alert
-            el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-
-        function hideAlert(id) {
-            document.getElementById(id).classList.remove('show');
-        }
-
-        // ── LOADING ──
-        function setLoading(btn, loading) {
-            btn.disabled = loading;
-            btn.classList.toggle('loading', loading);
-        }
-
-        // ── INIT ──
-        loadProfile();
-    </script>
-</body>
+        </script>
+    </body>
 </html>

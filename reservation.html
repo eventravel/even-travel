@@ -1,1434 +1,1781 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Réservation — Even Travel</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link
-    href="https://fonts.googleapis.com/css2?family=Italiana&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
-    rel="stylesheet">
-
-  <style>
-    :root {
-      --sand: #E8DDD0;
-      --stone: #D4C4B0;
-      --terracotta: #B8856A;
-      --ochre: #C4916B;
-      --bronze: #8B6F47;
-      --deep-brown: #5C4A3A;
-      --cream: #F5F1EA;
-      --white: #FFFFFF;
-      --text-dark: #2A2420;
-      --text-muted: #6B5D52;
-      --spacing-xs: 8px;
-      --spacing-sm: 16px;
-      --spacing-md: 32px;
-      --spacing-lg: 64px;
-      --spacing-xl: 96px;
-      --success: #4CAF50;
-      --error: #F44336;
-      --warning: #FF9800;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      font-size: 16px;
-      line-height: 1.7;
-      background: var(--cream);
-      color: var(--text-dark);
-      -webkit-font-smoothing: antialiased;
-      font-weight: 400;
-    }
-
-    h1,
-    h2,
-    h3,
-    h4 {
-      font-family: 'Inter', sans-serif;
-      font-weight: 600;
-      line-height: 1.2;
-      color: var(--deep-brown);
-    }
-
-    header {
-      background: #faf8f5;
-      padding: 0;
-      position: sticky;
-      top: 0;
-      width: 100%;
-      z-index: 1000;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-      animation: slideDown 0.5s ease-out;
-    }
-
-    @keyframes slideDown {
-      from {
-        transform: translateY(-100%);
-      }
-
-      to {
-        transform: translateY(0);
-      }
-    }
-
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      max-width: 1400px;
-      height: 80px;
-      margin: 0 auto;
-      padding: 0 40px;
-    }
-
-    .logo {
-      display: flex;
-      align-items: center;
-    }
-
-    .logo img {
-      width: 180px;
-      height: auto;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 30px;
-      list-style: none;
-      align-items: center;
-      margin: 0;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: #2c2c2c;
-      font-size: 15px;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      position: relative;
-      padding: 8px 12px;
-    }
-
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      width: 0;
-      height: 2px;
-      background: #C4916B;
-      transition: all 0.3s ease;
-      transform: translateX(-50%);
-    }
-
-    .nav-links a:hover::after {
-      width: 80%;
-    }
-
-    .nav-links a:hover {
-      color: #C4916B;
-    }
-
-    .hero {
-      position: relative;
-      padding: 80px 40px;
-      background: linear-gradient(135deg, var(--terracotta) 0%, var(--ochre) 100%);
-      text-align: center;
-    }
-
-    .hero h1 {
-      font-family: 'Italiana', serif;
-      font-size: 56px;
-      color: white;
-      margin-bottom: var(--spacing-sm);
-      text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      animation: fadeInUp 0.8s ease-out;
-    }
-
-    .hero p {
-      font-size: 18px;
-      color: rgba(255, 255, 255, 0.9);
-      animation: fadeInUp 0.8s ease-out 0.2s backwards;
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .container {
-      width: 90%;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: var(--spacing-xl) 0;
-    }
-
-    .form-container {
-      background: var(--white);
-      padding: var(--spacing-lg);
-      border-radius: 16px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-      border: 1px solid var(--stone);
-      animation: fadeInUp 0.8s ease-out;
-    }
-
-    .section-title {
-      font-size: 24px;
-      font-weight: 600;
-      color: var(--deep-brown);
-      margin-bottom: var(--spacing-md);
-      padding-bottom: var(--spacing-sm);
-      border-bottom: 2px solid var(--sand);
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--spacing-md);
-      margin-bottom: var(--spacing-md);
-    }
-
-    .form-group {
-      margin-bottom: var(--spacing-md);
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: var(--spacing-xs);
-      font-weight: 600;
-      color: var(--deep-brown);
-      font-size: 14px;
-    }
-
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-      width: 100%;
-      padding: 14px 16px;
-      border: 2px solid var(--stone);
-      border-radius: 8px;
-      font-size: 15px;
-      font-family: 'Inter', sans-serif;
-      transition: all 0.3s ease;
-      outline: none;
-      background: var(--white);
-      color: var(--text-dark);
-    }
-
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-      border-color: var(--terracotta);
-      box-shadow: 0 0 0 3px rgba(184, 133, 106, 0.1);
-    }
-
-    .form-group textarea {
-      resize: vertical;
-      min-height: 120px;
-    }
-
-    .payment-section {
-      margin-top: var(--spacing-lg);
-    }
-
-    .payment-options,
-    .payment-methods {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--spacing-sm);
-      margin-bottom: var(--spacing-md);
-    }
-
-    .box-option {
-      border: 2px solid var(--stone);
-      padding: var(--spacing-md);
-      border-radius: 12px;
-      cursor: pointer;
-      text-align: center;
-      transition: all 0.3s ease;
-      background: var(--white);
-      position: relative;
-      font-weight: 500;
-      color: var(--text-dark);
-    }
-
-    .box-option:hover {
-      border-color: var(--ochre);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-
-    .box-option.selected {
-      border-color: var(--terracotta);
-      background: linear-gradient(135deg, rgba(184, 133, 106, 0.1) 0%, rgba(196, 145, 107, 0.05) 100%);
-      box-shadow: 0 4px 12px rgba(184, 133, 106, 0.2);
-    }
-
-    .box-option.selected::after {
-      content: '\f00c';
-      font-family: 'Font Awesome 6 Free';
-      font-weight: 900;
-      position: absolute;
-      top: 8px;
-      right: 8px;
-      color: var(--terracotta);
-      font-size: 14px;
-    }
-
-    .box-option input {
-      display: none;
-    }
-
-    .submit-btn {
-      width: 100%;
-      padding: 18px 40px;
-      background: linear-gradient(135deg, var(--terracotta) 0%, var(--ochre) 100%);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-family: 'Inter', sans-serif;
-      margin-top: var(--spacing-md);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .submit-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(184, 133, 106, 0.4);
-    }
-
-    .submit-btn:disabled {
-      opacity: 0.7;
-      cursor: not-allowed;
-      transform: none;
-      box-shadow: none;
-    }
-
-    .submit-btn .spinner {
-      display: none;
-      animation: spin 1s linear infinite;
-    }
-
-    @keyframes spin {
-      from {
-        transform: rotate(0deg);
-      }
-
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    .terms {
-      text-align: center;
-      margin-top: var(--spacing-sm);
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-
-    .info-box {
-      background: linear-gradient(135deg, var(--sand) 0%, var(--cream) 100%);
-      padding: var(--spacing-md);
-      border-radius: 12px;
-      border: 1px solid var(--stone);
-      margin-top: var(--spacing-lg);
-      display: flex;
-      align-items: start;
-      gap: var(--spacing-sm);
-    }
-
-    .info-box i {
-      color: var(--ochre);
-      font-size: 20px;
-      margin-top: 4px;
-    }
-
-    .info-box p {
-      color: var(--text-muted);
-      font-size: 14px;
-      line-height: 1.6;
-      margin: 0;
-    }
-
-    footer {
-      background: #bab2b2;
-      color: rgb(0, 0, 0);
-      padding: 60px 40px 20px;
-    }
-
-    .footer-content {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 40px;
-      margin-bottom: 40px;
-    }
-
-    .footer-section {
-      animation: fadeInUp 0.6s ease-out;
-    }
-
-    .footer-logo {
-      display: flex;
-      align-items: center;
-      margin-bottom: 15px;
-    }
-
-    .footer-logo img {
-      width: 180px;
-      height: auto;
-    }
-
-    .footer-title {
-      color: #493c31;
-      font-size: 25px;
-      margin-bottom: 15px;
-      font-weight: 600;
-      letter-spacing: 1px;
-    }
-
-    .footer-text {
-      font-size: 15px;
-      line-height: 1.8;
-      color: #000000;
-      margin-bottom: 10px;
-    }
-
-    .social-icons {
-      display: flex;
-      gap: 15px;
-      margin-top: 15px;
-    }
-
-    .social-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(255, 140, 66, 0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #5C4A3A;
-      text-decoration: none;
-      font-size: 18px;
-      transition: all 0.3s ease;
-    }
-
-    .social-icon:hover {
-      background: #9a7b61;
-      color: white;
-      transform: translateY(-3px);
-    }
-
-    .footer-bottom {
-      text-align: center;
-      padding-top: 30px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      font-size: 14px;
-      color: #9ca3af;
-    }
-
-    /* Styles ajoutés */
-    .reservation-summary {
-      background: var(--sand);
-      padding: var(--spacing-md);
-      border-radius: 12px;
-      margin-bottom: var(--spacing-lg);
-      border: 1px solid var(--stone);
-      animation: fadeInUp 0.6s ease-out;
-    }
-
-    .summary-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: var(--spacing-sm);
-    }
-
-    .summary-title {
-      font-size: 18px;
-      font-weight: 600;
-      color: var(--deep-brown);
-    }
-
-    .summary-badge {
-      background: var(--terracotta);
-      color: white;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 14px;
-      font-weight: 500;
-    }
-
-    .summary-content {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--spacing-sm);
-    }
-
-    .summary-item {
-      margin-bottom: 8px;
-    }
-
-    .summary-label {
-      font-size: 13px;
-      color: var(--text-muted);
-      font-weight: 500;
-    }
-
-    .summary-value {
-      font-size: 15px;
-      color: var(--deep-brown);
-      font-weight: 500;
-    }
-
-    .summary-price {
-      text-align: center;
-      padding: var(--spacing-sm);
-      background: rgba(255, 255, 255, 0.5);
-      border-radius: 8px;
-      margin-top: var(--spacing-sm);
-    }
-
-    .summary-price .amount {
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--terracotta);
-    }
-
-    .price-display {
-      background: var(--sand);
-      padding: var(--spacing-md);
-      border-radius: 12px;
-      margin: var(--spacing-lg) 0;
-      border: 1px solid var(--stone);
-      animation: fadeInUp 0.6s ease-out 0.3s backwards;
-    }
-
-    .price-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--spacing-sm);
-      margin-bottom: var(--spacing-sm);
-    }
-
-    .price-item {
-      margin-bottom: var(--spacing-sm);
-    }
-
-    .price-label {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin-bottom: 4px;
-    }
-
-    .price-value {
-      font-size: 18px;
-      font-weight: 600;
-      color: var(--deep-brown);
-    }
-
-    .price-total {
-      border-top: 2px solid var(--stone);
-      padding-top: var(--spacing-sm);
-      margin-top: var(--spacing-sm);
-    }
-
-    .total-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-    }
-
-    .total-label {
-      font-size: 16px;
-      color: var(--text-dark);
-      font-weight: 600;
-    }
-
-    .total-amount {
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--terracotta);
-    }
-
-    .payment-due {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(184, 133, 106, 0.1);
-      padding: 12px;
-      border-radius: 8px;
-      margin-top: var(--spacing-sm);
-      border: 1px solid var(--terracotta);
-    }
-
-    .payment-due-label {
-      font-size: 16px;
-      color: var(--terracotta);
-      font-weight: 600;
-    }
-
-    .payment-due-amount {
-      font-size: 26px;
-      font-weight: 700;
-      color: var(--terracotta);
-    }
-
-    .error-message {
-      background: rgba(244, 67, 54, 0.1);
-      color: var(--error);
-      padding: 12px;
-      border-radius: 8px;
-      margin-bottom: var(--spacing-md);
-      border: 1px solid var(--error);
-      display: none;
-      animation: fadeInUp 0.3s ease-out;
-    }
-
-    .error-message i {
-      margin-right: 8px;
-    }
-
-    .loading-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(255, 255, 255, 0.9);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 2000;
-      display: none;
-    }
-
-    .loading-spinner {
-      width: 50px;
-      height: 50px;
-      border: 3px solid var(--stone);
-      border-top-color: var(--terracotta);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-
-    .alert-toast {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      padding: 16px 24px;
-      border-radius: 8px;
-      color: white;
-      font-weight: 500;
-      z-index: 3000;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-      animation: slideInRight 0.3s ease-out;
-      display: none;
-    }
-
-    @keyframes slideInRight {
-      from {
-        opacity: 0;
-        transform: translateX(100%);
-      }
-
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
-    }
-
-    .alert-success {
-      background: var(--success);
-    }
-
-    .alert-error {
-      background: var(--error);
-    }
-
-    .alert-warning {
-      background: var(--warning);
-    }
-
-    .places-warning {
-      background: rgba(255, 152, 0, 0.1);
-      color: var(--warning);
-      padding: 8px 12px;
-      border-radius: 6px;
-      margin-top: 8px;
-      font-size: 13px;
-      display: none;
-    }
-
-    .places-warning i {
-      margin-right: 6px;
-    }
-
-    @media (max-width: 768px) {
-      nav {
-        padding: 0 20px;
-      }
-
-      .hero h1 {
-        font-size: 42px;
-      }
-
-      .form-row,
-      .payment-options,
-      .payment-methods {
-        grid-template-columns: 1fr;
-      }
-
-      .form-container {
-        padding: var(--spacing-md);
-      }
-
-      .summary-content {
-        grid-template-columns: 1fr;
-      }
-
-      .price-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 600px) {
-      nav {
-        height: 70px;
-      }
-
-      .hero {
-        padding: 60px 20px;
-      }
-
-      .hero h1 {
-        font-size: 36px;
-      }
-
-      .container {
-        padding: var(--spacing-md) 0;
-      }
-    }
-
-    /* ===== HAMBURGER MENU ===== */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      z-index: 1100;
-      padding: 5px;
-    }
-
-    .hamburger span {
-      display: block;
-      width: 25px;
-      height: 3px;
-      background: #2c2c2c;
-      border-radius: 3px;
-      transition: all 0.3s ease;
-    }
-
-    .hamburger.active span:nth-child(1) {
-      transform: translateY(8px) rotate(45deg);
-    }
-
-    .hamburger.active span:nth-child(2) {
-      opacity: 0;
-    }
-
-    .hamburger.active span:nth-child(3) {
-      transform: translateY(-8px) rotate(-45deg);
-    }
-
-    .nav-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 999;
-    }
-
-    .nav-overlay.active {
-      display: block;
-    }
-
-    @media (max-width: 768px) {
-      .hamburger {
-        display: flex !important;
-      }
-
-      .nav-links {
-        position: fixed !important;
-        top: 0 !important;
-        right: -100% !important;
-        height: 100vh !important;
-        width: 75% !important;
-        max-width: 320px !important;
-        background: #faf8f5 !important;
-        flex-direction: column !important;
-        justify-content: center !important;
-        align-items: center !important;
-        padding: 80px 40px 40px !important;
-        transition: right 0.35s ease !important;
-        box-shadow: -5px 0 30px rgba(0, 0, 0, 0.15) !important;
-        z-index: 1050 !important;
-        gap: 8px !important;
-      }
-
-      .nav-links.active {
-        right: 0 !important;
-      }
-
-      .nav-links li {
-        width: 100%;
-        text-align: center;
-      }
-
-      .nav-links a {
-        display: block !important;
-        padding: 14px 20px !important;
-        font-size: 16px !important;
-        border-radius: 8px !important;
-      }
-    }
-
-    /* ===== FIN HAMBURGER ===== */
-  </style>
-</head>
-
-<body>
-  <div class="nav-overlay" id="navOverlay"></div>
-  <header>
-    <nav>
-      <div class="logo">
-        <img src="images/logo-01.png" alt="Even Travel Logo">
-      </div>
-      <ul class="nav-links" id="navLinks">
-        <li><a href="index.html">Accueil</a></li>
-        <li><a href="events.html">Événements</a></li>
-        <li><a href="destinations.html">Destinations</a></li>
-        <li><a href="blogs.html">Blog</a></li>
-        <li><a href="contact.html">Contact</a></li>
-        <li><a href="about.html">À propos</a></li>
-        <li><a href="FAQ.html">FAQ</a></li>
-      </ul>
-      <div class="hamburger" id="hamburger">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-    </nav>
-  </header>
-
-  <section class="hero">
-    <h1>Réservation</h1>
-    <p>Réservez votre prochaine aventure en quelques clics</p>
-  </section>
-
-  <div class="container">
-    <div class="form-container">
-      <!-- Toast pour les messages -->
-      <div id="alertToast" class="alert-toast"></div>
-
-      <!-- Overlay de chargement -->
-      <div id="loadingOverlay" class="loading-overlay">
-        <div class="loading-spinner"></div>
-      </div>
-
-      <!-- Message d'erreur -->
-      <div id="errorMessage" class="error-message">
-        <i class="fas fa-exclamation-triangle"></i>
-        <span id="errorText"></span>
-      </div>
-
-      <!-- Résumé de la réservation -->
-      <div id="reservationSummary" class="reservation-summary" style="display: none;">
-        <div class="summary-header">
-          <div class="summary-title" id="summaryTitle">Résumé de votre réservation</div>
-          <div class="summary-badge" id="summaryType">Événement</div>
-        </div>
-        <div class="summary-content">
-          <div class="summary-item">
-            <div class="summary-label">Événement/Destination</div>
-            <div class="summary-value" id="summaryName">-</div>
-          </div>
-          <div class="summary-item">
-            <div class="summary-label">Date</div>
-            <div class="summary-value" id="summaryDate">-</div>
-          </div>
-          <div class="summary-item">
-            <div class="summary-label">Lieu</div>
-            <div class="summary-value" id="summaryLocation">-</div>
-          </div>
-          <div class="summary-item">
-            <div class="summary-label">Prix unitaire</div>
-            <div class="summary-value" id="summaryUnitPrice">-</div>
-          </div>
-        </div>
-        <div class="summary-price">
-          <div class="summary-label">Total pour <span id="summaryParticipants">1</span> personne(s)</div>
-          <div class="amount" id="summaryTotalPrice">-</div>
-        </div>
-      </div>
-
-      <form id="reservationForm">
-        <h2 class="section-title">Informations personnelles</h2>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Nom *</label>
-            <input type="text" name="nom" id="nom" required>
-          </div>
-          <div class="form-group">
-            <label>Prénom *</label>
-            <input type="text" name="prenom" id="prenom" required>
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label>Email *</label>
-            <input type="email" name="email" id="email" required>
-          </div>
-          <div class="form-group">
-            <label>Téléphone *</label>
-            <input type="tel" name="telephone" id="telephone" required>
-          </div>
-        </div>
-
-        <!-- Champs cachés pour stocker les infos de la réservation -->
-        <input type="hidden" name="type_reservation" id="typeReservation">
-        <input type="hidden" name="reference" id="referenceId">
-        <input type="hidden" name="reference_name" id="referenceName">
-        <input type="hidden" name="reference_date" id="referenceDate">
-        <input type="hidden" name="reference_location" id="referenceLocation">
-        <input type="hidden" name="reference_price" id="referencePrice">
-        <input type="hidden" name="reference_places" id="referencePlaces">
-
-        <h2 class="section-title">Détails de la réservation</h2>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Nombre de personnes *</label>
-            <input type="number" name="participants" id="participants" min="1" value="1" required>
-            <div id="placesWarning" class="places-warning" style="display: none;">
-              <i class="fas fa-exclamation-circle"></i>
-              <span id="placesWarningText"></span>
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Date de participation *</label>
-            <input type="date" name="date" id="selectedDate" required>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>Message / Demandes spéciales</label>
-          <textarea name="message" id="message"
-            placeholder="Vos demandes particulières, besoins spécifiques..."></textarea>
-        </div>
-
-        <!-- Affichage du prix -->
-        <div id="priceDisplay" class="price-display" style="display: none;">
-          <div class="price-grid">
-            <div class="price-item">
-              <div class="price-label">Prix unitaire</div>
-              <div class="price-value" id="displayUnitPrice">-</div>
-            </div>
-            <div class="price-item">
-              <div class="price-label">Nombre de personnes</div>
-              <div class="price-value" id="displayParticipants">1</div>
-            </div>
-          </div>
-          <div class="price-total">
-            <div class="total-row">
-              <div class="total-label">Total</div>
-              <div class="total-amount" id="displayTotalPrice">-</div>
-            </div>
-          </div>
-          <div class="payment-due">
-            <div class="payment-due-label">À payer maintenant</div>
-            <div class="payment-due-amount" id="displayPaymentDue">-</div>
-          </div>
-        </div>
-
-        <div class="payment-section">
-          <h2 class="section-title">Plan de paiement</h2>
-          <div class="payment-options">
-            <label class="box-option selected">
-              <input type="radio" name="plan" value="unique" checked>
-              <i class="fas fa-credit-card"></i>
-              <div>Paiement en une fois</div>
-            </label>
-            <label class="box-option">
-              <input type="radio" name="plan" value="deux_tranches">
-              <i class="fas fa-calendar-alt"></i>
-              <div>Paiement en deux tranches</div>
-            </label>
-          </div>
-
-          <h2 class="section-title">Méthode de paiement</h2>
-          <div class="payment-methods">
-            <label class="box-option selected">
-              <input type="radio" name="methode" value="carte" checked>
-              <i class="fas fa-credit-card"></i>
-              <div>Carte bancaire</div>
-            </label>
-            <label class="box-option">
-              <input type="radio" name="methode" value="paypal">
-              <i class="fab fa-paypal"></i>
-              <div>PayPal</div>
-            </label>
-            <label class="box-option">
-              <input type="radio" name="methode" value="mtn">
-              <i class="fas fa-mobile-alt"></i>
-              <div>MTN MoMo</div>
-            </label>
-            <label class="box-option">
-              <input type="radio" name="methode" value="moov">
-              <i class="fas fa-mobile-alt"></i>
-              <div>Moov Money</div>
-            </label>
-          </div>
-        </div>
-
-        <button type="submit" class="submit-btn" id="submitButton">
-          <i class="fas fa-check-circle"></i>
-          <span id="submitText">Confirmer la réservation</span>
-          <i class="fas fa-spinner spinner" id="submitSpinner"></i>
-        </button>
-        <p class="terms">En validant, vous acceptez nos conditions générales de vente</p>
-      </form>
-
-      <div class="info-box">
-        <i class="fas fa-info-circle"></i>
-        <p>
-          <strong>Informations importantes :</strong> Votre réservation sera confirmée dans les 24 heures.
-          Vous recevrez un email de confirmation avec tous les détails de votre voyage.
-          Pour toute question, n'hésitez pas à nous contacter.
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <footer>
-    <div class="footer-content">
-      <div class="footer-section">
-        <div class="footer-logo">
-          <img src="images/logo-01.png" alt="Even Travel Logo">
-        </div>
-        <p class="footer-text">Explorez l'Afrique à travers des événements et destinations inoubliables.</p>
-      </div>
-      <div class="footer-section">
-        <h3 class="footer-title">Réservations</h3>
-        <p class="footer-text">Cotonou, Bénin</p>
-        <p class="footer-text">eventravel79@gmail.com</p>
-        <p class="footer-text">+33781800811</p>
-      </div>
-      <div class="footer-section">
-        <h3 class="footer-title">Horaires d'ouverture</h3>
-        <p class="footer-text">Lundi au Vendredi: 9h00 à 19h00</p>
-        <p class="footer-text">Samedi: 9h00 à 12h00</p>
-      </div>
-      <div class="footer-section">
-        <h3 class="footer-title">Suivez-nous</h3>
-        <div class="social-icons">
-          <a href="https://www.instagram.com/even_travel?igsh=MTgxbWwwM3lvMXgwaA==" class="social-icon" aria-label="Instagram" target="_blank">
-            <i class="fa-brands fa-instagram"></i>
-          </a>
-          <a href="https://www.facebook.com/share/182Y393fWk/?mibextid=wwXIfr" class="social-icon" aria-label="Facebook" target="_blank">
-            <i class="fa-brands fa-facebook-f"></i>
-          </a>
-          <a href="https://www.tiktok.com/@eventravel4?_r=1&_t=ZN-94HL34bF0QU" class="social-icon" aria-label="TikTok" target="_blank">
-            <i class="fa-brands fa-tiktok"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; <span id="year"></span> Even Travel. Tous droits réservés.</p>
-    </div>
-  </footer>
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      // Définir l'année du copyright
-      document.getElementById('year').textContent = new Date().getFullYear();
-
-      // API base URL
-      const API_BASE_URL = 'https://even-travel-backend.onrender.com';
-
-      // Fonctions utilitaires
-      function showToast(message, type = 'success') {
-        const toast = document.getElementById('alertToast');
-        toast.textContent = message;
-        toast.className = `alert-toast alert-${type}`;
-        toast.style.display = 'block';
-        setTimeout(() => { toast.style.display = 'none'; }, 5000);
-      }
-
-      function showError(message) {
-        const errorEl = document.getElementById('errorMessage');
-        const errorText = document.getElementById('errorText');
-        errorText.textContent = message;
-        errorEl.style.display = 'block';
-        setTimeout(() => { errorEl.style.display = 'none'; }, 5000);
-      }
-
-      function showLoading(show = true) {
-        document.getElementById('loadingOverlay').style.display = show ? 'flex' : 'none';
-      }
-
-      function setButtonLoading(loading = true) {
-        const button = document.getElementById('submitButton');
-        const spinner = document.getElementById('submitSpinner');
-        const text = document.getElementById('submitText');
-        if (loading) {
-          button.disabled = true;
-          spinner.style.display = 'inline-block';
-          text.textContent = 'Traitement...';
-        } else {
-          button.disabled = false;
-          spinner.style.display = 'none';
-          text.textContent = 'Confirmer la réservation';
-        }
-      }
-
-      // Activer les cases sélectionnables
-      function activateBox(selector) {
-        const boxes = document.querySelectorAll(selector);
-        boxes.forEach(b => {
-          b.addEventListener('click', () => {
-            boxes.forEach(x => x.classList.remove('selected'));
-            b.classList.add('selected');
-            b.querySelector('input').checked = true;
-            calculerTotal();
-          });
-        });
-      }
-      activateBox('.payment-options .box-option');
-      activateBox('.payment-methods .box-option');
-
-      // Récupérer les paramètres d'URL
-      const urlParams = new URLSearchParams(window.location.search);
-      console.log('Paramètres URL:', Object.fromEntries(urlParams.entries()));
-      let type, id;
-      if (urlParams.get('type') && urlParams.get('id')) {
-        type = urlParams.get('type');
-        id = urlParams.get('id');
-      } else if (urlParams.get('eventId')) {
-        type = 'event';
-        id = urlParams.get('eventId');
-      } else if (urlParams.get('destinationId')) {
-        type = 'destination';
-        id = urlParams.get('destinationId');
-      }
-      console.log('Type détecté:', type);
-      console.log('ID détecté:', id);
-
-      // Charger les détails
-      async function chargerDetailsReservation() {
-        if (!type || !id) {
-          showToast('Aucun événement ou destination sélectionné. Redirection...', 'error');
-          setTimeout(() => { window.location.href = 'index.html'; }, 2000);
-          return;
-        }
-        showLoading(true);
-        try {
-          let endpoint, itemType;
-          if (type === 'event') {
-            endpoint = `${API_BASE_URL}/api/v1/events/${id}`;
-            itemType = 'Événement';
-          } else if (type === 'destination') {
-            endpoint = `${API_BASE_URL}/api/v1/destinations/${id}`;
-            itemType = 'Destination';
-          } else {
-            throw new Error('Type de réservation non valide');
-          }
-          console.log('Chargement depuis:', endpoint);
-          const response = await fetch(endpoint);
-          if (!response.ok) throw new Error(`Erreur ${response.status}`);
-          const result = await response.json();
-          let item = result.data?.event || result.data?.destination || result.data;
-          if (!item) throw new Error('Élément non trouvé');
-
-          // Champs cachés
-          document.getElementById('typeReservation').value = type;
-          document.getElementById('referenceId').value = item._id;
-          document.getElementById('referenceName').value = item.nom || item.titre;
-          document.getElementById('referencePrice').value = item.prix || 0;
-
-          let placesDisponibles = 50;
-          if (type === 'event' && item.placesRestantes !== undefined) placesDisponibles = item.placesRestantes;
-          else if (type === 'destination' && item.placesDisponibles !== undefined) placesDisponibles = item.placesDisponibles;
-          document.getElementById('referencePlaces').value = placesDisponibles;
-
-          const location = item.lieu || item.localisation || 'Non spécifié';
-          document.getElementById('referenceLocation').value = location;
-
-          let defaultDate = '';
-          const today = new Date();
-          today.setHours(0, 0, 0, 0);
-          if (item.date) {
-            const itemDate = new Date(item.date);
-            if (itemDate >= today) defaultDate = itemDate.toISOString().split('T')[0];
-          }
-          if (!defaultDate && item.datesDisponibles?.length) {
-            for (const range of item.datesDisponibles) {
-              const debut = new Date(range.debut);
-              if (debut >= today) { defaultDate = debut.toISOString().split('T')[0]; break; }
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>Réservation — Even Travel</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Italiana&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+            rel="stylesheet"
+        />
+
+        <style>
+            :root {
+                --sand: #e8ddd0;
+                --stone: #d4c4b0;
+                --terracotta: #b8856a;
+                --ochre: #c4916b;
+                --bronze: #8b6f47;
+                --deep-brown: #5c4a3a;
+                --cream: #f5f1ea;
+                --white: #ffffff;
+                --text-dark: #2a2420;
+                --text-muted: #6b5d52;
+                --spacing-xs: 8px;
+                --spacing-sm: 16px;
+                --spacing-md: 32px;
+                --spacing-lg: 64px;
+                --spacing-xl: 96px;
+                --success: #4caf50;
+                --error: #f44336;
+                --warning: #ff9800;
             }
-          }
-          if (!defaultDate) {
-            const future = new Date();
-            future.setDate(future.getDate() + 7);
-            defaultDate = future.toISOString().split('T')[0];
-          }
-          document.getElementById('referenceDate').value = defaultDate;
-          document.getElementById('selectedDate').value = defaultDate;
-          document.getElementById('selectedDate').min = today.toISOString().split('T')[0];
 
-          afficherResume(item, itemType, defaultDate, placesDisponibles);
-          setupCalculTotal();
-          showLoading(false);
-        } catch (error) {
-          console.error('Erreur:', error);
-          showLoading(false);
-          showError(`Impossible de charger les détails: ${error.message}`);
-          setTimeout(() => { window.location.href = 'index.html'; }, 3000);
-        }
-      }
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
 
-      function afficherResume(item, itemType, selectedDate, placesDisponibles) {
-        document.getElementById('reservationSummary').style.display = 'block';
-        document.getElementById('summaryTitle').textContent = `Résumé de votre réservation`;
-        document.getElementById('summaryType').textContent = itemType;
-        document.getElementById('summaryName').textContent = item.nom || item.titre;
-        document.getElementById('summaryLocation').textContent = item.lieu || item.localisation || 'Non spécifié';
-        document.getElementById('summaryUnitPrice').textContent = `${(item.prix || 0).toLocaleString('fr-FR')} FCFA`;
+            html {
+                scroll-behavior: smooth;
+            }
 
-        if (selectedDate) {
-          const dateObj = new Date(selectedDate);
-          document.getElementById('summaryDate').textContent = dateObj.toLocaleDateString('fr-FR', {
-            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-          });
-        }
+            body {
+                font-family:
+                    "Inter",
+                    system-ui,
+                    -apple-system,
+                    sans-serif;
+                font-size: 16px;
+                line-height: 1.7;
+                background: var(--cream);
+                color: var(--text-dark);
+                -webkit-font-smoothing: antialiased;
+                font-weight: 400;
+            }
 
-        document.getElementById('displayUnitPrice').textContent = `${(item.prix || 0).toLocaleString('fr-FR')} FCFA`;
-        document.getElementById('priceDisplay').style.display = 'block';
-        updatePlacesWarning(placesDisponibles);
-        calculerTotal();
-      }
+            h1,
+            h2,
+            h3,
+            h4 {
+                font-family: "Inter", sans-serif;
+                font-weight: 600;
+                line-height: 1.2;
+                color: var(--deep-brown);
+            }
 
-      function updatePlacesWarning(places) {
-        const el = document.getElementById('placesWarning');
-        const txt = document.getElementById('placesWarningText');
-        if (places <= 10) {
-          txt.textContent = `⚠️ Il ne reste que ${places} place${places > 1 ? 's' : ''} disponible${places > 1 ? 's' : ''}`;
-          el.style.display = 'block';
-        } else {
-          el.style.display = 'none';
-        }
-      }
+            header {
+                background: #faf8f5;
+                padding: 0;
+                position: sticky;
+                top: 0;
+                width: 100%;
+                z-index: 1000;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                animation: slideDown 0.5s ease-out;
+            }
 
-      function setupCalculTotal() {
-        const participantsInput = document.getElementById('participants');
-        const dateInput = document.getElementById('selectedDate');
+            @keyframes slideDown {
+                from {
+                    transform: translateY(-100%);
+                }
 
-        participantsInput.addEventListener('input', () => {
-          calculerTotal();
-          const max = parseInt(document.getElementById('referencePlaces').value);
-          const val = parseInt(participantsInput.value) || 1;
-          updatePlacesWarning(max);
-          if (val > max) showError(`Maximum ${max} place${max > 1 ? 's' : ''} disponible${max > 1 ? 's' : ''}`);
-        });
+                to {
+                    transform: translateY(0);
+                }
+            }
 
-        dateInput.addEventListener('change', () => {
-          document.getElementById('referenceDate').value = dateInput.value;
-          calculerTotal();
-        });
+            nav {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                max-width: 1400px;
+                height: 80px;
+                margin: 0 auto;
+                padding: 0 40px;
+            }
 
-        document.querySelectorAll('input[name="plan"]').forEach(r => r.addEventListener('change', calculerTotal));
-      }
+            .logo {
+                display: flex;
+                align-items: center;
+            }
 
-      function calculerTotal() {
-        const prix = parseFloat(document.getElementById('referencePrice').value) || 0;
-        const nb = parseInt(document.getElementById('participants').value) || 1;
-        const plan = document.querySelector('input[name="plan"]:checked').value;
-        const total = prix * nb;
-        const aPayer = plan === 'deux_tranches' ? Math.ceil(total / 2) : total;
+            .logo img {
+                width: 180px;
+                height: auto;
+            }
 
-        document.getElementById('summaryParticipants').textContent = nb;
-        document.getElementById('summaryTotalPrice').textContent = `${total.toLocaleString('fr-FR')} FCFA`;
-        document.getElementById('displayParticipants').textContent = nb;
-        document.getElementById('displayTotalPrice').textContent = `${total.toLocaleString('fr-FR')} FCFA`;
-        document.getElementById('displayPaymentDue').textContent = `${aPayer.toLocaleString('fr-FR')} FCFA`;
-      }
+            .nav-links {
+                display: flex;
+                gap: 30px;
+                list-style: none;
+                align-items: center;
+                margin: 0;
+            }
 
-      function validateForm() {
-        const nom = document.getElementById('nom').value.trim();
-        const prenom = document.getElementById('prenom').value.trim();
-        const email = document.getElementById('email').value.trim();
-        const tel = document.getElementById('telephone').value.trim();
-        const participants = parseInt(document.getElementById('participants').value);
-        const maxPlaces = parseInt(document.getElementById('referencePlaces').value);
-        const date = document.getElementById('selectedDate').value;
+            .nav-links a {
+                text-decoration: none;
+                color: #2c2c2c;
+                font-size: 15px;
+                font-weight: 500;
+                transition: all 0.3s ease;
+                position: relative;
+                padding: 8px 12px;
+            }
 
-        if (!nom || !prenom || !email || !tel) return showError('Tous les champs obligatoires doivent être remplis'), false;
-        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showError('Email invalide'), false;
-        if (!/^[\+]?[0-9\s\-\(\)]{8,}$/.test(tel)) return showError('Téléphone invalide'), false;
-        if (participants < 1) return showError('Au moins 1 participant'), false;
-        if (participants > maxPlaces) return showError(`Maximum ${maxPlaces} places disponibles`), false;
-        if (!date) return showError('Sélectionnez une date'), false;
+            .nav-links a::after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                width: 0;
+                height: 2px;
+                background: #c4916b;
+                transition: all 0.3s ease;
+                transform: translateX(-50%);
+            }
 
-        const selDate = new Date(date);
-        const today = new Date(); today.setHours(0, 0, 0, 0);
-        if (selDate < today) return showError('Date future requise'), false;
+            .nav-links a:hover::after {
+                width: 80%;
+            }
 
-        return true;
-      }
+            .nav-links a:hover {
+                color: #c4916b;
+            }
 
-      // Soumission
-      document.getElementById('reservationForm').addEventListener('submit', async function (e) {
-        e.preventDefault();
-        if (!validateForm()) return;
+            .hero {
+                position: relative;
+                padding: 80px 40px;
+                background: linear-gradient(
+                    135deg,
+                    var(--terracotta) 0%,
+                    var(--ochre) 100%
+                );
+                text-align: center;
+            }
 
-        const participants = parseInt(document.getElementById('participants').value);
-        const maxPlaces = parseInt(document.getElementById('referencePlaces').value);
-        if (participants > maxPlaces) {
-          showError(`Désolé, il ne reste que ${maxPlaces} places disponibles.`);
-          return;
-        }
+            .hero h1 {
+                font-family: "Italiana", serif;
+                font-size: 56px;
+                color: white;
+                margin-bottom: var(--spacing-sm);
+                text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                animation: fadeInUp 0.8s ease-out;
+            }
 
-        const formData = new FormData(this);
-        const data = {
-          client: {
-            nom: formData.get('nom'),
-            prenom: formData.get('prenom'),
-            email: formData.get('email'),
-            telephone: formData.get('telephone'),
-          },
-          type: formData.get('type_reservation'),
-          itemId: formData.get('reference'),
-          date: formData.get('date'),
-          nombrePlaces: participants,
-          message: formData.get('message'),
-          planPaiement: formData.get('plan'),
-          methodePaiement: formData.get('methode'),
-        };
+            .hero p {
+                font-size: 18px;
+                color: rgba(255, 255, 255, 0.9);
+                animation: fadeInUp 0.8s ease-out 0.2s backwards;
+            }
 
-        setButtonLoading(true);
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px);
+                }
 
-        try {
-          const res = await fetch(`${API_BASE_URL}/api/v1/reservations/initier`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data),
-          });
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
 
-          const text = await res.text();
-          let result;
-          try {
-            result = JSON.parse(text);
-          } catch {
-            throw new Error(text || 'Réponse serveur invalide');
-          }
+            .container {
+                width: 90%;
+                max-width: 900px;
+                margin: 0 auto;
+                padding: var(--spacing-xl) 0;
+            }
 
-          if (!res.ok || result.status === 'fail') {
-            throw new Error(result.message || 'Erreur lors de la création de la réservation');
-          }
+            .form-container {
+                background: var(--white);
+                padding: var(--spacing-lg);
+                border-radius: 16px;
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+                border: 1px solid var(--stone);
+                animation: fadeInUp 0.8s ease-out;
+            }
 
-          const { reservation, payment } = result.data;
-          const checkout_url = payment?.checkout_url;
+            .section-title {
+                font-size: 24px;
+                font-weight: 600;
+                color: var(--deep-brown);
+                margin-bottom: var(--spacing-md);
+                padding-bottom: var(--spacing-sm);
+                border-bottom: 2px solid var(--sand);
+            }
 
-          localStorage.setItem('reservationId', reservation._id);
-          localStorage.setItem('reservationData', JSON.stringify(data));
-          showToast('Réservation enregistrée !', 'success');
+            .form-row {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: var(--spacing-md);
+                margin-bottom: var(--spacing-md);
+            }
 
-          if (reservation.montantPaye >= reservation.montantTotal) {
-            showToast('Réservation déjà payée à 100%.', 'success');
-            setTimeout(() => {
-              window.location.href = `paiement.html?id=${reservation._id}&status=already_paid`;
-            }, 1500);
-            return;
-          }
+            .form-group {
+                margin-bottom: var(--spacing-md);
+            }
 
-          if (!checkout_url) {
-            throw new Error('URL de paiement non reçue du serveur (vérifiez payment.checkout_url)');
-          }
+            .form-group label {
+                display: block;
+                margin-bottom: var(--spacing-xs);
+                font-weight: 600;
+                color: var(--deep-brown);
+                font-size: 14px;
+            }
 
-          showToast('Redirection vers le paiement sécurisé...', 'success');
-          setTimeout(() => {
-            window.location.href = checkout_url;
-          }, 1200);
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                width: 100%;
+                padding: 14px 16px;
+                border: 2px solid var(--stone);
+                border-radius: 8px;
+                font-size: 15px;
+                font-family: "Inter", sans-serif;
+                transition: all 0.3s ease;
+                outline: none;
+                background: var(--white);
+                color: var(--text-dark);
+            }
 
-        } catch (err) {
-          console.error('Erreur complète:', err);
-          showError(err.message || 'Une erreur est survenue pendant le traitement');
-          setButtonLoading(false);
-        }
-      });
+            .form-group input:focus,
+            .form-group select:focus,
+            .form-group textarea:focus {
+                border-color: var(--terracotta);
+                box-shadow: 0 0 0 3px rgba(184, 133, 106, 0.1);
+            }
 
-      // Initialiser
-      chargerDetailsReservation();
-    });
-  </script>
-  <script>
-    /* ===== HAMBURGER MENU ===== */
-    (function () {
-      var hamburger = document.getElementById('hamburger');
-      var navLinks = document.getElementById('navLinks');
-      var overlay = document.getElementById('navOverlay');
-      if (!hamburger || !navLinks) return;
-      function openMenu() {
-        hamburger.classList.add('active');
-        navLinks.classList.add('active');
-        if (overlay) overlay.classList.add('active');
-        document.body.style.overflow = 'hidden';
-      }
-      function closeMenu() {
-        hamburger.classList.remove('active');
-        navLinks.classList.remove('active');
-        if (overlay) overlay.classList.remove('active');
-        document.body.style.overflow = '';
-      }
-      hamburger.addEventListener('click', function () {
-        hamburger.classList.contains('active') ? closeMenu() : openMenu();
-      });
-      if (overlay) overlay.addEventListener('click', closeMenu);
-      document.querySelectorAll('#navLinks a').forEach(function (a) {
-        a.addEventListener('click', closeMenu);
-      });
-      window.addEventListener('resize', function () { if (window.innerWidth > 768) closeMenu(); });
-      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeMenu(); });
-    })();
-    /* ===== FIN HAMBURGER ===== */
-  </script>
-</body>
+            .form-group textarea {
+                resize: vertical;
+                min-height: 120px;
+            }
 
+            .payment-section {
+                margin-top: var(--spacing-lg);
+            }
+
+            .payment-options,
+            .payment-methods {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: var(--spacing-sm);
+                margin-bottom: var(--spacing-md);
+            }
+
+            .box-option {
+                border: 2px solid var(--stone);
+                padding: var(--spacing-md);
+                border-radius: 12px;
+                cursor: pointer;
+                text-align: center;
+                transition: all 0.3s ease;
+                background: var(--white);
+                position: relative;
+                font-weight: 500;
+                color: var(--text-dark);
+            }
+
+            .box-option:hover {
+                border-color: var(--ochre);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            }
+
+            .box-option.selected {
+                border-color: var(--terracotta);
+                background: linear-gradient(
+                    135deg,
+                    rgba(184, 133, 106, 0.1) 0%,
+                    rgba(196, 145, 107, 0.05) 100%
+                );
+                box-shadow: 0 4px 12px rgba(184, 133, 106, 0.2);
+            }
+
+            .box-option.selected::after {
+                content: "\f00c";
+                font-family: "Font Awesome 6 Free";
+                font-weight: 900;
+                position: absolute;
+                top: 8px;
+                right: 8px;
+                color: var(--terracotta);
+                font-size: 14px;
+            }
+
+            .box-option input {
+                display: none;
+            }
+
+            .submit-btn {
+                width: 100%;
+                padding: 18px 40px;
+                background: linear-gradient(
+                    135deg,
+                    var(--terracotta) 0%,
+                    var(--ochre) 100%
+                );
+                color: white;
+                border: none;
+                border-radius: 8px;
+                font-size: 16px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                font-family: "Inter", sans-serif;
+                margin-top: var(--spacing-md);
+                position: relative;
+                overflow: hidden;
+            }
+
+            .submit-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(184, 133, 106, 0.4);
+            }
+
+            .submit-btn:disabled {
+                opacity: 0.7;
+                cursor: not-allowed;
+                transform: none;
+                box-shadow: none;
+            }
+
+            .submit-btn .spinner {
+                display: none;
+                animation: spin 1s linear infinite;
+            }
+
+            @keyframes spin {
+                from {
+                    transform: rotate(0deg);
+                }
+
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+
+            .terms {
+                text-align: center;
+                margin-top: var(--spacing-sm);
+                font-size: 13px;
+                color: var(--text-muted);
+            }
+
+            .info-box {
+                background: linear-gradient(
+                    135deg,
+                    var(--sand) 0%,
+                    var(--cream) 100%
+                );
+                padding: var(--spacing-md);
+                border-radius: 12px;
+                border: 1px solid var(--stone);
+                margin-top: var(--spacing-lg);
+                display: flex;
+                align-items: start;
+                gap: var(--spacing-sm);
+            }
+
+            .info-box i {
+                color: var(--ochre);
+                font-size: 20px;
+                margin-top: 4px;
+            }
+
+            .info-box p {
+                color: var(--text-muted);
+                font-size: 14px;
+                line-height: 1.6;
+                margin: 0;
+            }
+
+            footer {
+                background: #bab2b2;
+                color: rgb(0, 0, 0);
+                padding: 60px 40px 20px;
+            }
+
+            .footer-content {
+                max-width: 1400px;
+                margin: 0 auto;
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 40px;
+                margin-bottom: 40px;
+            }
+
+            .footer-section {
+                animation: fadeInUp 0.6s ease-out;
+            }
+
+            .footer-logo {
+                display: flex;
+                align-items: center;
+                margin-bottom: 15px;
+            }
+
+            .footer-logo img {
+                width: 180px;
+                height: auto;
+            }
+
+            .footer-title {
+                color: #493c31;
+                font-size: 25px;
+                margin-bottom: 15px;
+                font-weight: 600;
+                letter-spacing: 1px;
+            }
+
+            .footer-text {
+                font-size: 15px;
+                line-height: 1.8;
+                color: #000000;
+                margin-bottom: 10px;
+            }
+
+            .social-icons {
+                display: flex;
+                gap: 15px;
+                margin-top: 15px;
+            }
+
+            .social-icon {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background: rgba(255, 140, 66, 0.1);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #5c4a3a;
+                text-decoration: none;
+                font-size: 18px;
+                transition: all 0.3s ease;
+            }
+
+            .social-icon:hover {
+                background: #9a7b61;
+                color: white;
+                transform: translateY(-3px);
+            }
+
+            .footer-bottom {
+                text-align: center;
+                padding-top: 30px;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                font-size: 14px;
+                color: #9ca3af;
+            }
+
+            /* Styles ajoutés */
+            .reservation-summary {
+                background: var(--sand);
+                padding: var(--spacing-md);
+                border-radius: 12px;
+                margin-bottom: var(--spacing-lg);
+                border: 1px solid var(--stone);
+                animation: fadeInUp 0.6s ease-out;
+            }
+
+            .summary-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: var(--spacing-sm);
+            }
+
+            .summary-title {
+                font-size: 18px;
+                font-weight: 600;
+                color: var(--deep-brown);
+            }
+
+            .summary-badge {
+                background: var(--terracotta);
+                color: white;
+                padding: 4px 12px;
+                border-radius: 20px;
+                font-size: 14px;
+                font-weight: 500;
+            }
+
+            .summary-content {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: var(--spacing-sm);
+            }
+
+            .summary-item {
+                margin-bottom: 8px;
+            }
+
+            .summary-label {
+                font-size: 13px;
+                color: var(--text-muted);
+                font-weight: 500;
+            }
+
+            .summary-value {
+                font-size: 15px;
+                color: var(--deep-brown);
+                font-weight: 500;
+            }
+
+            .summary-price {
+                text-align: center;
+                padding: var(--spacing-sm);
+                background: rgba(255, 255, 255, 0.5);
+                border-radius: 8px;
+                margin-top: var(--spacing-sm);
+            }
+
+            .summary-price .amount {
+                font-size: 24px;
+                font-weight: 700;
+                color: var(--terracotta);
+            }
+
+            .price-display {
+                background: var(--sand);
+                padding: var(--spacing-md);
+                border-radius: 12px;
+                margin: var(--spacing-lg) 0;
+                border: 1px solid var(--stone);
+                animation: fadeInUp 0.6s ease-out 0.3s backwards;
+            }
+
+            .price-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: var(--spacing-sm);
+                margin-bottom: var(--spacing-sm);
+            }
+
+            .price-item {
+                margin-bottom: var(--spacing-sm);
+            }
+
+            .price-label {
+                font-size: 14px;
+                color: var(--text-muted);
+                margin-bottom: 4px;
+            }
+
+            .price-value {
+                font-size: 18px;
+                font-weight: 600;
+                color: var(--deep-brown);
+            }
+
+            .price-total {
+                border-top: 2px solid var(--stone);
+                padding-top: var(--spacing-sm);
+                margin-top: var(--spacing-sm);
+            }
+
+            .total-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 8px;
+            }
+
+            .total-label {
+                font-size: 16px;
+                color: var(--text-dark);
+                font-weight: 600;
+            }
+
+            .total-amount {
+                font-size: 24px;
+                font-weight: 700;
+                color: var(--terracotta);
+            }
+
+            .payment-due {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background: rgba(184, 133, 106, 0.1);
+                padding: 12px;
+                border-radius: 8px;
+                margin-top: var(--spacing-sm);
+                border: 1px solid var(--terracotta);
+            }
+
+            .payment-due-label {
+                font-size: 16px;
+                color: var(--terracotta);
+                font-weight: 600;
+            }
+
+            .payment-due-amount {
+                font-size: 26px;
+                font-weight: 700;
+                color: var(--terracotta);
+            }
+
+            .error-message {
+                background: rgba(244, 67, 54, 0.1);
+                color: var(--error);
+                padding: 12px;
+                border-radius: 8px;
+                margin-bottom: var(--spacing-md);
+                border: 1px solid var(--error);
+                display: none;
+                animation: fadeInUp 0.3s ease-out;
+            }
+
+            .error-message i {
+                margin-right: 8px;
+            }
+
+            .loading-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(255, 255, 255, 0.9);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 2000;
+                display: none;
+            }
+
+            .loading-spinner {
+                width: 50px;
+                height: 50px;
+                border: 3px solid var(--stone);
+                border-top-color: var(--terracotta);
+                border-radius: 50%;
+                animation: spin 1s linear infinite;
+            }
+
+            .alert-toast {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 16px 24px;
+                border-radius: 8px;
+                color: white;
+                font-weight: 500;
+                z-index: 3000;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+                animation: slideInRight 0.3s ease-out;
+                display: none;
+            }
+
+            @keyframes slideInRight {
+                from {
+                    opacity: 0;
+                    transform: translateX(100%);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+
+            .alert-success {
+                background: var(--success);
+            }
+
+            .alert-error {
+                background: var(--error);
+            }
+
+            .alert-warning {
+                background: var(--warning);
+            }
+
+            .places-warning {
+                background: rgba(255, 152, 0, 0.1);
+                color: var(--warning);
+                padding: 8px 12px;
+                border-radius: 6px;
+                margin-top: 8px;
+                font-size: 13px;
+                display: none;
+            }
+
+            .places-warning i {
+                margin-right: 6px;
+            }
+
+            @media (max-width: 768px) {
+                nav {
+                    padding: 0 20px;
+                }
+
+                .hero h1 {
+                    font-size: 42px;
+                }
+
+                .form-row,
+                .payment-options,
+                .payment-methods {
+                    grid-template-columns: 1fr;
+                }
+
+                .form-container {
+                    padding: var(--spacing-md);
+                }
+
+                .summary-content {
+                    grid-template-columns: 1fr;
+                }
+
+                .price-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            @media (max-width: 600px) {
+                nav {
+                    height: 70px;
+                }
+
+                .hero {
+                    padding: 60px 20px;
+                }
+
+                .hero h1 {
+                    font-size: 36px;
+                }
+
+                .container {
+                    padding: var(--spacing-md) 0;
+                }
+            }
+
+            /* ===== HAMBURGER MENU ===== */
+            .hamburger {
+                display: none;
+                flex-direction: column;
+                gap: 5px;
+                cursor: pointer;
+                z-index: 1100;
+                padding: 5px;
+            }
+
+            .hamburger span {
+                display: block;
+                width: 25px;
+                height: 3px;
+                background: #2c2c2c;
+                border-radius: 3px;
+                transition: all 0.3s ease;
+            }
+
+            .hamburger.active span:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active span:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+
+            .nav-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 999;
+            }
+
+            .nav-overlay.active {
+                display: block;
+            }
+
+            @media (max-width: 768px) {
+                .hamburger {
+                    display: flex !important;
+                }
+
+                .nav-links {
+                    position: fixed !important;
+                    top: 0 !important;
+                    right: -100% !important;
+                    height: 100vh !important;
+                    width: 75% !important;
+                    max-width: 320px !important;
+                    background: #faf8f5 !important;
+                    flex-direction: column !important;
+                    justify-content: center !important;
+                    align-items: center !important;
+                    padding: 80px 40px 40px !important;
+                    transition: right 0.35s ease !important;
+                    box-shadow: -5px 0 30px rgba(0, 0, 0, 0.15) !important;
+                    z-index: 1050 !important;
+                    gap: 8px !important;
+                }
+
+                .nav-links.active {
+                    right: 0 !important;
+                }
+
+                .nav-links li {
+                    width: 100%;
+                    text-align: center;
+                }
+
+                .nav-links a {
+                    display: block !important;
+                    padding: 14px 20px !important;
+                    font-size: 16px !important;
+                    border-radius: 8px !important;
+                }
+            }
+
+            /* ===== FIN HAMBURGER ===== */
+        </style>
+    </head>
+
+    <body>
+        <div class="nav-overlay" id="navOverlay"></div>
+        <header>
+            <nav>
+                <div class="logo">
+                    <img src="images/logo-01.png" alt="Even Travel Logo" />
+                </div>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="events.html">Événements</a></li>
+                    <li><a href="destinations.html">Destinations</a></li>
+                    <li><a href="blogs.html">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="about.html">À propos</a></li>
+                    <li><a href="FAQ.html">FAQ</a></li>
+                </ul>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </header>
+
+        <section class="hero">
+            <h1>Réservation</h1>
+            <p>Réservez votre prochaine aventure en quelques clics</p>
+        </section>
+
+        <div class="container">
+            <div class="form-container">
+                <!-- Toast pour les messages -->
+                <div id="alertToast" class="alert-toast"></div>
+
+                <!-- Overlay de chargement -->
+                <div id="loadingOverlay" class="loading-overlay">
+                    <div class="loading-spinner"></div>
+                </div>
+
+                <!-- Message d'erreur -->
+                <div id="errorMessage" class="error-message">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <span id="errorText"></span>
+                </div>
+
+                <!-- Résumé de la réservation -->
+                <div
+                    id="reservationSummary"
+                    class="reservation-summary"
+                    style="display: none"
+                >
+                    <div class="summary-header">
+                        <div class="summary-title" id="summaryTitle">
+                            Résumé de votre réservation
+                        </div>
+                        <div class="summary-badge" id="summaryType">
+                            Événement
+                        </div>
+                    </div>
+                    <div class="summary-content">
+                        <div class="summary-item">
+                            <div class="summary-label">
+                                Événement/Destination
+                            </div>
+                            <div class="summary-value" id="summaryName">-</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">Date</div>
+                            <div class="summary-value" id="summaryDate">-</div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">Lieu</div>
+                            <div class="summary-value" id="summaryLocation">
+                                -
+                            </div>
+                        </div>
+                        <div class="summary-item">
+                            <div class="summary-label">Prix unitaire</div>
+                            <div class="summary-value" id="summaryUnitPrice">
+                                -
+                            </div>
+                        </div>
+                    </div>
+                    <div class="summary-price">
+                        <div class="summary-label">
+                            Total pour
+                            <span id="summaryParticipants">1</span> personne(s)
+                        </div>
+                        <div class="amount" id="summaryTotalPrice">-</div>
+                    </div>
+                </div>
+
+                <form id="reservationForm">
+                    <h2 class="section-title">Informations personnelles</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nom *</label>
+                            <input type="text" name="nom" id="nom" required />
+                        </div>
+                        <div class="form-group">
+                            <label>Prénom *</label>
+                            <input
+                                type="text"
+                                name="prenom"
+                                id="prenom"
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Email *</label>
+                            <input
+                                type="email"
+                                name="email"
+                                id="email"
+                                required
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label>Téléphone *</label>
+                            <input
+                                type="tel"
+                                name="telephone"
+                                id="telephone"
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <!-- Champs cachés pour stocker les infos de la réservation -->
+                    <input
+                        type="hidden"
+                        name="type_reservation"
+                        id="typeReservation"
+                    />
+                    <input type="hidden" name="reference" id="referenceId" />
+                    <input
+                        type="hidden"
+                        name="reference_name"
+                        id="referenceName"
+                    />
+                    <input
+                        type="hidden"
+                        name="reference_date"
+                        id="referenceDate"
+                    />
+                    <input
+                        type="hidden"
+                        name="reference_location"
+                        id="referenceLocation"
+                    />
+                    <input
+                        type="hidden"
+                        name="reference_price"
+                        id="referencePrice"
+                    />
+                    <input
+                        type="hidden"
+                        name="reference_places"
+                        id="referencePlaces"
+                    />
+
+                    <h2 class="section-title">Détails de la réservation</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Nombre de personnes *</label>
+                            <input
+                                type="number"
+                                name="participants"
+                                id="participants"
+                                min="1"
+                                value="1"
+                                required
+                            />
+                            <div
+                                id="placesWarning"
+                                class="places-warning"
+                                style="display: none"
+                            >
+                                <i class="fas fa-exclamation-circle"></i>
+                                <span id="placesWarningText"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Date de participation *</label>
+                            <input
+                                type="date"
+                                name="date"
+                                id="selectedDate"
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Message / Demandes spéciales</label>
+                        <textarea
+                            name="message"
+                            id="message"
+                            placeholder="Vos demandes particulières, besoins spécifiques..."
+                        ></textarea>
+                    </div>
+
+                    <!-- Affichage du prix -->
+                    <div
+                        id="priceDisplay"
+                        class="price-display"
+                        style="display: none"
+                    >
+                        <div class="price-grid">
+                            <div class="price-item">
+                                <div class="price-label">Prix unitaire</div>
+                                <div class="price-value" id="displayUnitPrice">
+                                    -
+                                </div>
+                            </div>
+                            <div class="price-item">
+                                <div class="price-label">
+                                    Nombre de personnes
+                                </div>
+                                <div
+                                    class="price-value"
+                                    id="displayParticipants"
+                                >
+                                    1
+                                </div>
+                            </div>
+                        </div>
+                        <div class="price-total">
+                            <div class="total-row">
+                                <div class="total-label">Total</div>
+                                <div
+                                    class="total-amount"
+                                    id="displayTotalPrice"
+                                >
+                                    -
+                                </div>
+                            </div>
+                        </div>
+                        <div class="payment-due">
+                            <div class="payment-due-label">
+                                À payer maintenant
+                            </div>
+                            <div
+                                class="payment-due-amount"
+                                id="displayPaymentDue"
+                            >
+                                -
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="payment-section">
+                        <h2 class="section-title">Plan de paiement</h2>
+                        <div class="payment-options">
+                            <label class="box-option selected">
+                                <input
+                                    type="radio"
+                                    name="plan"
+                                    value="unique"
+                                    checked
+                                />
+                                <i class="fas fa-credit-card"></i>
+                                <div>Paiement en une fois</div>
+                            </label>
+                            <label class="box-option">
+                                <input
+                                    type="radio"
+                                    name="plan"
+                                    value="deux_tranches"
+                                />
+                                <i class="fas fa-calendar-alt"></i>
+                                <div>Paiement en deux tranches</div>
+                            </label>
+                        </div>
+
+                        <h2 class="section-title">Méthode de paiement</h2>
+                        <div class="payment-methods">
+                            <label class="box-option selected">
+                                <input
+                                    type="radio"
+                                    name="methode"
+                                    value="carte"
+                                    checked
+                                />
+                                <i class="fas fa-credit-card"></i>
+                                <div>Carte bancaire</div>
+                            </label>
+                            <label class="box-option">
+                                <input
+                                    type="radio"
+                                    name="methode"
+                                    value="paypal"
+                                />
+                                <i class="fab fa-paypal"></i>
+                                <div>PayPal</div>
+                            </label>
+                            <label class="box-option">
+                                <input
+                                    type="radio"
+                                    name="methode"
+                                    value="mtn"
+                                />
+                                <i class="fas fa-mobile-alt"></i>
+                                <div>MTN MoMo</div>
+                            </label>
+                            <label class="box-option">
+                                <input
+                                    type="radio"
+                                    name="methode"
+                                    value="moov"
+                                />
+                                <i class="fas fa-mobile-alt"></i>
+                                <div>Moov Money</div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="submit-btn" id="submitButton">
+                        <i class="fas fa-check-circle"></i>
+                        <span id="submitText">Confirmer la réservation</span>
+                        <i
+                            class="fas fa-spinner spinner"
+                            id="submitSpinner"
+                        ></i>
+                    </button>
+                    <p class="terms">
+                        En validant, vous acceptez nos conditions générales de
+                        vente
+                    </p>
+                </form>
+
+                <div class="info-box">
+                    <i class="fas fa-info-circle"></i>
+                    <p>
+                        <strong>Informations importantes :</strong> Votre
+                        réservation sera confirmée dans les 24 heures. Vous
+                        recevrez un email de confirmation avec tous les détails
+                        de votre voyage. Pour toute question, n'hésitez pas à
+                        nous contacter.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="images/logo-01.png" alt="Even Travel Logo" />
+                    </div>
+                    <p class="footer-text">
+                        Explorez l'Afrique à travers des événements et
+                        destinations inoubliables.
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Réservations</h3>
+                    <p class="footer-text">Cotonou, Bénin</p>
+                    <p class="footer-text">eventravel79@gmail.com</p>
+                    <p class="footer-text">+33781800811</p>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Horaires d'ouverture</h3>
+                    <p class="footer-text">Lundi au Vendredi: 9h00 à 19h00</p>
+                    <p class="footer-text">Samedi: 9h00 à 12h00</p>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Suivez-nous</h3>
+                    <div class="social-icons">
+                        <a
+                            href="https://www.instagram.com/even_travel?igsh=MTgxbWwwM3lvMXgwaA=="
+                            class="social-icon"
+                            aria-label="Instagram"
+                            target="_blank"
+                        >
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a
+                            href="https://www.facebook.com/share/182Y393fWk/?mibextid=wwXIfr"
+                            class="social-icon"
+                            aria-label="Facebook"
+                            target="_blank"
+                        >
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                        <a
+                            href="https://www.tiktok.com/@eventravel4?_r=1&_t=ZN-94HL34bF0QU"
+                            class="social-icon"
+                            aria-label="TikTok"
+                            target="_blank"
+                        >
+                            <i class="fa-brands fa-tiktok"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>
+                    &copy; <span id="year"></span> Even Travel. Tous droits
+                    réservés.
+                </p>
+            </div>
+        </footer>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                // Définir l'année du copyright
+                document.getElementById("year").textContent =
+                    new Date().getFullYear();
+
+                // API base URL
+                const API_BASE_URL =
+                    "https://even-travel-backend-13wa.onrender.com";
+
+                // Fonctions utilitaires
+                function showToast(message, type = "success") {
+                    const toast = document.getElementById("alertToast");
+                    toast.textContent = message;
+                    toast.className = `alert-toast alert-${type}`;
+                    toast.style.display = "block";
+                    setTimeout(() => {
+                        toast.style.display = "none";
+                    }, 5000);
+                }
+
+                function showError(message) {
+                    const errorEl = document.getElementById("errorMessage");
+                    const errorText = document.getElementById("errorText");
+                    errorText.textContent = message;
+                    errorEl.style.display = "block";
+                    setTimeout(() => {
+                        errorEl.style.display = "none";
+                    }, 5000);
+                }
+
+                function showLoading(show = true) {
+                    document.getElementById("loadingOverlay").style.display =
+                        show ? "flex" : "none";
+                }
+
+                function setButtonLoading(loading = true) {
+                    const button = document.getElementById("submitButton");
+                    const spinner = document.getElementById("submitSpinner");
+                    const text = document.getElementById("submitText");
+                    if (loading) {
+                        button.disabled = true;
+                        spinner.style.display = "inline-block";
+                        text.textContent = "Traitement...";
+                    } else {
+                        button.disabled = false;
+                        spinner.style.display = "none";
+                        text.textContent = "Confirmer la réservation";
+                    }
+                }
+
+                // Activer les cases sélectionnables
+                function activateBox(selector) {
+                    const boxes = document.querySelectorAll(selector);
+                    boxes.forEach((b) => {
+                        b.addEventListener("click", () => {
+                            boxes.forEach((x) =>
+                                x.classList.remove("selected"),
+                            );
+                            b.classList.add("selected");
+                            b.querySelector("input").checked = true;
+                            calculerTotal();
+                        });
+                    });
+                }
+                activateBox(".payment-options .box-option");
+                activateBox(".payment-methods .box-option");
+
+                // Récupérer les paramètres d'URL
+                const urlParams = new URLSearchParams(window.location.search);
+                console.log(
+                    "Paramètres URL:",
+                    Object.fromEntries(urlParams.entries()),
+                );
+                let type, id;
+                if (urlParams.get("type") && urlParams.get("id")) {
+                    type = urlParams.get("type");
+                    id = urlParams.get("id");
+                } else if (urlParams.get("eventId")) {
+                    type = "event";
+                    id = urlParams.get("eventId");
+                } else if (urlParams.get("destinationId")) {
+                    type = "destination";
+                    id = urlParams.get("destinationId");
+                }
+                console.log("Type détecté:", type);
+                console.log("ID détecté:", id);
+
+                // Charger les détails
+                async function chargerDetailsReservation() {
+                    if (!type || !id) {
+                        showToast(
+                            "Aucun événement ou destination sélectionné. Redirection...",
+                            "error",
+                        );
+                        setTimeout(() => {
+                            window.location.href = "index.html";
+                        }, 2000);
+                        return;
+                    }
+                    showLoading(true);
+                    try {
+                        let endpoint, itemType;
+                        if (type === "event") {
+                            endpoint = `${API_BASE_URL}/api/v1/events/${id}`;
+                            itemType = "Événement";
+                        } else if (type === "destination") {
+                            endpoint = `${API_BASE_URL}/api/v1/destinations/${id}`;
+                            itemType = "Destination";
+                        } else {
+                            throw new Error("Type de réservation non valide");
+                        }
+                        console.log("Chargement depuis:", endpoint);
+                        const response = await fetch(endpoint);
+                        if (!response.ok)
+                            throw new Error(`Erreur ${response.status}`);
+                        const result = await response.json();
+                        let item =
+                            result.data?.event ||
+                            result.data?.destination ||
+                            result.data;
+                        if (!item) throw new Error("Élément non trouvé");
+
+                        // Champs cachés
+                        document.getElementById("typeReservation").value = type;
+                        document.getElementById("referenceId").value = item._id;
+                        document.getElementById("referenceName").value =
+                            item.nom || item.titre;
+                        document.getElementById("referencePrice").value =
+                            item.prix || 0;
+
+                        let placesDisponibles = 50;
+                        if (
+                            type === "event" &&
+                            item.placesRestantes !== undefined
+                        )
+                            placesDisponibles = item.placesRestantes;
+                        else if (
+                            type === "destination" &&
+                            item.placesDisponibles !== undefined
+                        )
+                            placesDisponibles = item.placesDisponibles;
+                        document.getElementById("referencePlaces").value =
+                            placesDisponibles;
+
+                        const location =
+                            item.lieu || item.localisation || "Non spécifié";
+                        document.getElementById("referenceLocation").value =
+                            location;
+
+                        let defaultDate = "";
+                        const today = new Date();
+                        today.setHours(0, 0, 0, 0);
+                        if (item.date) {
+                            const itemDate = new Date(item.date);
+                            if (itemDate >= today)
+                                defaultDate = itemDate
+                                    .toISOString()
+                                    .split("T")[0];
+                        }
+                        if (!defaultDate && item.datesDisponibles?.length) {
+                            for (const range of item.datesDisponibles) {
+                                const debut = new Date(range.debut);
+                                if (debut >= today) {
+                                    defaultDate = debut
+                                        .toISOString()
+                                        .split("T")[0];
+                                    break;
+                                }
+                            }
+                        }
+                        if (!defaultDate) {
+                            const future = new Date();
+                            future.setDate(future.getDate() + 7);
+                            defaultDate = future.toISOString().split("T")[0];
+                        }
+                        document.getElementById("referenceDate").value =
+                            defaultDate;
+                        document.getElementById("selectedDate").value =
+                            defaultDate;
+                        document.getElementById("selectedDate").min = today
+                            .toISOString()
+                            .split("T")[0];
+
+                        afficherResume(
+                            item,
+                            itemType,
+                            defaultDate,
+                            placesDisponibles,
+                        );
+                        setupCalculTotal();
+                        showLoading(false);
+                    } catch (error) {
+                        console.error("Erreur:", error);
+                        showLoading(false);
+                        showError(
+                            `Impossible de charger les détails: ${error.message}`,
+                        );
+                        setTimeout(() => {
+                            window.location.href = "index.html";
+                        }, 3000);
+                    }
+                }
+
+                function afficherResume(
+                    item,
+                    itemType,
+                    selectedDate,
+                    placesDisponibles,
+                ) {
+                    document.getElementById(
+                        "reservationSummary",
+                    ).style.display = "block";
+                    document.getElementById("summaryTitle").textContent =
+                        `Résumé de votre réservation`;
+                    document.getElementById("summaryType").textContent =
+                        itemType;
+                    document.getElementById("summaryName").textContent =
+                        item.nom || item.titre;
+                    document.getElementById("summaryLocation").textContent =
+                        item.lieu || item.localisation || "Non spécifié";
+                    document.getElementById("summaryUnitPrice").textContent =
+                        `${(item.prix || 0).toLocaleString("fr-FR")} FCFA`;
+
+                    if (selectedDate) {
+                        const dateObj = new Date(selectedDate);
+                        document.getElementById("summaryDate").textContent =
+                            dateObj.toLocaleDateString("fr-FR", {
+                                weekday: "long",
+                                year: "numeric",
+                                month: "long",
+                                day: "numeric",
+                            });
+                    }
+
+                    document.getElementById("displayUnitPrice").textContent =
+                        `${(item.prix || 0).toLocaleString("fr-FR")} FCFA`;
+                    document.getElementById("priceDisplay").style.display =
+                        "block";
+                    updatePlacesWarning(placesDisponibles);
+                    calculerTotal();
+                }
+
+                function updatePlacesWarning(places) {
+                    const el = document.getElementById("placesWarning");
+                    const txt = document.getElementById("placesWarningText");
+                    if (places <= 10) {
+                        txt.textContent = `⚠️ Il ne reste que ${places} place${places > 1 ? "s" : ""} disponible${places > 1 ? "s" : ""}`;
+                        el.style.display = "block";
+                    } else {
+                        el.style.display = "none";
+                    }
+                }
+
+                function setupCalculTotal() {
+                    const participantsInput =
+                        document.getElementById("participants");
+                    const dateInput = document.getElementById("selectedDate");
+
+                    participantsInput.addEventListener("input", () => {
+                        calculerTotal();
+                        const max = parseInt(
+                            document.getElementById("referencePlaces").value,
+                        );
+                        const val = parseInt(participantsInput.value) || 1;
+                        updatePlacesWarning(max);
+                        if (val > max)
+                            showError(
+                                `Maximum ${max} place${max > 1 ? "s" : ""} disponible${max > 1 ? "s" : ""}`,
+                            );
+                    });
+
+                    dateInput.addEventListener("change", () => {
+                        document.getElementById("referenceDate").value =
+                            dateInput.value;
+                        calculerTotal();
+                    });
+
+                    document
+                        .querySelectorAll('input[name="plan"]')
+                        .forEach((r) =>
+                            r.addEventListener("change", calculerTotal),
+                        );
+                }
+
+                function calculerTotal() {
+                    const prix =
+                        parseFloat(
+                            document.getElementById("referencePrice").value,
+                        ) || 0;
+                    const nb =
+                        parseInt(
+                            document.getElementById("participants").value,
+                        ) || 1;
+                    const plan = document.querySelector(
+                        'input[name="plan"]:checked',
+                    ).value;
+                    const total = prix * nb;
+                    const aPayer =
+                        plan === "deux_tranches" ? Math.ceil(total / 2) : total;
+
+                    document.getElementById("summaryParticipants").textContent =
+                        nb;
+                    document.getElementById("summaryTotalPrice").textContent =
+                        `${total.toLocaleString("fr-FR")} FCFA`;
+                    document.getElementById("displayParticipants").textContent =
+                        nb;
+                    document.getElementById("displayTotalPrice").textContent =
+                        `${total.toLocaleString("fr-FR")} FCFA`;
+                    document.getElementById("displayPaymentDue").textContent =
+                        `${aPayer.toLocaleString("fr-FR")} FCFA`;
+                }
+
+                function validateForm() {
+                    const nom = document.getElementById("nom").value.trim();
+                    const prenom = document
+                        .getElementById("prenom")
+                        .value.trim();
+                    const email = document.getElementById("email").value.trim();
+                    const tel = document
+                        .getElementById("telephone")
+                        .value.trim();
+                    const participants = parseInt(
+                        document.getElementById("participants").value,
+                    );
+                    const maxPlaces = parseInt(
+                        document.getElementById("referencePlaces").value,
+                    );
+                    const date = document.getElementById("selectedDate").value;
+
+                    if (!nom || !prenom || !email || !tel)
+                        return (
+                            showError(
+                                "Tous les champs obligatoires doivent être remplis",
+                            ),
+                            false
+                        );
+                    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+                        return (showError("Email invalide"), false);
+                    if (!/^[\+]?[0-9\s\-\(\)]{8,}$/.test(tel))
+                        return (showError("Téléphone invalide"), false);
+                    if (participants < 1)
+                        return (showError("Au moins 1 participant"), false);
+                    if (participants > maxPlaces)
+                        return (
+                            showError(
+                                `Maximum ${maxPlaces} places disponibles`,
+                            ),
+                            false
+                        );
+                    if (!date)
+                        return (showError("Sélectionnez une date"), false);
+
+                    const selDate = new Date(date);
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0);
+                    if (selDate < today)
+                        return (showError("Date future requise"), false);
+
+                    return true;
+                }
+
+                // Soumission
+                document
+                    .getElementById("reservationForm")
+                    .addEventListener("submit", async function (e) {
+                        e.preventDefault();
+                        if (!validateForm()) return;
+
+                        const participants = parseInt(
+                            document.getElementById("participants").value,
+                        );
+                        const maxPlaces = parseInt(
+                            document.getElementById("referencePlaces").value,
+                        );
+                        if (participants > maxPlaces) {
+                            showError(
+                                `Désolé, il ne reste que ${maxPlaces} places disponibles.`,
+                            );
+                            return;
+                        }
+
+                        const formData = new FormData(this);
+                        const data = {
+                            client: {
+                                nom: formData.get("nom"),
+                                prenom: formData.get("prenom"),
+                                email: formData.get("email"),
+                                telephone: formData.get("telephone"),
+                            },
+                            type: formData.get("type_reservation"),
+                            itemId: formData.get("reference"),
+                            date: formData.get("date"),
+                            nombrePlaces: participants,
+                            message: formData.get("message"),
+                            planPaiement: formData.get("plan"),
+                            methodePaiement: formData.get("methode"),
+                        };
+
+                        setButtonLoading(true);
+
+                        try {
+                            const res = await fetch(
+                                `${API_BASE_URL}/api/v1/reservations/initier`,
+                                {
+                                    method: "POST",
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                    },
+                                    body: JSON.stringify(data),
+                                },
+                            );
+
+                            const text = await res.text();
+                            let result;
+                            try {
+                                result = JSON.parse(text);
+                            } catch {
+                                throw new Error(
+                                    text || "Réponse serveur invalide",
+                                );
+                            }
+
+                            if (!res.ok || result.status === "fail") {
+                                throw new Error(
+                                    result.message ||
+                                        "Erreur lors de la création de la réservation",
+                                );
+                            }
+
+                            const { reservation, payment } = result.data;
+                            const checkout_url = payment?.checkout_url;
+
+                            localStorage.setItem(
+                                "reservationId",
+                                reservation._id,
+                            );
+                            localStorage.setItem(
+                                "reservationData",
+                                JSON.stringify(data),
+                            );
+                            showToast("Réservation enregistrée !", "success");
+
+                            if (
+                                reservation.montantPaye >=
+                                reservation.montantTotal
+                            ) {
+                                showToast(
+                                    "Réservation déjà payée à 100%.",
+                                    "success",
+                                );
+                                setTimeout(() => {
+                                    window.location.href = `paiement.html?id=${reservation._id}&status=already_paid`;
+                                }, 1500);
+                                return;
+                            }
+
+                            if (!checkout_url) {
+                                throw new Error(
+                                    "URL de paiement non reçue du serveur (vérifiez payment.checkout_url)",
+                                );
+                            }
+
+                            showToast(
+                                "Redirection vers le paiement sécurisé...",
+                                "success",
+                            );
+                            setTimeout(() => {
+                                window.location.href = checkout_url;
+                            }, 1200);
+                        } catch (err) {
+                            console.error("Erreur complète:", err);
+                            showError(
+                                err.message ||
+                                    "Une erreur est survenue pendant le traitement",
+                            );
+                            setButtonLoading(false);
+                        }
+                    });
+
+                // Initialiser
+                chargerDetailsReservation();
+            });
+        </script>
+        <script>
+            /* ===== HAMBURGER MENU ===== */
+            (function () {
+                var hamburger = document.getElementById("hamburger");
+                var navLinks = document.getElementById("navLinks");
+                var overlay = document.getElementById("navOverlay");
+                if (!hamburger || !navLinks) return;
+                function openMenu() {
+                    hamburger.classList.add("active");
+                    navLinks.classList.add("active");
+                    if (overlay) overlay.classList.add("active");
+                    document.body.style.overflow = "hidden";
+                }
+                function closeMenu() {
+                    hamburger.classList.remove("active");
+                    navLinks.classList.remove("active");
+                    if (overlay) overlay.classList.remove("active");
+                    document.body.style.overflow = "";
+                }
+                hamburger.addEventListener("click", function () {
+                    hamburger.classList.contains("active")
+                        ? closeMenu()
+                        : openMenu();
+                });
+                if (overlay) overlay.addEventListener("click", closeMenu);
+                document.querySelectorAll("#navLinks a").forEach(function (a) {
+                    a.addEventListener("click", closeMenu);
+                });
+                window.addEventListener("resize", function () {
+                    if (window.innerWidth > 768) closeMenu();
+                });
+                document.addEventListener("keydown", function (e) {
+                    if (e.key === "Escape") closeMenu();
+                });
+            })();
+            /* ===== FIN HAMBURGER ===== */
+        </script>
+    </body>
 </html>
