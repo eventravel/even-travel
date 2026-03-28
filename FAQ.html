@@ -1,691 +1,742 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>FAQ — Even Travel</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Italiana&family=Marko+One&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+            rel="stylesheet"
+        />
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FAQ — Even Travel</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Italiana&family=Marko+One&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
-        rel="stylesheet">
-
-    <style>
-        :root {
-            --sand: #E8DDD0;
-            --stone: #D4C4B0;
-            --terracotta: #B8856A;
-            --ochre: #C4916B;
-            --bronze: #8B6F47;
-            --deep-brown: #5C4A3A;
-            --cream: #F5F1EA;
-            --white: #FFFFFF;
-            --text-dark: #2A2420;
-            --text-muted: #6B5D52;
-            --spacing-xs: 8px;
-            --spacing-sm: 16px;
-            --spacing-md: 32px;
-            --spacing-lg: 64px;
-            --spacing-xl: 96px;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            font-size: 16px;
-            line-height: 1.7;
-            background: var(--cream);
-            color: var(--text-dark);
-            -webkit-font-smoothing: antialiased;
-            font-weight: 400;
-        }
-
-        h1,
-        h2,
-        h3,
-        h4 {
-            font-family: 'Inter', sans-serif;
-            font-weight: 600;
-            line-height: 1.2;
-            color: var(--deep-brown);
-        }
-
-        header {
-            background: #faf8f5;
-            position: sticky;
-            top: 0;
-            width: 100%;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            animation: slideDown 0.5s ease-out;
-        }
-
-        @keyframes slideDown {
-            from {
-                transform: translateY(-100%);
+        <style>
+            :root {
+                --sand: #e8ddd0;
+                --stone: #d4c4b0;
+                --terracotta: #b8856a;
+                --ochre: #c4916b;
+                --bronze: #8b6f47;
+                --deep-brown: #5c4a3a;
+                --cream: #f5f1ea;
+                --white: #ffffff;
+                --text-dark: #2a2420;
+                --text-muted: #6b5d52;
+                --spacing-xs: 8px;
+                --spacing-sm: 16px;
+                --spacing-md: 32px;
+                --spacing-lg: 64px;
+                --spacing-xl: 96px;
             }
 
-            to {
-                transform: translateY(0);
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
             }
-        }
 
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1400px;
-            height: 80px;
-            margin: 0 auto;
-            padding: 0 40px;
-        }
+            html {
+                scroll-behavior: smooth;
+            }
 
-        .logo img {
-            width: 180px;
-            height: auto;
-        }
+            body {
+                font-family:
+                    "Inter",
+                    system-ui,
+                    -apple-system,
+                    sans-serif;
+                font-size: 16px;
+                line-height: 1.7;
+                background: var(--cream);
+                color: var(--text-dark);
+                -webkit-font-smoothing: antialiased;
+                font-weight: 400;
+            }
 
-        .nav-links {
-            display: flex;
-            gap: 30px;
-            list-style: none;
-            align-items: center;
-            margin: 0;
-        }
+            h1,
+            h2,
+            h3,
+            h4 {
+                font-family: "Inter", sans-serif;
+                font-weight: 600;
+                line-height: 1.2;
+                color: var(--deep-brown);
+            }
 
-        .nav-links a {
-            text-decoration: none;
-            color: #2c2c2c;
-            font-size: 15px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            position: relative;
-            padding: 8px 12px;
-        }
+            header {
+                background: #faf8f5;
+                position: sticky;
+                top: 0;
+                width: 100%;
+                z-index: 1000;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                animation: slideDown 0.5s ease-out;
+            }
 
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 0;
-            height: 2px;
-            background: #C4916B;
-            transition: all 0.3s ease;
-            transform: translateX(-50%);
-        }
+            @keyframes slideDown {
+                from {
+                    transform: translateY(-100%);
+                }
 
-        .nav-links a:hover::after {
-            width: 80%;
-        }
+                to {
+                    transform: translateY(0);
+                }
+            }
 
-        .nav-links a:hover {
-            color: #C4916B;
-        }
-
-        /* Hamburger menu */
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer;
-            z-index: 1100;
-            padding: 5px;
-        }
-
-        .hamburger span {
-            display: block;
-            width: 25px;
-            height: 3px;
-            background: #2c2c2c;
-            border-radius: 3px;
-            transition: all 0.3s ease;
-        }
-
-        .hamburger.active span:nth-child(1) {
-            transform: translateY(8px) rotate(45deg);
-        }
-
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .hamburger.active span:nth-child(3) {
-            transform: translateY(-8px) rotate(-45deg);
-        }
-
-        .nav-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-        }
-
-        .nav-overlay.active {
-            display: block;
-        }
-
-        .faq-hero {
-            position: relative;
-            height: 60vh;
-            min-height: 500px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .faq-hero__bg {
-            position: absolute;
-            inset: 0;
-            background-image: url(https://images.unsplash.com/photo-1526772662000-3f88f10405ff);
-            background-size: cover;
-            background-position: center;
-            filter: brightness(0.5);
-        }
-
-        .faq-hero__content {
-            position: relative;
-            z-index: 3;
-            text-align: center;
-            color: white;
-            max-width: 900px;
-            padding: 0 40px;
-        }
-
-        .faq-hero h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: 56px;
-            font-weight: 700;
-            color: white;
-            margin-bottom: 20px;
-            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        .faq-hero p {
-            font-size: 18px;
-            color: rgba(255, 255, 255, 0.95);
-            line-height: 1.6;
-        }
-
-        .faq-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: var(--spacing-xl) 40px;
-        }
-
-        .section-intro {
-            text-align: center;
-            margin-bottom: var(--spacing-lg);
-        }
-
-        .eyebrow {
-            display: inline-block;
-            font-size: 12px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            color: var(--terracotta);
-            font-weight: 600;
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .section-intro h2 {
-            font-size: 38px;
-            font-weight: 600;
-            color: var(--deep-brown);
-            margin-bottom: var(--spacing-sm);
-        }
-
-        .faq-item {
-            background: var(--white);
-            border-radius: 8px;
-            margin-bottom: 20px;
-            overflow: hidden;
-            border: 1px solid var(--stone);
-            transition: all 0.3s ease;
-        }
-
-        .faq-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-        }
-
-        .faq-question {
-            padding: 24px 28px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .faq-question:hover {
-            background: var(--cream);
-        }
-
-        .faq-question h3 {
-            font-size: 17px;
-            font-weight: 600;
-            color: var(--deep-brown);
-            max-width: 90%;
-        }
-
-        .faq-icon {
-            font-size: 24px;
-            color: var(--ochre);
-            transition: transform 0.4s ease;
-            font-weight: 300;
-        }
-
-        .faq-item.active .faq-icon {
-            transform: rotate(45deg);
-        }
-
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease, padding 0.4s ease;
-            padding: 0 28px;
-        }
-
-        .faq-item.active .faq-answer {
-            max-height: 500px;
-            padding: 0 28px 28px;
-        }
-
-        .faq-answer p {
-            font-size: 15px;
-            color: var(--text-muted);
-            line-height: 1.8;
-            margin-top: 0;
-        }
-
-        .faq-answer strong {
-            color: var(--bronze);
-            font-weight: 600;
-        }
-
-        .faq-cta {
-            text-align: center;
-            padding: var(--spacing-xl) 40px;
-            background: var(--white);
-        }
-
-        .faq-cta h2 {
-            font-size: 36px;
-            font-weight: 600;
-            color: var(--deep-brown);
-            margin-bottom: var(--spacing-md);
-        }
-
-        .faq-cta a {
-            display: inline-block;
-            padding: 16px 40px;
-            background: var(--terracotta);
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            font-weight: 600;
-            font-size: 15px;
-            transition: all 0.3s ease;
-        }
-
-        .faq-cta a:hover {
-            background: var(--bronze);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(184, 133, 106, 0.4);
-        }
-
-        footer {
-            background: #bab2b2;
-            color: rgb(0, 0, 0);
-            padding: 60px 40px 20px;
-        }
-
-        .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 40px;
-            margin-bottom: 40px;
-        }
-
-        .footer-logo img {
-            width: 180px;
-            height: auto;
-        }
-
-        .footer-title {
-            color: #493c31;
-            font-size: 25px;
-            margin-bottom: 15px;
-            font-weight: 600;
-            letter-spacing: 1px;
-        }
-
-        .footer-text {
-            font-size: 15px;
-            line-height: 1.8;
-            color: #000;
-            margin-bottom: 10px;
-        }
-
-        .social-icons {
-            display: flex;
-            gap: 15px;
-            margin-top: 15px;
-        }
-
-        .social-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: rgba(255, 140, 66, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #5C4A3A;
-            text-decoration: none;
-            font-size: 18px;
-            transition: all 0.3s ease;
-        }
-
-        .social-icon:hover {
-            background: #9a7b61;
-            color: white;
-            transform: translateY(-3px);
-        }
-
-        .footer-bottom {
-            text-align: center;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 14px;
-            color: #9ca3af;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
             nav {
-                padding: 0 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                max-width: 1400px;
+                height: 80px;
+                margin: 0 auto;
+                padding: 0 40px;
             }
 
-            .hamburger {
-                display: flex;
+            .logo img {
+                width: 180px;
+                height: auto;
             }
 
             .nav-links {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                height: 100vh;
-                width: 75%;
-                max-width: 320px;
-                background: #faf8f5;
-                flex-direction: column;
-                justify-content: center;
+                display: flex;
+                gap: 30px;
+                list-style: none;
                 align-items: center;
-                padding: 80px 40px 40px;
-                transition: right 0.35s ease;
-                box-shadow: -5px 0 30px rgba(0, 0, 0, 0.15);
-                z-index: 1050;
-                gap: 8px;
-            }
-
-            .nav-links.active {
-                right: 0;
-            }
-
-            .nav-links li {
-                width: 100%;
-                text-align: center;
+                margin: 0;
             }
 
             .nav-links a {
-                display: block;
-                padding: 14px 20px;
-                font-size: 16px;
-                border-radius: 8px;
+                text-decoration: none;
+                color: #2c2c2c;
+                font-size: 15px;
+                font-weight: 500;
+                transition: all 0.3s ease;
+                position: relative;
+                padding: 8px 12px;
+            }
+
+            .nav-links a::after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                width: 0;
+                height: 2px;
+                background: #c4916b;
+                transition: all 0.3s ease;
+                transform: translateX(-50%);
+            }
+
+            .nav-links a:hover::after {
+                width: 80%;
             }
 
             .nav-links a:hover {
-                background: var(--sand);
+                color: #c4916b;
+            }
+
+            /* Hamburger menu */
+            .hamburger {
+                display: none;
+                flex-direction: column;
+                gap: 5px;
+                cursor: pointer;
+                z-index: 1100;
+                padding: 5px;
+            }
+
+            .hamburger span {
+                display: block;
+                width: 25px;
+                height: 3px;
+                background: #2c2c2c;
+                border-radius: 3px;
+                transition: all 0.3s ease;
+            }
+
+            .hamburger.active span:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active span:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+
+            .nav-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 999;
+            }
+
+            .nav-overlay.active {
+                display: block;
             }
 
             .faq-hero {
-                height: 50vh;
-                min-height: 400px;
+                position: relative;
+                height: 60vh;
+                min-height: 500px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+            }
+
+            .faq-hero__bg {
+                position: absolute;
+                inset: 0;
+                background-image: url(https://images.unsplash.com/photo-1526772662000-3f88f10405ff);
+                background-size: cover;
+                background-position: center;
+                filter: brightness(0.5);
+            }
+
+            .faq-hero__content {
+                position: relative;
+                z-index: 3;
+                text-align: center;
+                color: white;
+                max-width: 900px;
+                padding: 0 40px;
             }
 
             .faq-hero h1 {
-                font-size: 38px;
+                font-family: "Playfair Display", serif;
+                font-size: 56px;
+                font-weight: 700;
+                color: white;
+                margin-bottom: 20px;
+                text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
             }
 
             .faq-hero p {
-                font-size: 16px;
+                font-size: 18px;
+                color: rgba(255, 255, 255, 0.95);
+                line-height: 1.6;
             }
 
             .faq-container {
-                padding: var(--spacing-lg) 20px;
+                max-width: 1000px;
+                margin: 0 auto;
+                padding: var(--spacing-xl) 40px;
+            }
+
+            .section-intro {
+                text-align: center;
+                margin-bottom: var(--spacing-lg);
+            }
+
+            .eyebrow {
+                display: inline-block;
+                font-size: 12px;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                color: var(--terracotta);
+                font-weight: 600;
+                margin-bottom: var(--spacing-sm);
             }
 
             .section-intro h2 {
-                font-size: 28px;
+                font-size: 38px;
+                font-weight: 600;
+                color: var(--deep-brown);
+                margin-bottom: var(--spacing-sm);
+            }
+
+            .faq-item {
+                background: var(--white);
+                border-radius: 8px;
+                margin-bottom: 20px;
+                overflow: hidden;
+                border: 1px solid var(--stone);
+                transition: all 0.3s ease;
+            }
+
+            .faq-item:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            }
+
+            .faq-question {
+                padding: 24px 28px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                cursor: pointer;
+                transition: background 0.3s ease;
+            }
+
+            .faq-question:hover {
+                background: var(--cream);
+            }
+
+            .faq-question h3 {
+                font-size: 17px;
+                font-weight: 600;
+                color: var(--deep-brown);
+                max-width: 90%;
+            }
+
+            .faq-icon {
+                font-size: 24px;
+                color: var(--ochre);
+                transition: transform 0.4s ease;
+                font-weight: 300;
+            }
+
+            .faq-item.active .faq-icon {
+                transform: rotate(45deg);
+            }
+
+            .faq-answer {
+                max-height: 0;
+                overflow: hidden;
+                transition:
+                    max-height 0.5s ease,
+                    padding 0.4s ease;
+                padding: 0 28px;
+            }
+
+            .faq-item.active .faq-answer {
+                max-height: 500px;
+                padding: 0 28px 28px;
+            }
+
+            .faq-answer p {
+                font-size: 15px;
+                color: var(--text-muted);
+                line-height: 1.8;
+                margin-top: 0;
+            }
+
+            .faq-answer strong {
+                color: var(--bronze);
+                font-weight: 600;
+            }
+
+            .faq-cta {
+                text-align: center;
+                padding: var(--spacing-xl) 40px;
+                background: var(--white);
             }
 
             .faq-cta h2 {
-                font-size: 28px;
+                font-size: 36px;
+                font-weight: 600;
+                color: var(--deep-brown);
+                margin-bottom: var(--spacing-md);
             }
-        }
 
-        @media (max-width: 600px) {
-            .faq-hero h1 {
-                font-size: 32px;
+            .faq-cta a {
+                display: inline-block;
+                padding: 16px 40px;
+                background: var(--terracotta);
+                color: white;
+                text-decoration: none;
+                border-radius: 4px;
+                font-weight: 600;
+                font-size: 15px;
+                transition: all 0.3s ease;
             }
-        }
-    </style>
-</head>
 
-<body>
+            .faq-cta a:hover {
+                background: var(--bronze);
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(184, 133, 106, 0.4);
+            }
 
-    <div class="nav-overlay" id="navOverlay"></div>
+            footer {
+                background: #bab2b2;
+                color: rgb(0, 0, 0);
+                padding: 60px 40px 20px;
+            }
 
-    <header>
-        <nav>
-            <div class="logo">
-                <img src="images/logo-01.png" alt="Even Travel Logo">
-            </div>
-            <ul class="nav-links" id="navLinks">
-                <li><a href="index.html">Accueil</a></li>
-                <li><a href="events.html">Événements</a></li>
-                <li><a href="destinations.html">Destinations</a></li>
-                <li><a href="blogs.html">Blog</a></li>
-                <li><a href="contact.html">Contact</a></li>
-                <li><a href="about.html">À propos</a></li>
-                <li><a href="FAQ.html">FAQ</a></li>
-            </ul>
-            <div class="hamburger" id="hamburger">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-        </nav>
-    </header>
+            .footer-content {
+                max-width: 1400px;
+                margin: 0 auto;
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 40px;
+                margin-bottom: 40px;
+            }
 
-    <section class="faq-hero">
-        <div class="faq-hero__bg"></div>
-        <div class="faq-hero__content">
-            <h1>Questions fréquentes</h1>
-            <p>Tout ce que vous devez savoir avant de vivre une expérience unique avec Even Travel.</p>
-        </div>
-    </section>
+            .footer-logo img {
+                width: 180px;
+                height: auto;
+            }
 
-    <section class="faq-container">
-        <div class="section-intro">
-            <span class="eyebrow">FAQ</span>
-            <h2>Réponses à vos questions</h2>
-        </div>
+            .footer-title {
+                color: #493c31;
+                font-size: 25px;
+                margin-bottom: 15px;
+                font-weight: 600;
+                letter-spacing: 1px;
+            }
 
-        <div class="faq-item">
-            <div class="faq-question">
-                <h3>Qu'est-ce qu'Even Travel ?</h3>
-                <span class="faq-icon">+</span>
-            </div>
-            <div class="faq-answer">
-                <p>Even Travel est une agence spécialisée dans la création d'expériences de voyage immersives mêlant
-                    culture, événements, découvertes locales et moments exclusifs.</p>
-            </div>
-        </div>
+            .footer-text {
+                font-size: 15px;
+                line-height: 1.8;
+                color: #000;
+                margin-bottom: 10px;
+            }
 
-        <div class="faq-item">
-            <div class="faq-question">
-                <h3>Quelles destinations proposez-vous ?</h3>
-                <span class="faq-icon">+</span>
-            </div>
-            <div class="faq-answer">
-                <p>Nous proposons actuellement des expériences au Bénin, au Togo, au Ghana, en Tunisie et au Maroc. De
-                    nouvelles destinations sont régulièrement ajoutées.</p>
-            </div>
-        </div>
+            .social-icons {
+                display: flex;
+                gap: 15px;
+                margin-top: 15px;
+            }
 
-        <div class="faq-item">
-            <div class="faq-question">
-                <h3>Quels types d'activités sont disponibles ?</h3>
-                <span class="faq-icon">+</span>
-            </div>
-            <div class="faq-answer">
-                <p>Voyages culturels, événements, excursions, expériences immersives et activités culinaires faisant
-                    découvrir les saveurs locales.</p>
-            </div>
-        </div>
+            .social-icon {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background: rgba(255, 140, 66, 0.1);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #5c4a3a;
+                text-decoration: none;
+                font-size: 18px;
+                transition: all 0.3s ease;
+            }
 
-        <div class="faq-item">
-            <div class="faq-question">
-                <h3>Puis-je payer en plusieurs fois ?</h3>
-                <span class="faq-icon">+</span>
-            </div>
-            <div class="faq-answer">
-                <p>Oui. Vous pouvez régler votre réservation en deux tranches : <strong>50 % à la réservation</strong>
-                    et <strong>50 % au plus tard deux semaines avant la date de l'expérience</strong>.</p>
-            </div>
-        </div>
+            .social-icon:hover {
+                background: #9a7b61;
+                color: white;
+                transform: translateY(-3px);
+            }
 
-        <div class="faq-item">
-            <div class="faq-question">
-                <h3>Quels moyens de paiement acceptez-vous ?</h3>
-                <span class="faq-icon">+</span>
-            </div>
-            <div class="faq-answer">
-                <p>Carte Bancaire, MTN Mobile Money et Moov Money.</p>
-            </div>
-        </div>
+            .footer-bottom {
+                text-align: center;
+                padding-top: 30px;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                font-size: 14px;
+                color: #9ca3af;
+            }
 
-        <div class="faq-item">
-            <div class="faq-question">
-                <h3>Proposez-vous des expériences sur mesure ?</h3>
-                <span class="faq-icon">+</span>
-            </div>
-            <div class="faq-answer">
-                <p>Absolument. Nous concevons des expériences personnalisées selon vos envies, votre budget et votre
-                    planning.</p>
-            </div>
-        </div>
-    </section>
+            /* Responsive */
+            @media (max-width: 768px) {
+                nav {
+                    padding: 0 20px;
+                }
 
-    <section class="faq-cta">
-        <h2>Une question spécifique ?</h2>
-        <a href="contact.html">Contactez-nous</a>
-    </section>
+                .hamburger {
+                    display: flex;
+                }
 
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <div class="footer-logo"><img src="images/logo-01.png" alt="Even Travel Logo"></div>
-                <p class="footer-text">Explorez l'Afrique à travers des événements et destinations inoubliables.</p>
+                .nav-links {
+                    position: fixed;
+                    top: 0;
+                    right: -100%;
+                    height: 100vh;
+                    width: 75%;
+                    max-width: 320px;
+                    background: #faf8f5;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 80px 40px 40px;
+                    transition: right 0.35s ease;
+                    box-shadow: -5px 0 30px rgba(0, 0, 0, 0.15);
+                    z-index: 1050;
+                    gap: 8px;
+                }
+
+                .nav-links.active {
+                    right: 0;
+                }
+
+                .nav-links li {
+                    width: 100%;
+                    text-align: center;
+                }
+
+                .nav-links a {
+                    display: block;
+                    padding: 14px 20px;
+                    font-size: 16px;
+                    border-radius: 8px;
+                }
+
+                .nav-links a:hover {
+                    background: var(--sand);
+                }
+
+                .faq-hero {
+                    height: 50vh;
+                    min-height: 400px;
+                }
+
+                .faq-hero h1 {
+                    font-size: 38px;
+                }
+
+                .faq-hero p {
+                    font-size: 16px;
+                }
+
+                .faq-container {
+                    padding: var(--spacing-lg) 20px;
+                }
+
+                .section-intro h2 {
+                    font-size: 28px;
+                }
+
+                .faq-cta h2 {
+                    font-size: 28px;
+                }
+            }
+
+            @media (max-width: 600px) {
+                .faq-hero h1 {
+                    font-size: 32px;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="nav-overlay" id="navOverlay"></div>
+
+        <header>
+            <nav>
+                <div class="logo">
+                    <img src="images/logo-01.png" alt="Even Travel Logo" />
+                </div>
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="events.html">Événements</a></li>
+                    <li><a href="destinations.html">Destinations</a></li>
+                    <li><a href="blogs.html">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="about.html">À propos</a></li>
+                    <li><a href="FAQ.html">FAQ</a></li>
+                </ul>
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </header>
+
+        <section class="faq-hero">
+            <div class="faq-hero__bg"></div>
+            <div class="faq-hero__content">
+                <h1>Questions fréquentes</h1>
+                <p>
+                    Tout ce que vous devez savoir avant de vivre une expérience
+                    unique avec Even Travel.
+                </p>
             </div>
-            <div class="footer-section">
-                <h3 class="footer-title">Réservations</h3>
-                <p class="footer-text">Cotonou, Bénin</p>
-                <p class="footer-text">eventravel79@gmail.com</p>
-                <p class="footer-text">+33781800811</p>
+        </section>
+
+        <section class="faq-container">
+            <div class="section-intro">
+                <span class="eyebrow">FAQ</span>
+                <h2>Réponses à vos questions</h2>
             </div>
-            <div class="footer-section">
-                <h3 class="footer-title">Horaires d'ouverture</h3>
-                <p class="footer-text">Lundi au Vendredi : 9h00 à 19h00</p>
-                <p class="footer-text">Samedi : 9h00 à 12h00</p>
-            </div>
-            <div class="footer-section">
-                <h3 class="footer-title">Suivez-nous</h3>
-                <div class="social-icons">
-                    <a href="https://www.instagram.com/even_travel?igsh=MTgxbWwwM3lvMXgwaA==" class="social-icon"
-                        target="_blank"><i class="fa-brands fa-instagram"></i></a>
-                    <a href="https://www.facebook.com/share/182Y393fWk/?mibextid=wwXIfr" class="social-icon"
-                        target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="https://www.tiktok.com/@eventravel4?_r=1&_t=ZN-94HL34bF0QU" class="social-icon"
-                        target="_blank"><i class="fa-brands fa-tiktok"></i></a>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Qu'est-ce qu'Even Travel ?</h3>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>
+                        Even Travel est une agence spécialisée dans la création
+                        d'expériences de voyage immersives mêlant culture,
+                        événements, découvertes locales et moments exclusifs.
+                    </p>
                 </div>
             </div>
-        </div>
-        <div class="footer-bottom">
-            <p>© <span id="year"></span> Even Travel. Tous droits réservés.</p>
-        </div>
-    </footer>
 
-    <script>
-        const hamburger = document.getElementById('hamburger');
-        const navLinks = document.getElementById('navLinks');
-        const navOverlay = document.getElementById('navOverlay');
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Quelles destinations proposez-vous ?</h3>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>
+                        Nous proposons actuellement des expériences au Bénin, au
+                        Togo, au Ghana, en Tunisie et au Maroc. De nouvelles
+                        destinations sont régulièrement ajoutées.
+                    </p>
+                </div>
+            </div>
 
-        function openMenu() {
-            hamburger.classList.add('active');
-            navLinks.classList.add('active');
-            navOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        }
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Quels types d'activités sont disponibles ?</h3>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>
+                        Voyages culturels, événements, excursions, expériences
+                        immersives et activités culinaires faisant découvrir les
+                        saveurs locales.
+                    </p>
+                </div>
+            </div>
 
-        function closeMenu() {
-            hamburger.classList.remove('active');
-            navLinks.classList.remove('active');
-            navOverlay.classList.remove('active');
-            document.body.style.overflow = '';
-        }
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Puis-je payer en plusieurs fois ?</h3>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>
+                        Oui. Vous pouvez régler votre réservation en deux
+                        tranches : <strong>50 % à la réservation</strong> et
+                        <strong
+                            >50 % au plus tard deux semaines avant la date de
+                            l'expérience</strong
+                        >.
+                    </p>
+                </div>
+            </div>
 
-        hamburger.addEventListener('click', () => {
-            if (hamburger.classList.contains('active')) closeMenu();
-            else openMenu();
-        });
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Quels moyens de paiement acceptez-vous ?</h3>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Carte Bancaire, MTN Mobile Money et Moov Money.</p>
+                </div>
+            </div>
 
-        navOverlay.addEventListener('click', closeMenu);
+            <div class="faq-item">
+                <div class="faq-question">
+                    <h3>Proposez-vous des expériences sur mesure ?</h3>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>
+                        Absolument. Nous concevons des expériences
+                        personnalisées selon vos envies, votre budget et votre
+                        planning.
+                    </p>
+                </div>
+            </div>
+        </section>
 
-        document.querySelectorAll('#navLinks a').forEach(link => {
-            link.addEventListener('click', closeMenu);
-        });
+        <section class="faq-cta">
+            <h2>Une question spécifique ?</h2>
+            <a href="contact.html">Contactez-nous</a>
+        </section>
 
-        // FAQ accordion
-        document.querySelectorAll('.faq-question').forEach(question => {
-            question.addEventListener('click', () => {
-                const item = question.parentElement;
-                document.querySelectorAll('.faq-item').forEach(i => {
-                    if (i !== item) i.classList.remove('active');
-                });
-                item.classList.toggle('active');
+        <footer>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="images/logo-01.png" alt="Even Travel Logo" />
+                    </div>
+                    <p class="footer-text">
+                        Explorez l'Afrique à travers des événements et
+                        destinations inoubliables.
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Réservations</h3>
+                    <p class="footer-text">Cotonou, Bénin</p>
+                    <p class="footer-text">eventravel2@gmail.com</p>
+                    <p class="footer-text">+33781800811</p>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Horaires d'ouverture</h3>
+                    <p class="footer-text">Lundi au Vendredi : 9h00 à 19h00</p>
+                    <p class="footer-text">Samedi : 9h00 à 12h00</p>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Suivez-nous</h3>
+                    <div class="social-icons">
+                        <a
+                            href="https://www.instagram.com/even_travel?igsh=MTgxbWwwM3lvMXgwaA=="
+                            class="social-icon"
+                            target="_blank"
+                            ><i class="fa-brands fa-instagram"></i
+                        ></a>
+                        <a
+                            href="https://www.facebook.com/share/182Y393fWk/?mibextid=wwXIfr"
+                            class="social-icon"
+                            target="_blank"
+                            ><i class="fa-brands fa-facebook-f"></i
+                        ></a>
+                        <a
+                            href="https://www.tiktok.com/@eventravel4?_r=1&_t=ZN-94HL34bF0QU"
+                            class="social-icon"
+                            target="_blank"
+                            ><i class="fa-brands fa-tiktok"></i
+                        ></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>
+                    © <span id="year"></span> Even Travel. Tous droits réservés.
+                </p>
+            </div>
+        </footer>
+
+        <script>
+            const hamburger = document.getElementById("hamburger");
+            const navLinks = document.getElementById("navLinks");
+            const navOverlay = document.getElementById("navOverlay");
+
+            function openMenu() {
+                hamburger.classList.add("active");
+                navLinks.classList.add("active");
+                navOverlay.classList.add("active");
+                document.body.style.overflow = "hidden";
+            }
+
+            function closeMenu() {
+                hamburger.classList.remove("active");
+                navLinks.classList.remove("active");
+                navOverlay.classList.remove("active");
+                document.body.style.overflow = "";
+            }
+
+            hamburger.addEventListener("click", () => {
+                if (hamburger.classList.contains("active")) closeMenu();
+                else openMenu();
             });
-        });
 
-        document.getElementById('year').textContent = new Date().getFullYear();
-    </script>
-</body>
+            navOverlay.addEventListener("click", closeMenu);
 
+            document.querySelectorAll("#navLinks a").forEach((link) => {
+                link.addEventListener("click", closeMenu);
+            });
+
+            // FAQ accordion
+            document.querySelectorAll(".faq-question").forEach((question) => {
+                question.addEventListener("click", () => {
+                    const item = question.parentElement;
+                    document.querySelectorAll(".faq-item").forEach((i) => {
+                        if (i !== item) i.classList.remove("active");
+                    });
+                    item.classList.toggle("active");
+                });
+            });
+
+            document.getElementById("year").textContent =
+                new Date().getFullYear();
+        </script>
+    </body>
 </html>

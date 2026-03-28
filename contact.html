@@ -1,748 +1,827 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Contact — Even Travel</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link
-    href="https://fonts.googleapis.com/css2?family=Italiana&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
-    rel="stylesheet">
-
-  <style>
-    :root {
-      --sand: #E8DDD0;
-      --stone: #D4C4B0;
-      --terracotta: #B8856A;
-      --ochre: #C4916B;
-      --bronze: #8B6F47;
-      --deep-brown: #5C4A3A;
-      --cream: #F5F1EA;
-      --white: #FFFFFF;
-      --text-dark: #2A2420;
-      --text-muted: #6B5D52;
-      --spacing-xs: 8px;
-      --spacing-sm: 16px;
-      --spacing-md: 32px;
-      --spacing-lg: 64px;
-      --spacing-xl: 96px;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      font-size: 16px;
-      line-height: 1.7;
-      background: var(--cream);
-      color: var(--text-dark);
-      -webkit-font-smoothing: antialiased;
-      font-weight: 400;
-    }
-
-    h1,
-    h2,
-    h3,
-    h4 {
-      font-family: 'Inter', sans-serif;
-      font-weight: 600;
-      line-height: 1.2;
-      color: var(--deep-brown);
-    }
-
-    /* ===== HEADER & NAV ===== */
-    header {
-      background: #faf8f5;
-      position: sticky;
-      top: 0;
-      width: 100%;
-      z-index: 1000;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      max-width: 1400px;
-      height: 80px;
-      margin: 0 auto;
-      padding: 0 40px;
-    }
-
-    .logo img {
-      width: 180px;
-      height: auto;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 30px;
-      list-style: none;
-      align-items: center;
-      margin: 0;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: #2c2c2c;
-      font-size: 15px;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      position: relative;
-      padding: 8px 12px;
-    }
-
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      width: 0;
-      height: 2px;
-      background: #C4916B;
-      transition: all 0.3s ease;
-      transform: translateX(-50%);
-    }
-
-    .nav-links a:hover::after {
-      width: 80%;
-    }
-
-    .nav-links a:hover {
-      color: #C4916B;
-    }
-
-    /* ===== HAMBURGER ===== */
-    .hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      cursor: pointer;
-      z-index: 1100;
-      padding: 5px;
-    }
-
-    .hamburger span {
-      display: block;
-      width: 25px;
-      height: 3px;
-      background: #2c2c2c;
-      border-radius: 3px;
-      transition: all 0.3s ease;
-    }
-
-    .hamburger.active span:nth-child(1) {
-      transform: translateY(8px) rotate(45deg);
-    }
-
-    .hamburger.active span:nth-child(2) {
-      opacity: 0;
-    }
-
-    .hamburger.active span:nth-child(3) {
-      transform: translateY(-8px) rotate(-45deg);
-    }
-
-    /* Overlay pour fermer le menu */
-    .nav-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 999;
-    }
-
-    .nav-overlay.active {
-      display: block;
-    }
-
-    /* ===== HERO ===== */
-    .hero {
-      position: relative;
-      height: 50vh;
-      min-height: 400px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      background-image: url(images/Contact.jpg);
-      background-size: cover;
-      background-position: center;
-    }
-
-    .hero__overlay {
-      position: relative;
-      z-index: 3;
-      text-align: center;
-    }
-
-    .hero h1 {
-      font-family: 'Italiana', serif;
-      font-size: 72px;
-      margin: 0;
-      line-height: 1;
-      color: #2A2420;
-      text-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-    }
-
-    .hero p {
-      font-family: 'Playfair Display', serif;
-      margin: 16px 0 0;
-      font-size: 20px;
-      color: #2A2420;
-      text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    }
-
-    /* ===== CONTAINER ===== */
-    .container {
-      width: 90%;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    /* ===== CONTACT SECTION ===== */
-    section.contact-section {
-      padding: var(--spacing-xl) 0;
-      background: var(--white);
-    }
-
-    .contact-container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: var(--spacing-lg);
-      align-items: start;
-    }
-
-    .contact-form {
-      background: var(--cream);
-      padding: var(--spacing-lg);
-      border-radius: 16px;
-      border: 1px solid var(--stone);
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-    }
-
-    .contact-form h2 {
-      font-size: 32px;
-      font-weight: 600;
-      color: var(--deep-brown);
-      margin-bottom: var(--spacing-md);
-    }
-
-    .form-group {
-      margin-bottom: var(--spacing-md);
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: var(--spacing-xs);
-      font-weight: 600;
-      color: var(--deep-brown);
-      font-size: 14px;
-    }
-
-    .form-group input,
-    .form-group textarea,
-    .form-group select {
-      width: 100%;
-      padding: 16px;
-      border: 2px solid var(--stone);
-      border-radius: 8px;
-      font-size: 15px;
-      font-family: 'Inter', sans-serif;
-      transition: all 0.3s ease;
-      outline: none;
-      background: var(--white);
-      color: var(--text-dark);
-    }
-
-    .form-group input:focus,
-    .form-group textarea:focus,
-    .form-group select:focus {
-      border-color: var(--terracotta);
-      box-shadow: 0 0 0 3px rgba(184, 133, 106, 0.1);
-    }
-
-    .form-group textarea {
-      resize: vertical;
-      min-height: 140px;
-    }
-
-    .submit-btn {
-      background: var(--terracotta);
-      color: white;
-      padding: 16px 40px;
-      border: none;
-      border-radius: 8px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      width: 100%;
-      font-family: 'Inter', sans-serif;
-    }
-
-    .submit-btn:hover {
-      background: var(--bronze);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(139, 111, 71, 0.4);
-    }
-
-    /* ===== CONTACT INFO ===== */
-    .contact-info h2 {
-      font-size: 32px;
-      font-weight: 600;
-      color: var(--deep-brown);
-      margin-bottom: var(--spacing-md);
-    }
-
-    .info-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 20px;
-      margin-bottom: var(--spacing-md);
-      padding: var(--spacing-md);
-      background: var(--cream);
-      border-radius: 12px;
-      border: 1px solid var(--stone);
-      transition: all 0.3s ease;
-    }
-
-    .info-item:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-    }
-
-    .info-icon {
-      font-size: 28px;
-      color: var(--ochre);
-      min-width: 40px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .info-content h3 {
-      font-size: 18px;
-      font-weight: 600;
-      color: var(--deep-brown);
-      margin-bottom: var(--spacing-xs);
-    }
-
-    .info-content p {
-      color: var(--text-muted);
-      font-size: 15px;
-      line-height: 1.6;
-      margin: 0;
-    }
-
-    .info-content p strong {
-      color: var(--text-dark);
-      font-weight: 600;
-    }
-
-    /* ===== FOOTER ===== */
-    footer {
-      background: #bab2b2;
-      color: rgb(0, 0, 0);
-      padding: 60px 40px 20px;
-    }
-
-    .footer-content {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 40px;
-      margin-bottom: 40px;
-    }
-
-    .footer-logo {
-      display: flex;
-      align-items: center;
-      margin-bottom: 15px;
-    }
-
-    .footer-logo img {
-      width: 180px;
-      height: auto;
-    }
-
-    .footer-title {
-      color: #493c31;
-      font-size: 25px;
-      margin-bottom: 15px;
-      font-weight: 600;
-      letter-spacing: 1px;
-    }
-
-    .footer-text {
-      font-size: 15px;
-      line-height: 1.8;
-      color: #000;
-      margin-bottom: 10px;
-    }
-
-    .social-icons {
-      display: flex;
-      gap: 15px;
-      margin-top: 15px;
-    }
-
-    .social-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(255, 140, 66, 0.1);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #5C4A3A;
-      text-decoration: none;
-      font-size: 18px;
-      transition: all 0.3s ease;
-    }
-
-    .social-icon:hover {
-      background: #9a7b61;
-      color: white;
-      transform: translateY(-3px);
-    }
-
-    .footer-bottom {
-      text-align: center;
-      padding-top: 30px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      font-size: 14px;
-      color: #9ca3af;
-    }
-
-    /* ===== RESPONSIVE ===== */
-    @media (max-width: 900px) {
-      .hero h1 {
-        font-size: 56px;
-      }
-
-      .contact-container {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 768px) {
-      nav {
-        padding: 0 20px;
-      }
-
-      .hamburger {
-        display: flex;
-      }
-
-      .nav-links {
-        position: fixed;
-        top: 0;
-        right: -100%;
-        height: 100vh;
-        width: 75%;
-        max-width: 320px;
-        background: #faf8f5;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 80px 40px 40px;
-        transition: right 0.35s ease;
-        box-shadow: -5px 0 30px rgba(0, 0, 0, 0.15);
-        z-index: 1050;
-        gap: 8px;
-      }
-
-      .nav-links.active {
-        right: 0;
-      }
-
-      .nav-links li {
-        width: 100%;
-        text-align: center;
-      }
-
-      .nav-links a {
-        display: block;
-        padding: 14px 20px;
-        font-size: 16px;
-        border-radius: 8px;
-      }
-
-      .nav-links a:hover {
-        background: var(--sand);
-      }
-
-      .contact-form h2,
-      .contact-info h2 {
-        font-size: 28px;
-      }
-    }
-
-    @media (max-width: 600px) {
-      nav {
-        height: 70px;
-      }
-
-      .hero {
-        height: 40vh;
-        min-height: 300px;
-      }
-
-      .hero h1 {
-        font-size: 42px;
-      }
-
-      .hero p {
-        font-size: 16px;
-      }
-
-      .contact-form {
-        padding: var(--spacing-md);
-      }
-
-      .info-item {
-        padding: var(--spacing-sm);
-      }
-
-      footer {
-        padding: 40px 20px 20px;
-      }
-    }
-  </style>
-</head>
-
-<body>
-  <!-- Overlay fermeture menu -->
-  <div class="nav-overlay" id="navOverlay"></div>
-
-  <header>
-    <nav>
-      <div class="logo">
-        <img src="images/logo-01.png" alt="Even Travel Logo">
-      </div>
-
-      <ul class="nav-links" id="navLinks">
-        <li><a href="index.html">Accueil</a></li>
-        <li><a href="events.html">Événements</a></li>
-        <li><a href="destinations.html">Destinations</a></li>
-        <li><a href="blogs.html">Blog</a></li>
-        <li><a href="contact.html">Contact</a></li>
-        <li><a href="about.html">À propos</a></li>
-        <li><a href="FAQ.html">FAQ</a></li>
-      </ul>
-
-      <div class="hamburger" id="hamburger">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-    </nav>
-  </header>
-
-  <section class="hero">
-    <div class="hero__overlay">
-      <h1>Contactez-nous</h1>
-      <p>Nous sommes là pour répondre à toutes vos questions</p>
-    </div>
-  </section>
-
-  <section class="contact-section">
-    <div class="container">
-      <div class="contact-container">
-        <div class="contact-form">
-          <h2>Envoyez-nous un message</h2>
-          <form id="contactForm">
-            <div class="form-group">
-              <label for="name">Nom complet</label>
-              <input type="text" id="name" name="name" required placeholder="Votre nom complet">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <title>Contact — Even Travel</title>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Italiana&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+            rel="stylesheet"
+        />
+
+        <style>
+            :root {
+                --sand: #e8ddd0;
+                --stone: #d4c4b0;
+                --terracotta: #b8856a;
+                --ochre: #c4916b;
+                --bronze: #8b6f47;
+                --deep-brown: #5c4a3a;
+                --cream: #f5f1ea;
+                --white: #ffffff;
+                --text-dark: #2a2420;
+                --text-muted: #6b5d52;
+                --spacing-xs: 8px;
+                --spacing-sm: 16px;
+                --spacing-md: 32px;
+                --spacing-lg: 64px;
+                --spacing-xl: 96px;
+            }
+
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+
+            html {
+                scroll-behavior: smooth;
+            }
+
+            body {
+                font-family:
+                    "Inter",
+                    system-ui,
+                    -apple-system,
+                    sans-serif;
+                font-size: 16px;
+                line-height: 1.7;
+                background: var(--cream);
+                color: var(--text-dark);
+                -webkit-font-smoothing: antialiased;
+                font-weight: 400;
+            }
+
+            h1,
+            h2,
+            h3,
+            h4 {
+                font-family: "Inter", sans-serif;
+                font-weight: 600;
+                line-height: 1.2;
+                color: var(--deep-brown);
+            }
+
+            /* ===== HEADER & NAV ===== */
+            header {
+                background: #faf8f5;
+                position: sticky;
+                top: 0;
+                width: 100%;
+                z-index: 1000;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            nav {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                max-width: 1400px;
+                height: 80px;
+                margin: 0 auto;
+                padding: 0 40px;
+            }
+
+            .logo img {
+                width: 180px;
+                height: auto;
+            }
+
+            .nav-links {
+                display: flex;
+                gap: 30px;
+                list-style: none;
+                align-items: center;
+                margin: 0;
+            }
+
+            .nav-links a {
+                text-decoration: none;
+                color: #2c2c2c;
+                font-size: 15px;
+                font-weight: 500;
+                transition: all 0.3s ease;
+                position: relative;
+                padding: 8px 12px;
+            }
+
+            .nav-links a::after {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                width: 0;
+                height: 2px;
+                background: #c4916b;
+                transition: all 0.3s ease;
+                transform: translateX(-50%);
+            }
+
+            .nav-links a:hover::after {
+                width: 80%;
+            }
+
+            .nav-links a:hover {
+                color: #c4916b;
+            }
+
+            /* ===== HAMBURGER ===== */
+            .hamburger {
+                display: none;
+                flex-direction: column;
+                gap: 5px;
+                cursor: pointer;
+                z-index: 1100;
+                padding: 5px;
+            }
+
+            .hamburger span {
+                display: block;
+                width: 25px;
+                height: 3px;
+                background: #2c2c2c;
+                border-radius: 3px;
+                transition: all 0.3s ease;
+            }
+
+            .hamburger.active span:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active span:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+
+            /* Overlay pour fermer le menu */
+            .nav-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 999;
+            }
+
+            .nav-overlay.active {
+                display: block;
+            }
+
+            /* ===== HERO ===== */
+            .hero {
+                position: relative;
+                height: 50vh;
+                min-height: 400px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+                background-image: url(images/Contact.jpg);
+                background-size: cover;
+                background-position: center;
+            }
+
+            .hero__overlay {
+                position: relative;
+                z-index: 3;
+                text-align: center;
+            }
+
+            .hero h1 {
+                font-family: "Italiana", serif;
+                font-size: 72px;
+                margin: 0;
+                line-height: 1;
+                color: #2a2420;
+                text-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            }
+
+            .hero p {
+                font-family: "Playfair Display", serif;
+                margin: 16px 0 0;
+                font-size: 20px;
+                color: #2a2420;
+                text-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            }
+
+            /* ===== CONTAINER ===== */
+            .container {
+                width: 90%;
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+
+            /* ===== CONTACT SECTION ===== */
+            section.contact-section {
+                padding: var(--spacing-xl) 0;
+                background: var(--white);
+            }
+
+            .contact-container {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: var(--spacing-lg);
+                align-items: start;
+            }
+
+            .contact-form {
+                background: var(--cream);
+                padding: var(--spacing-lg);
+                border-radius: 16px;
+                border: 1px solid var(--stone);
+                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            }
+
+            .contact-form h2 {
+                font-size: 32px;
+                font-weight: 600;
+                color: var(--deep-brown);
+                margin-bottom: var(--spacing-md);
+            }
+
+            .form-group {
+                margin-bottom: var(--spacing-md);
+            }
+
+            .form-group label {
+                display: block;
+                margin-bottom: var(--spacing-xs);
+                font-weight: 600;
+                color: var(--deep-brown);
+                font-size: 14px;
+            }
+
+            .form-group input,
+            .form-group textarea,
+            .form-group select {
+                width: 100%;
+                padding: 16px;
+                border: 2px solid var(--stone);
+                border-radius: 8px;
+                font-size: 15px;
+                font-family: "Inter", sans-serif;
+                transition: all 0.3s ease;
+                outline: none;
+                background: var(--white);
+                color: var(--text-dark);
+            }
+
+            .form-group input:focus,
+            .form-group textarea:focus,
+            .form-group select:focus {
+                border-color: var(--terracotta);
+                box-shadow: 0 0 0 3px rgba(184, 133, 106, 0.1);
+            }
+
+            .form-group textarea {
+                resize: vertical;
+                min-height: 140px;
+            }
+
+            .submit-btn {
+                background: var(--terracotta);
+                color: white;
+                padding: 16px 40px;
+                border: none;
+                border-radius: 8px;
+                font-size: 15px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                width: 100%;
+                font-family: "Inter", sans-serif;
+            }
+
+            .submit-btn:hover {
+                background: var(--bronze);
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(139, 111, 71, 0.4);
+            }
+
+            /* ===== CONTACT INFO ===== */
+            .contact-info h2 {
+                font-size: 32px;
+                font-weight: 600;
+                color: var(--deep-brown);
+                margin-bottom: var(--spacing-md);
+            }
+
+            .info-item {
+                display: flex;
+                align-items: flex-start;
+                gap: 20px;
+                margin-bottom: var(--spacing-md);
+                padding: var(--spacing-md);
+                background: var(--cream);
+                border-radius: 12px;
+                border: 1px solid var(--stone);
+                transition: all 0.3s ease;
+            }
+
+            .info-item:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+            }
+
+            .info-icon {
+                font-size: 28px;
+                color: var(--ochre);
+                min-width: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .info-content h3 {
+                font-size: 18px;
+                font-weight: 600;
+                color: var(--deep-brown);
+                margin-bottom: var(--spacing-xs);
+            }
+
+            .info-content p {
+                color: var(--text-muted);
+                font-size: 15px;
+                line-height: 1.6;
+                margin: 0;
+            }
+
+            .info-content p strong {
+                color: var(--text-dark);
+                font-weight: 600;
+            }
+
+            /* ===== FOOTER ===== */
+            footer {
+                background: #bab2b2;
+                color: rgb(0, 0, 0);
+                padding: 60px 40px 20px;
+            }
+
+            .footer-content {
+                max-width: 1400px;
+                margin: 0 auto;
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 40px;
+                margin-bottom: 40px;
+            }
+
+            .footer-logo {
+                display: flex;
+                align-items: center;
+                margin-bottom: 15px;
+            }
+
+            .footer-logo img {
+                width: 180px;
+                height: auto;
+            }
+
+            .footer-title {
+                color: #493c31;
+                font-size: 25px;
+                margin-bottom: 15px;
+                font-weight: 600;
+                letter-spacing: 1px;
+            }
+
+            .footer-text {
+                font-size: 15px;
+                line-height: 1.8;
+                color: #000;
+                margin-bottom: 10px;
+            }
+
+            .social-icons {
+                display: flex;
+                gap: 15px;
+                margin-top: 15px;
+            }
+
+            .social-icon {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background: rgba(255, 140, 66, 0.1);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #5c4a3a;
+                text-decoration: none;
+                font-size: 18px;
+                transition: all 0.3s ease;
+            }
+
+            .social-icon:hover {
+                background: #9a7b61;
+                color: white;
+                transform: translateY(-3px);
+            }
+
+            .footer-bottom {
+                text-align: center;
+                padding-top: 30px;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+                font-size: 14px;
+                color: #9ca3af;
+            }
+
+            /* ===== RESPONSIVE ===== */
+            @media (max-width: 900px) {
+                .hero h1 {
+                    font-size: 56px;
+                }
+
+                .contact-container {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            @media (max-width: 768px) {
+                nav {
+                    padding: 0 20px;
+                }
+
+                .hamburger {
+                    display: flex;
+                }
+
+                .nav-links {
+                    position: fixed;
+                    top: 0;
+                    right: -100%;
+                    height: 100vh;
+                    width: 75%;
+                    max-width: 320px;
+                    background: #faf8f5;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 80px 40px 40px;
+                    transition: right 0.35s ease;
+                    box-shadow: -5px 0 30px rgba(0, 0, 0, 0.15);
+                    z-index: 1050;
+                    gap: 8px;
+                }
+
+                .nav-links.active {
+                    right: 0;
+                }
+
+                .nav-links li {
+                    width: 100%;
+                    text-align: center;
+                }
+
+                .nav-links a {
+                    display: block;
+                    padding: 14px 20px;
+                    font-size: 16px;
+                    border-radius: 8px;
+                }
+
+                .nav-links a:hover {
+                    background: var(--sand);
+                }
+
+                .contact-form h2,
+                .contact-info h2 {
+                    font-size: 28px;
+                }
+            }
+
+            @media (max-width: 600px) {
+                nav {
+                    height: 70px;
+                }
+
+                .hero {
+                    height: 40vh;
+                    min-height: 300px;
+                }
+
+                .hero h1 {
+                    font-size: 42px;
+                }
+
+                .hero p {
+                    font-size: 16px;
+                }
+
+                .contact-form {
+                    padding: var(--spacing-md);
+                }
+
+                .info-item {
+                    padding: var(--spacing-sm);
+                }
+
+                footer {
+                    padding: 40px 20px 20px;
+                }
+            }
+        </style>
+    </head>
+
+    <body>
+        <!-- Overlay fermeture menu -->
+        <div class="nav-overlay" id="navOverlay"></div>
+
+        <header>
+            <nav>
+                <div class="logo">
+                    <img src="images/logo-01.png" alt="Even Travel Logo" />
+                </div>
+
+                <ul class="nav-links" id="navLinks">
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="events.html">Événements</a></li>
+                    <li><a href="destinations.html">Destinations</a></li>
+                    <li><a href="blogs.html">Blog</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="about.html">À propos</a></li>
+                    <li><a href="FAQ.html">FAQ</a></li>
+                </ul>
+
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
+        </header>
+
+        <section class="hero">
+            <div class="hero__overlay">
+                <h1>Contactez-nous</h1>
+                <p>Nous sommes là pour répondre à toutes vos questions</p>
             </div>
-            <div class="form-group">
-              <label for="email">Email</label>
-              <input type="email" id="email" name="email" required placeholder="votre@email.com">
+        </section>
+
+        <section class="contact-section">
+            <div class="container">
+                <div class="contact-container">
+                    <div class="contact-form">
+                        <h2>Envoyez-nous un message</h2>
+                        <form id="contactForm">
+                            <div class="form-group">
+                                <label for="name">Nom complet</label>
+                                <input
+                                    type="text"
+                                    id="name"
+                                    name="name"
+                                    required
+                                    placeholder="Votre nom complet"
+                                />
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    required
+                                    placeholder="votre@email.com"
+                                />
+                            </div>
+                            <div class="form-group">
+                                <label for="subject">Sujet</label>
+                                <select id="subject" name="subject" required>
+                                    <option value="">
+                                        Sélectionnez un sujet
+                                    </option>
+                                    <option value="Réservation">
+                                        Réservation
+                                    </option>
+                                    <option value="Demande d'information">
+                                        Demande d'information
+                                    </option>
+                                    <option value="Partenariat">
+                                        Partenariat
+                                    </option>
+                                    <option value="Autre">Autre</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">Message</label>
+                                <textarea
+                                    id="message"
+                                    name="message"
+                                    required
+                                    placeholder="Décrivez votre demande..."
+                                ></textarea>
+                            </div>
+                            <button type="submit" class="submit-btn">
+                                <i
+                                    class="fas fa-paper-plane"
+                                    style="margin-right: 8px"
+                                ></i
+                                >Envoyer le message
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="contact-info">
+                        <h2>Informations de contact</h2>
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="info-content">
+                                <h3>Adresse</h3>
+                                <p>Cotonou, Bénin</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="info-content">
+                                <h3>Email</h3>
+                                <p>eventravel2@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="info-content">
+                                <h3>Téléphone</h3>
+                                <p>+33781800811</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="info-content">
+                                <h3>Heures d'ouverture</h3>
+                                <p>
+                                    <strong>Lundi au Vendredi :</strong> 9h00 -
+                                    19h00<br />
+                                    <strong>Samedi :</strong> 9h00 - 12h00
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-              <label for="subject">Sujet</label>
-              <select id="subject" name="subject" required>
-                <option value="">Sélectionnez un sujet</option>
-                <option value="Réservation">Réservation</option>
-                <option value="Demande d'information">Demande d'information</option>
-                <option value="Partenariat">Partenariat</option>
-                <option value="Autre">Autre</option>
-              </select>
+        </section>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <img src="images/logo-01.png" alt="Even Travel Logo" />
+                    </div>
+                    <p class="footer-text">
+                        Explorez l'Afrique à travers des événements et
+                        destinations inoubliables.
+                    </p>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Réservations</h3>
+                    <p class="footer-text">Cotonou, Bénin</p>
+                    <p class="footer-text">eventravel2@gmail.com</p>
+                    <p class="footer-text">+33781800811</p>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Horaires d'ouverture</h3>
+                    <p class="footer-text">Lundi au Vendredi : 9h00 à 19h00</p>
+                    <p class="footer-text">Samedi : 9h00 à 12h00</p>
+                </div>
+                <div class="footer-section">
+                    <h3 class="footer-title">Suivez-nous</h3>
+                    <div class="social-icons">
+                        <a
+                            href="https://www.instagram.com/even_travel?igsh=MTgxbWwwM3lvMXgwaA=="
+                            class="social-icon"
+                            aria-label="Instagram"
+                            target="_blank"
+                        >
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                        <a
+                            href="https://www.facebook.com/share/182Y393fWk/?mibextid=wwXIfr"
+                            class="social-icon"
+                            aria-label="Facebook"
+                            target="_blank"
+                        >
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                        <a
+                            href="https://www.tiktok.com/@eventravel4?_r=1&_t=ZN-94HL34bF0QU"
+                            class="social-icon"
+                            aria-label="TikTok"
+                            target="_blank"
+                        >
+                            <i class="fa-brands fa-tiktok"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
-            <div class="form-group">
-              <label for="message">Message</label>
-              <textarea id="message" name="message" required placeholder="Décrivez votre demande..."></textarea>
+            <div class="footer-bottom">
+                <p>
+                    &copy; <span id="year"></span> Even Travel. Tous droits
+                    réservés.
+                </p>
             </div>
-            <button type="submit" class="submit-btn">
-              <i class="fas fa-paper-plane" style="margin-right:8px;"></i>Envoyer le message
-            </button>
-          </form>
-        </div>
+        </footer>
 
-        <div class="contact-info">
-          <h2>Informations de contact</h2>
-          <div class="info-item">
-            <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
-            <div class="info-content">
-              <h3>Adresse</h3>
-              <p>Cotonou, Bénin</p>
-            </div>
-          </div>
-          <div class="info-item">
-            <div class="info-icon"><i class="fas fa-envelope"></i></div>
-            <div class="info-content">
-              <h3>Email</h3>
-              <p>eventravel79@gmail.com</p>
-            </div>
-          </div>
-          <div class="info-item">
-            <div class="info-icon"><i class="fas fa-phone"></i></div>
-            <div class="info-content">
-              <h3>Téléphone</h3>
-              <p>+33781800811</p>
-            </div>
-          </div>
-          <div class="info-item">
-            <div class="info-icon"><i class="fas fa-clock"></i></div>
-            <div class="info-content">
-              <h3>Heures d'ouverture</h3>
-              <p><strong>Lundi au Vendredi :</strong> 9h00 - 19h00<br>
-                <strong>Samedi :</strong> 9h00 - 12h00
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+        <script>
+            document.getElementById("year").textContent =
+                new Date().getFullYear();
 
-  <footer>
-    <div class="footer-content">
-      <div class="footer-section">
-        <div class="footer-logo">
-          <img src="images/logo-01.png" alt="Even Travel Logo">
-        </div>
-        <p class="footer-text">Explorez l'Afrique à travers des événements et destinations inoubliables.</p>
-      </div>
-      <div class="footer-section">
-        <h3 class="footer-title">Réservations</h3>
-        <p class="footer-text">Cotonou, Bénin</p>
-        <p class="footer-text">eventravel79@gmail.com</p>
-        <p class="footer-text">+33781800811</p>
-      </div>
-      <div class="footer-section">
-        <h3 class="footer-title">Horaires d'ouverture</h3>
-        <p class="footer-text">Lundi au Vendredi : 9h00 à 19h00</p>
-        <p class="footer-text">Samedi : 9h00 à 12h00</p>
-      </div>
-      <div class="footer-section">
-        <h3 class="footer-title">Suivez-nous</h3>
-        <div class="social-icons">
-          <a href="https://www.instagram.com/even_travel?igsh=MTgxbWwwM3lvMXgwaA==" class="social-icon" aria-label="Instagram" target="_blank">
-            <i class="fa-brands fa-instagram"></i>
-          </a>
-          <a href="https://www.facebook.com/share/182Y393fWk/?mibextid=wwXIfr" class="social-icon" aria-label="Facebook" target="_blank">
-            <i class="fa-brands fa-facebook-f"></i>
-          </a>
-          <a href="https://www.tiktok.com/@eventravel4?_r=1&_t=ZN-94HL34bF0QU" class="social-icon" aria-label="TikTok" target="_blank">
-            <i class="fa-brands fa-tiktok"></i>
-          </a>
-        </div>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <p>&copy; <span id="year"></span> Even Travel. Tous droits réservés.</p>
-    </div>
-  </footer>
+            // ===== HAMBURGER MENU =====
+            const hamburger = document.getElementById("hamburger");
+            const navLinks = document.getElementById("navLinks");
+            const navOverlay = document.getElementById("navOverlay");
 
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
+            function openMenu() {
+                hamburger.classList.add("active");
+                navLinks.classList.add("active");
+                navOverlay.classList.add("active");
+                document.body.style.overflow = "hidden";
+            }
 
-    // ===== HAMBURGER MENU =====
-    const hamburger = document.getElementById('hamburger');
-    const navLinks = document.getElementById('navLinks');
-    const navOverlay = document.getElementById('navOverlay');
+            function closeMenu() {
+                hamburger.classList.remove("active");
+                navLinks.classList.remove("active");
+                navOverlay.classList.remove("active");
+                document.body.style.overflow = "";
+            }
 
-    function openMenu() {
-      hamburger.classList.add('active');
-      navLinks.classList.add('active');
-      navOverlay.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
+            hamburger.addEventListener("click", () => {
+                hamburger.classList.contains("active")
+                    ? closeMenu()
+                    : openMenu();
+            });
 
-    function closeMenu() {
-      hamburger.classList.remove('active');
-      navLinks.classList.remove('active');
-      navOverlay.classList.remove('active');
-      document.body.style.overflow = '';
-    }
+            navOverlay.addEventListener("click", closeMenu);
 
-    hamburger.addEventListener('click', () => {
-      hamburger.classList.contains('active') ? closeMenu() : openMenu();
-    });
+            document.querySelectorAll(".nav-links a").forEach((link) => {
+                link.addEventListener("click", closeMenu);
+            });
 
-    navOverlay.addEventListener('click', closeMenu);
+            // ===== FORMULAIRE → MAILTO =====
+            document
+                .getElementById("contactForm")
+                .addEventListener("submit", function (e) {
+                    e.preventDefault();
 
-    document.querySelectorAll('.nav-links a').forEach(link => {
-      link.addEventListener('click', closeMenu);
-    });
+                    const name = document.getElementById("name").value.trim();
+                    const email = document.getElementById("email").value.trim();
+                    const subject = document.getElementById("subject").value;
+                    const message = document
+                        .getElementById("message")
+                        .value.trim();
 
-    // ===== FORMULAIRE → MAILTO =====
-    document.getElementById('contactForm').addEventListener('submit', function (e) {
-      e.preventDefault();
+                    if (!name || !email || !subject || !message) {
+                        alert("Veuillez remplir tous les champs.");
+                        return;
+                    }
 
-      const name = document.getElementById('name').value.trim();
-      const email = document.getElementById('email').value.trim();
-      const subject = document.getElementById('subject').value;
-      const message = document.getElementById('message').value.trim();
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!emailRegex.test(email)) {
+                        alert("Veuillez entrer une adresse email valide.");
+                        return;
+                    }
 
-      if (!name || !email || !subject || !message) {
-        alert('Veuillez remplir tous les champs.');
-        return;
-      }
-
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        alert('Veuillez entrer une adresse email valide.');
-        return;
-      }
-
-      // Construction du corps du mail
-      const body = `Nom : ${name}
+                    // Construction du corps du mail
+                    const body = `Nom : ${name}
 Email : ${email}
 Sujet : ${subject}
 
 Message :
 ${message}`;
 
-      const mailtoLink = `mailto:eventravel79@gmail.com`
-        + `?subject=${encodeURIComponent('[Even Travel] ' + subject + ' - ' + name)}`
-        + `&body=${encodeURIComponent(body)}`;
+                    const mailtoLink =
+                        `mailto:eventravel2@gmail.com` +
+                        `?subject=${encodeURIComponent("[Even Travel] " + subject + " - " + name)}` +
+                        `&body=${encodeURIComponent(body)}`;
 
-      // Ouvre le client mail avec les données pré-remplies
-      window.location.href = mailtoLink;
+                    // Ouvre le client mail avec les données pré-remplies
+                    window.location.href = mailtoLink;
 
-      // Réinitialise le formulaire après un court délai
-      setTimeout(() => {
-        this.reset();
-        alert('Votre client mail va s\'ouvrir pour envoyer le message à eventravel79@gmail.com');
-      }, 500);
-    });
-  </script>
-</body>
-
+                    // Réinitialise le formulaire après un court délai
+                    setTimeout(() => {
+                        this.reset();
+                        alert(
+                            "Votre client mail va s'ouvrir pour envoyer le message à eventravel2@gmail.com",
+                        );
+                    }, 500);
+                });
+        </script>
+    </body>
 </html>

@@ -752,7 +752,7 @@
                     <h3 class="footer-title">Suivez-nous</h3>
                     <div class="social-icons">
                         <a
-                            href="https://www.instagram.com/"
+                            href="https://www.instagram.com/even_travel?igsh=MTgxbWwwM3lvMXgwaA=="
                             class="social-icon"
                             aria-label="Instagram"
                             target="_blank"
@@ -760,7 +760,7 @@
                             <i class="fa-brands fa-instagram"></i>
                         </a>
                         <a
-                            href="https://www.facebook.com/"
+                            href="https://www.facebook.com/share/182Y393fWk/?mibextid=wwXIfr"
                             class="social-icon"
                             aria-label="Facebook"
                             target="_blank"
@@ -768,7 +768,7 @@
                             <i class="fa-brands fa-facebook-f"></i>
                         </a>
                         <a
-                            href="https://www.tiktok.com/"
+                            href="https://www.tiktok.com/@eventravel4?_r=1&_t=ZN-94HL34bF0QU"
                             class="social-icon"
                             aria-label="TikTok"
                             target="_blank"
@@ -787,7 +787,7 @@
         </footer>
 
         <script>
-            const BASE_URL = "https://even-travel-backend-13wa.onrender.com";
+            const BASE_URL = "https://even-travel-backend.onrender.com";
             const EVENTS_URL = `${BASE_URL}/api/v1/events`;
 
             // Configuration du hamburger menu
@@ -967,7 +967,7 @@
             <div class="event-price">${formattedPrice}</div>
             <div class="event-buttons">
               <button class="btn-details" onclick="showEventDetails('${event._id}')">Détails</button>
-              <button class="btn-reserve" onclick="reserveEvent('${event._id}')">Réserver</button>
+              <button class="btn-reserve" onclick="reserveEvent('${event._id}', '${event.nom || "Événement"}')">Réserver</button>
             </div>
           </div>
         `;
@@ -1012,9 +1012,9 @@
                 window.location.href = `event_detail.html?id=${eventId}`;
             }
 
-            function reserveEvent(eventId) {
-                // Rediriger vers la page de réservation avec l'ID
-                window.location.href = `reservation.html?eventId=${eventId}`;
+            function reserveEvent(eventId, eventNom) {
+                // Rediriger vers la page de réservation avec l'ID et le type
+                window.location.href = `reservation.html?type=event&id=${eventId}&nom=${encodeURIComponent(eventNom)}`;
             }
 
             // Animation d'apparition des cartes
@@ -1038,7 +1038,7 @@
                 });
             }
 
-            // Filtrage en temps réeladmin@eventravel.com
+            // Filtrage en temps réel
             const searchInput = document.getElementById("searchInput");
             const categorySelect = document.getElementById("categorySelect");
             const difficultySelect =
