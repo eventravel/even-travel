@@ -1,834 +1,817 @@
 <!doctype html>
 <html lang="fr">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width,initial-scale=1" />
-        <title>À propos — Even Travel</title>
-        <meta
-            name="description"
-            content="Even Travel vous propose les meilleures destinations touristiques, événements et réservations en ligne au Bénin et en Afrique."
-        />
 
-        <meta
-            name="keywords"
-            content="voyage, tourisme, Bénin, destinations, événements, réservation, Even Travel"
-        />
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>À propos — Even Travel</title>
+    <meta name="description"
+        content="Even Travel vous propose les meilleures destinations touristiques, événements et réservations en ligne au Bénin et en Afrique." />
 
-        <meta name="author" content="GBOHOUILI Eldo-Moréo && TOGNIBO Géreau" />
+    <meta name="keywords" content="voyage, tourisme, Bénin, destinations, événements, réservation, Even Travel" />
 
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-            rel="stylesheet"
-        />
-        <link
-            rel="stylesheet"
-            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-        />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Italiana&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
-            rel="stylesheet"
-        />
+    <meta name="author" content="GBOHOUILI Eldo-Moréo && TOGNIBO Géreau" />
 
-        <style>
-            :root {
-                --sand: #e8ddd0;
-                --stone: #d4c4b0;
-                --terracotta: #b8856a;
-                --ochre: #c4916b;
-                --bronze: #8b6f47;
-                --deep-brown: #5c4a3a;
-                --cream: #f5f1ea;
-                --white: #ffffff;
-                --text-dark: #2a2420;
-                --text-muted: #6b5d52;
-                --spacing-xs: 8px;
-                --spacing-sm: 16px;
-                --spacing-md: 32px;
-                --spacing-lg: 64px;
-                --spacing-xl: 96px;
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Italiana&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        :root {
+            --sand: #e8ddd0;
+            --stone: #d4c4b0;
+            --terracotta: #b8856a;
+            --ochre: #c4916b;
+            --bronze: #8b6f47;
+            --deep-brown: #5c4a3a;
+            --cream: #f5f1ea;
+            --white: #ffffff;
+            --text-dark: #2a2420;
+            --text-muted: #6b5d52;
+            --spacing-xs: 8px;
+            --spacing-sm: 16px;
+            --spacing-md: 32px;
+            --spacing-lg: 64px;
+            --spacing-xl: 96px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family:
+                "Inter",
+                system-ui,
+                -apple-system,
+                sans-serif;
+            font-size: 16px;
+            line-height: 1.7;
+            background: var(--cream);
+            color: var(--text-dark);
+            -webkit-font-smoothing: antialiased;
+            font-weight: 400;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: "Inter", sans-serif;
+            font-weight: 600;
+            line-height: 1.2;
+            color: var(--deep-brown);
+        }
+
+        header {
+            background: #faf8f5;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
             }
 
-            * {
-                box-sizing: border-box;
-                margin: 0;
-                padding: 0;
+            to {
+                transform: translateY(0);
             }
+        }
 
-            html {
-                scroll-behavior: smooth;
-            }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            height: 80px;
+            margin: 0 auto;
+            padding: 0 40px;
+        }
 
-            body {
-                font-family:
-                    "Inter",
-                    system-ui,
-                    -apple-system,
-                    sans-serif;
-                font-size: 16px;
-                line-height: 1.7;
-                background: var(--cream);
-                color: var(--text-dark);
-                -webkit-font-smoothing: antialiased;
-                font-weight: 400;
-            }
+        .logo img {
+            width: 180px;
+            height: auto;
+        }
 
-            h1,
-            h2,
-            h3,
-            h4 {
-                font-family: "Inter", sans-serif;
-                font-weight: 600;
-                line-height: 1.2;
-                color: var(--deep-brown);
-            }
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+            align-items: center;
+            margin: 0;
+        }
 
-            header {
-                background: #faf8f5;
-                position: sticky;
-                top: 0;
-                width: 100%;
-                z-index: 1000;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-                animation: slideDown 0.5s ease-out;
-            }
+        .nav-links a {
+            text-decoration: none;
+            color: #2c2c2c;
+            font-size: 15px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 8px 12px;
+        }
 
-            @keyframes slideDown {
-                from {
-                    transform: translateY(-100%);
-                }
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: #c4916b;
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
 
-                to {
-                    transform: translateY(0);
-                }
-            }
+        .nav-links a:hover::after {
+            width: 80%;
+        }
 
-            nav {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                max-width: 1400px;
-                height: 80px;
-                margin: 0 auto;
-                padding: 0 40px;
-            }
+        .nav-links a:hover {
+            color: #c4916b;
+        }
 
-            .logo img {
-                width: 180px;
-                height: auto;
-            }
+        /* Hamburger menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer;
+            z-index: 1100;
+            padding: 5px;
+        }
 
-            .nav-links {
-                display: flex;
-                gap: 30px;
-                list-style: none;
-                align-items: center;
-                margin: 0;
-            }
+        .hamburger span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            background: #2c2c2c;
+            border-radius: 3px;
+            transition: all 0.3s ease;
+        }
 
-            .nav-links a {
-                text-decoration: none;
-                color: #2c2c2c;
-                font-size: 15px;
-                font-weight: 500;
-                transition: all 0.3s ease;
-                position: relative;
-                padding: 8px 12px;
-            }
+        .hamburger.active span:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
 
-            .nav-links a::after {
-                content: "";
-                position: absolute;
-                bottom: 0;
-                left: 50%;
-                width: 0;
-                height: 2px;
-                background: #c4916b;
-                transition: all 0.3s ease;
-                transform: translateX(-50%);
-            }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
 
-            .nav-links a:hover::after {
-                width: 80%;
-            }
+        .hamburger.active span:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
 
-            .nav-links a:hover {
-                color: #c4916b;
-            }
+        .nav-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
 
-            /* Hamburger menu */
-            .hamburger {
-                display: none;
-                flex-direction: column;
-                gap: 5px;
-                cursor: pointer;
-                z-index: 1100;
-                padding: 5px;
-            }
+        .nav-overlay.active {
+            display: block;
+        }
 
-            .hamburger span {
-                display: block;
-                width: 25px;
-                height: 3px;
-                background: #2c2c2c;
-                border-radius: 3px;
-                transition: all 0.3s ease;
-            }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
-            .hamburger.active span:nth-child(1) {
-                transform: translateY(8px) rotate(45deg);
-            }
+        .hero {
+            position: relative;
+            height: 60vh;
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
 
-            .hamburger.active span:nth-child(2) {
-                opacity: 0;
-            }
+        .hero__bg {
+            position: absolute;
+            inset: 0;
+            background-image: url(images/a\ propos.jpeg);
+            background-size: cover;
+            background-position: center;
+            transition: transform 1200ms cubic-bezier(0.2, 0.9, 0.2, 1);
+        }
 
-            .hamburger.active span:nth-child(3) {
-                transform: translateY(-8px) rotate(-45deg);
-            }
+        .hero__overlay {
+            position: relative;
+            z-index: 3;
+            width: 90%;
+            max-width: 900px;
+            background: linear-gradient(180deg, rgba(243, 86, 86, 0.08), rgba(255, 198, 198, 0.148));
+            border-radius: 16px;
+            padding: 60px 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(8px);
+            text-align: center;
+            color: rgba(255, 255, 255, 0.95);
+        }
 
-            .nav-overlay {
-                display: none;
-                position: fixed;
-                inset: 0;
-                background: rgba(0, 0, 0, 0.5);
-                z-index: 999;
-            }
+        .hero h1 {
+            font-family: 'Italiana', serif;
+            font-size: 56px;
+            margin: 0 0 16px;
+            line-height: 1;
+            color: rgba(79, 2, 2, 0.735);
+            text-shadow: 0 12px 36px rgba(212, 28, 28, 0.3);
+        }
 
-            .nav-overlay.active {
-                display: block;
-            }
+        .hero p {
+            font-family: "Playfair Display", serif;
+            margin: 16px 0 0;
+            font-weight: 400;
+            font-size: 24px;
+            color: rgba(255, 255, 255, 0.9);
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
 
-            .container {
-                width: 90%;
-                max-width: 1200px;
-                margin: 0 auto;
-            }
+        section.intro {
+            padding: var(--spacing-xl) 0;
+            background: var(--white);
+        }
 
-            .hero {
-                position: relative;
-                height: 60vh;
-                min-height: 500px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                overflow: hidden;
-            }
+        .intro-content {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto var(--spacing-lg);
+        }
 
-            .hero__bg {
-                position: absolute;
-                inset: 0;
-                background-image: url(images/about.jpg);
-                background-size: cover;
-                background-position: center;
-                transition: transform 1200ms cubic-bezier(0.2, 0.9, 0.2, 1);
-            }
+        .eyebrow {
+            display: inline-block;
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--terracotta);
+            font-weight: 600;
+            margin-bottom: var(--spacing-sm);
+        }
 
-            .hero__overlay {
-                position: relative;
-                z-index: 3;
-                text-align: center;
-                color: rgba(255, 255, 255, 0.95);
-            }
+        .intro h2 {
+            font-size: 42px;
+            font-weight: 600;
+            color: var(--deep-brown);
+            margin-bottom: var(--spacing-md);
+            line-height: 1.2;
+        }
 
+        .divider {
+            width: 200px;
+            height: auto;
+            margin: var(--spacing-md) auto;
+            display: block;
+            opacity: 0.7;
+        }
+
+        section.content-with-image {
+            padding: var(--spacing-xl) 0;
+            background: var(--cream);
+        }
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--spacing-lg);
+            align-items: center;
+        }
+
+        .text-content p {
+            color: var(--text-muted);
+            font-size: 17px;
+            line-height: 1.8;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .image-content img {
+            width: 100%;
+            max-width: 400px;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 50%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            border: 8px solid var(--white);
+            transition: transform 0.6s ease;
+        }
+
+        .image-content img:hover {
+            transform: scale(1.05) rotate(2deg);
+        }
+
+        section.mission {
+            padding: var(--spacing-xl) 0;
+            background: var(--white);
+        }
+
+        .mission-card {
+            background: linear-gradient(135deg,
+                    var(--sand) 0%,
+                    var(--white) 100%);
+            padding: var(--spacing-lg);
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--stone);
+        }
+
+        .mission h3 {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--deep-brown);
+            margin-bottom: var(--spacing-md);
+            text-align: center;
+        }
+
+        .mission-card p {
+            color: var(--text-muted);
+            font-size: 17px;
+            line-height: 2;
+            text-align: justify;
+            margin-bottom: var(--spacing-md);
+        }
+
+        .mission-card p:last-child {
+            margin-bottom: 0;
+        }
+
+        .mission-card strong {
+            color: var(--terracotta);
+            font-weight: 600;
+        }
+
+        section.values {
+            padding: var(--spacing-xl) 0;
+            background: var(--cream);
+        }
+
+        .values h2 {
+            font-size: 42px;
+            font-weight: 600;
+            color: var(--deep-brown);
+            text-align: center;
+            margin-bottom: var(--spacing-lg);
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--spacing-md);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .value-item {
+            background: var(--white);
+            padding: var(--spacing-md);
+            text-align: center;
+            border: 1px solid var(--stone);
+            transition: all 0.3s ease;
+        }
+
+        .value-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        .icon-placeholder {
+            font-size: 40px;
+            margin-bottom: var(--spacing-sm);
+            color: var(--ochre);
+        }
+
+        .value-item h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--bronze);
+            margin-bottom: var(--spacing-sm);
+        }
+
+        .value-item p {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        footer {
+            background: #bab2b2;
+            color: rgb(0, 0, 0);
+            padding: 60px 40px 20px;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo img {
+            width: 180px;
+            height: auto;
+        }
+
+        .footer-title {
+            color: #493c31;
+            font-size: 25px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .footer-text {
+            font-size: 15px;
+            line-height: 1.8;
+            color: #000;
+            margin-bottom: 10px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 140, 66, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #5c4a3a;
+            text-decoration: none;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background: #9a7b61;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            color: #9ca3af;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
             .hero h1 {
-                font-family: "Italiana", serif;
-                font-size: 80px;
-                margin: 0;
-                line-height: 1;
-                color: rgba(255, 255, 255, 0.95);
-                text-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);
-            }
-
-            .hero p {
-                font-family: "Playfair Display", serif;
-                margin: 16px 0 0;
-                font-weight: 400;
-                font-size: 24px;
-                color: rgba(255, 255, 255, 0.9);
-                text-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-            }
-
-            section.intro {
-                padding: var(--spacing-xl) 0;
-                background: var(--white);
-            }
-
-            .intro-content {
-                text-align: center;
-                max-width: 800px;
-                margin: 0 auto var(--spacing-lg);
-            }
-
-            .eyebrow {
-                display: inline-block;
-                font-size: 12px;
-                letter-spacing: 2px;
-                text-transform: uppercase;
-                color: var(--terracotta);
-                font-weight: 600;
-                margin-bottom: var(--spacing-sm);
-            }
-
-            .intro h2 {
-                font-size: 42px;
-                font-weight: 600;
-                color: var(--deep-brown);
-                margin-bottom: var(--spacing-md);
-                line-height: 1.2;
-            }
-
-            .divider {
-                width: 200px;
-                height: auto;
-                margin: var(--spacing-md) auto;
-                display: block;
-                opacity: 0.7;
-            }
-
-            section.content-with-image {
-                padding: var(--spacing-xl) 0;
-                background: var(--cream);
+                font-size: 60px;
             }
 
             .content-grid {
-                display: grid;
-                grid-template-columns: 1fr 1fr;
-                gap: var(--spacing-lg);
-                align-items: center;
-            }
-
-            .text-content p {
-                color: var(--text-muted);
-                font-size: 17px;
-                line-height: 1.8;
-                margin-bottom: var(--spacing-md);
+                grid-template-columns: 1fr;
             }
 
             .image-content img {
-                width: 100%;
-                max-width: 400px;
-                aspect-ratio: 1;
-                object-fit: cover;
-                border-radius: 50%;
-                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-                border: 8px solid var(--white);
-                transition: transform 0.6s ease;
-            }
-
-            .image-content img:hover {
-                transform: scale(1.05) rotate(2deg);
-            }
-
-            section.mission {
-                padding: var(--spacing-xl) 0;
-                background: var(--white);
-            }
-
-            .mission-card {
-                background: linear-gradient(
-                    135deg,
-                    var(--sand) 0%,
-                    var(--white) 100%
-                );
-                padding: var(--spacing-lg);
-                border-radius: 16px;
-                box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-                border: 1px solid var(--stone);
-            }
-
-            .mission h3 {
-                font-size: 32px;
-                font-weight: 600;
-                color: var(--deep-brown);
-                margin-bottom: var(--spacing-md);
-                text-align: center;
-            }
-
-            .mission-card p {
-                color: var(--text-muted);
-                font-size: 17px;
-                line-height: 2;
-                text-align: justify;
-                margin-bottom: var(--spacing-md);
-            }
-
-            .mission-card p:last-child {
-                margin-bottom: 0;
-            }
-
-            .mission-card strong {
-                color: var(--terracotta);
-                font-weight: 600;
-            }
-
-            section.values {
-                padding: var(--spacing-xl) 0;
-                background: var(--cream);
-            }
-
-            .values h2 {
-                font-size: 42px;
-                font-weight: 600;
-                color: var(--deep-brown);
-                text-align: center;
-                margin-bottom: var(--spacing-lg);
+                max-width: 300px;
             }
 
             .values-grid {
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                gap: var(--spacing-md);
-                max-width: 1200px;
-                margin: 0 auto;
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --spacing-lg: 48px;
+                --spacing-xl: 64px;
             }
 
-            .value-item {
-                background: var(--white);
-                padding: var(--spacing-md);
-                text-align: center;
-                border: 1px solid var(--stone);
-                transition: all 0.3s ease;
+            nav {
+                padding: 0 20px;
             }
 
-            .value-item:hover {
-                transform: translateY(-4px);
-                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-            }
-
-            .icon-placeholder {
-                font-size: 40px;
-                margin-bottom: var(--spacing-sm);
-                color: var(--ochre);
-            }
-
-            .value-item h4 {
-                font-size: 18px;
-                font-weight: 600;
-                color: var(--bronze);
-                margin-bottom: var(--spacing-sm);
-            }
-
-            .value-item p {
-                font-size: 14px;
-                color: var(--text-muted);
-                line-height: 1.6;
-                margin: 0;
-            }
-
-            footer {
-                background: #bab2b2;
-                color: rgb(0, 0, 0);
-                padding: 60px 40px 20px;
-            }
-
-            .footer-content {
-                max-width: 1400px;
-                margin: 0 auto;
-                display: grid;
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-                gap: 40px;
-                margin-bottom: 40px;
-            }
-
-            .footer-logo img {
-                width: 180px;
-                height: auto;
-            }
-
-            .footer-title {
-                color: #493c31;
-                font-size: 25px;
-                margin-bottom: 15px;
-                font-weight: 600;
-                letter-spacing: 1px;
-            }
-
-            .footer-text {
-                font-size: 15px;
-                line-height: 1.8;
-                color: #000;
-                margin-bottom: 10px;
-            }
-
-            .social-icons {
+            .hamburger {
                 display: flex;
-                gap: 15px;
-                margin-top: 15px;
             }
 
-            .social-icon {
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-                background: rgba(255, 140, 66, 0.1);
-                display: flex;
-                align-items: center;
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                height: 100vh;
+                width: 75%;
+                max-width: 320px;
+                background: #faf8f5;
+                flex-direction: column;
                 justify-content: center;
-                color: #5c4a3a;
-                text-decoration: none;
-                font-size: 18px;
-                transition: all 0.3s ease;
+                align-items: center;
+                padding: 80px 40px 40px;
+                transition: right 0.35s ease;
+                box-shadow: -5px 0 30px rgba(0, 0, 0, 0.15);
+                z-index: 1050;
+                gap: 8px;
             }
 
-            .social-icon:hover {
-                background: #9a7b61;
-                color: white;
-                transform: translateY(-3px);
+            .nav-links.active {
+                right: 0;
             }
 
-            .footer-bottom {
+            .nav-links li {
+                width: 100%;
                 text-align: center;
-                padding-top: 30px;
-                border-top: 1px solid rgba(255, 255, 255, 0.1);
-                font-size: 14px;
-                color: #9ca3af;
             }
 
-            /* Responsive */
-            @media (max-width: 900px) {
-                .hero h1 {
-                    font-size: 60px;
-                }
-
-                .content-grid {
-                    grid-template-columns: 1fr;
-                }
-
-                .image-content img {
-                    max-width: 300px;
-                }
-
-                .values-grid {
-                    grid-template-columns: 1fr;
-                }
+            .nav-links a {
+                display: block;
+                padding: 14px 20px;
+                font-size: 16px;
+                border-radius: 8px;
             }
 
-            @media (max-width: 768px) {
-                :root {
-                    --spacing-lg: 48px;
-                    --spacing-xl: 64px;
-                }
-
-                nav {
-                    padding: 0 20px;
-                }
-
-                .hamburger {
-                    display: flex;
-                }
-
-                .nav-links {
-                    position: fixed;
-                    top: 0;
-                    right: -100%;
-                    height: 100vh;
-                    width: 75%;
-                    max-width: 320px;
-                    background: #faf8f5;
-                    flex-direction: column;
-                    justify-content: center;
-                    align-items: center;
-                    padding: 80px 40px 40px;
-                    transition: right 0.35s ease;
-                    box-shadow: -5px 0 30px rgba(0, 0, 0, 0.15);
-                    z-index: 1050;
-                    gap: 8px;
-                }
-
-                .nav-links.active {
-                    right: 0;
-                }
-
-                .nav-links li {
-                    width: 100%;
-                    text-align: center;
-                }
-
-                .nav-links a {
-                    display: block;
-                    padding: 14px 20px;
-                    font-size: 16px;
-                    border-radius: 8px;
-                }
-
-                .nav-links a:hover {
-                    background: var(--sand);
-                }
-
-                .intro h2 {
-                    font-size: 32px;
-                }
-
-                .mission h3 {
-                    font-size: 28px;
-                }
-
-                .values h2 {
-                    font-size: 32px;
-                }
+            .nav-links a:hover {
+                background: var(--sand);
             }
 
-            @media (max-width: 600px) {
-                nav {
-                    height: 70px;
-                }
-
-                .hero {
-                    height: 50vh;
-                    min-height: 400px;
-                }
-
-                .hero h1 {
-                    font-size: 48px;
-                }
-
-                .hero p {
-                    font-size: 18px;
-                }
+            .intro h2 {
+                font-size: 32px;
             }
-        </style>
-    </head>
 
-    <body>
-        <div class="nav-overlay" id="navOverlay"></div>
+            .mission h3 {
+                font-size: 28px;
+            }
 
-        <header>
-            <nav>
-                <div class="logo">
-                    <img src="images/logo-01.png" alt="Even Travel Logo" />
-                </div>
-                <ul class="nav-links" id="navLinks">
-                    <li><a href="index.html">Accueil</a></li>
-                    <li><a href="events.html">Événements</a></li>
-                    <li><a href="destinations.html">Destinations</a></li>
-                    <li><a href="blogs.html">Blog</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                    <li><a href="about.html">À propos</a></li>
-                    <li><a href="FAQ.html">FAQ</a></li>
-                </ul>
-                <div class="hamburger" id="hamburger">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </nav>
-        </header>
+            .values h2 {
+                font-size: 32px;
+            }
+        }
 
-        <section class="hero">
-            <div class="hero__bg"></div>
-            <div class="hero__overlay">
-                <h1>À propos</h1>
-                <p>Votre agence de voyage et de tourisme</p>
+        @media (max-width: 600px) {
+            nav {
+                height: 70px;
+            }
+
+            .hero {
+                height: 50vh;
+                min-height: 400px;
+            }
+
+            .hero h1 {
+                font-size: 48px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="nav-overlay" id="navOverlay"></div>
+
+    <header>
+        <nav>
+            <div class="logo">
+                <img src="images/logo-01.png" alt="Even Travel Logo" />
             </div>
-        </section>
-
-        <section class="intro">
-            <div class="container">
-                <div class="intro-content">
-                    <span class="eyebrow">Qui sommes-nous</span>
-                    <h2>Bienvenue chez Even Travel</h2>
-                    <img
-                        src="images/sep-removebg-preview.png"
-                        alt="Séparateur"
-                        class="divider"
-                    />
-                </div>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="events.html">Événements</a></li>
+                <li><a href="destinations.html">Destinations</a></li>
+                <li><a href="blogs.html">Blog</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="about.html">À propos</a></li>
+                <li><a href="FAQ.html">FAQ</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
-        </section>
+        </nav>
+    </header>
 
-        <section class="content-with-image">
-            <div class="container">
-                <div class="content-grid">
-                    <div class="text-content">
-                        <p>
-                            Nous sommes passionnés par l'organisation de voyages
-                            uniques et attrayants en Afrique. Mais chez Even
-                            Travel, notre vision va bien au-delà du simple
-                            voyage.
-                        </p>
-                        <p>
-                            Nous avons une volonté profonde d'instruire les
-                            enfants en ouvrant des écoles utilisant la méthode
-                            Montessori. Nous croyons que chaque enfant mérite
-                            une instruction optimale, où il peut développer ses
-                            compétences et sa créativité à son propre rythme.
-                        </p>
-                    </div>
-                    <div class="image-content">
-                        <img src="images/mme.jpg" alt="Notre équipe" />
-                    </div>
-                </div>
+    <section class="hero">
+        <div class="hero__bg"></div>
+        <div class="hero__overlay">
+            <h1>À propos</h1>
+            <p>Votre agence de voyage et de tourisme</p>
+        </div>
+    </section>
+
+    <section class="intro">
+        <div class="container">
+            <div class="intro-content">
+                <span class="eyebrow">Qui sommes-nous</span>
+                <h2>Bienvenue chez Even Travel</h2>
+                <img src="images/sep-removebg-preview.png" alt="Séparateur" class="divider" />
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="mission">
-            <div class="container">
-                <h3>Notre Mission</h3>
-                <div class="mission-card">
+    <section class="content-with-image">
+        <div class="container">
+            <div class="content-grid">
+                <div class="text-content">
                     <p>
-                        Nous avons une volonté profonde d'instruire les enfants
-                        en ouvrant des écoles utilisant la méthode Montessori.
-                        Nous croyons que chaque enfant mérite une instruction
-                        optimale, où il peut développer ses compétences et sa
-                        créativité à son propre rythme. En associant l'aventure
-                        du voyage à une éducation de qualité, nous offrons aux
-                        enfants une expérience enrichissante qui élargira leurs
-                        horizons et stimulera leur curiosité.
+                        Nous sommes passionnés par l'organisation de voyages
+                        uniques et attrayants en Afrique. Mais chez Even
+                        Travel, notre vision va bien au-delà du simple
+                        voyage.
                     </p>
                     <p>
-                        De plus, nous avons un objectif humanitaire centré sur
-                        la création d'un orphelinat et l'aide aux plus démunis.
-                        Nous aspirons à offrir un foyer chaleureux et sécurisé
-                        aux enfants qui en ont besoin, tout en soutenant
-                        activement les populations locales les plus
-                        défavorisées.
-                    </p>
-                    <p>
-                        Chez Even Travel, nous croyons en l'importance du
-                        tourisme responsable et de l'engagement social. Chaque
-                        voyage que vous organisez avec nous soutient nos
-                        initiatives éducatives et humanitaires, donnant ainsi un
-                        sens plus profond à votre expérience de voyage en
-                        Afrique.
-                    </p>
-                    <p>
-                        Préparez-vous à vivre une aventure inoubliable avec Even
-                        Travel, où chaque voyage compte pour un avenir meilleur.
-                        <strong>Ensemble</strong>, nous ouvrirons des écoles
-                        Montessori, apporterons soutien et réconfort aux plus
-                        démunis, et créerons un impact positif sur les
-                        communautés locales. Rejoignez-nous et participez à
-                        cette mission qui va au-delà du voyage traditionnel,
-                        pour une expérience significative et transformative.
+                        Nous avons une volonté profonde d'instruire les
+                        enfants en ouvrant des écoles utilisant la méthode
+                        Montessori. Nous croyons que chaque enfant mérite
+                        une instruction optimale, où il peut développer ses
+                        compétences et sa créativité à son propre rythme.
                     </p>
                 </div>
+                <div class="image-content">
+                    <img src="images/partenaire.jpeg" alt="Notre équipe" />
+                </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="values">
-            <div class="container">
-                <h2>Nos Valeurs</h2>
-                <div class="values-grid">
-                    <div class="value-item">
-                        <div class="icon-placeholder">
-                            <i class="fas fa-heart"></i>
-                        </div>
-                        <h4>Passion</h4>
-                        <p>
-                            Nous sommes passionnés par l'Afrique et ses
-                            merveilles. Chaque voyage est une aventure unique.
-                        </p>
-                    </div>
-                    <div class="value-item">
-                        <div class="icon-placeholder">
-                            <i class="fas fa-graduation-cap"></i>
-                        </div>
-                        <h4>Éducation</h4>
-                        <p>
-                            L'instruction des enfants est au cœur de notre
-                            mission avec la méthode Montessori.
-                        </p>
-                    </div>
-                    <div class="value-item">
-                        <div class="icon-placeholder">
-                            <i class="fas fa-hands-helping"></i>
-                        </div>
-                        <h4>Solidarité</h4>
-                        <p>
-                            Nous soutenons les communautés locales et aidons les
-                            plus démunis à travers nos actions.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <footer>
-            <div class="footer-content">
-                <div class="footer-section">
-                    <div class="footer-logo">
-                        <img src="images/logo-01.png" alt="Even Travel Logo" />
-                    </div>
-                    <p class="footer-text">
-                        Explorez l'Afrique à travers des événements et
-                        destinations inoubliables.
-                    </p>
-                </div>
-                <div class="footer-section">
-                    <h3 class="footer-title">Réservations</h3>
-                    <p class="footer-text">Cotonou, Bénin</p>
-                    <p class="footer-text">eventravel2@gmail.com</p>
-                    <p class="footer-text">+33781800811</p>
-                </div>
-                <div class="footer-section">
-                    <h3 class="footer-title">Horaires d'ouverture</h3>
-                    <p class="footer-text">Lundi au Vendredi : 9h00 à 19h00</p>
-                    <p class="footer-text">Samedi : 9h00 à 12h00</p>
-                </div>
-                <div class="footer-section">
-                    <h3 class="footer-title">Suivez-nous</h3>
-                    <div class="social-icons">
-                        <a
-                            href="https://www.instagram.com/even_travel?igsh=MTgxbWwwM3lvMXgwaA=="
-                            class="social-icon"
-                            target="_blank"
-                            ><i class="fa-brands fa-instagram"></i
-                        ></a>
-                        <a
-                            href="https://www.facebook.com/share/182Y393fWk/?mibextid=wwXIfr"
-                            class="social-icon"
-                            target="_blank"
-                            ><i class="fa-brands fa-facebook-f"></i
-                        ></a>
-                        <a
-                            href="https://www.tiktok.com/@eventravel4?_r=1&_t=ZN-94HL34bF0QU"
-                            class="social-icon"
-                            target="_blank"
-                            ><i class="fa-brands fa-tiktok"></i
-                        ></a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
+    <section class="mission">
+        <div class="container">
+            <h3>Notre Mission</h3>
+            <div class="mission-card">
                 <p>
-                    © <span id="year"></span> Even Travel. Tous droits réservés.
+                    Nous avons une volonté profonde d'instruire les enfants
+                    en ouvrant des écoles utilisant la méthode Montessori.
+                    Nous croyons que chaque enfant mérite une instruction
+                    optimale, où il peut développer ses compétences et sa
+                    créativité à son propre rythme. En associant l'aventure
+                    du voyage à une éducation de qualité, nous offrons aux
+                    enfants une expérience enrichissante qui élargira leurs
+                    horizons et stimulera leur curiosité.
+                </p>
+                <p>
+                    De plus, nous avons un objectif humanitaire centré sur
+                    la création d'un orphelinat et l'aide aux plus démunis.
+                    Nous aspirons à offrir un foyer chaleureux et sécurisé
+                    aux enfants qui en ont besoin, tout en soutenant
+                    activement les populations locales les plus
+                    défavorisées.
+                </p>
+                <p>
+                    Chez Even Travel, nous croyons en l'importance du
+                    tourisme responsable et de l'engagement social. Chaque
+                    voyage que vous organisez avec nous soutient nos
+                    initiatives éducatives et humanitaires, donnant ainsi un
+                    sens plus profond à votre expérience de voyage en
+                    Afrique.
+                </p>
+                <p>
+                    Préparez-vous à vivre une aventure inoubliable avec Even
+                    Travel, où chaque voyage compte pour un avenir meilleur.
+                    <strong>Ensemble</strong>, nous ouvrirons des écoles
+                    Montessori, apporterons soutien et réconfort aux plus
+                    démunis, et créerons un impact positif sur les
+                    communautés locales. Rejoignez-nous et participez à
+                    cette mission qui va au-delà du voyage traditionnel,
+                    pour une expérience significative et transformative.
                 </p>
             </div>
-        </footer>
+        </div>
+    </section>
 
-        <script>
-            const hamburger = document.getElementById("hamburger");
-            const navLinks = document.getElementById("navLinks");
-            const navOverlay = document.getElementById("navOverlay");
+    <section class="values">
+        <div class="container">
+            <h2>Nos Valeurs</h2>
+            <div class="values-grid">
+                <div class="value-item">
+                    <div class="icon-placeholder">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h4>Passion</h4>
+                    <p>
+                        Nous sommes passionnés par l'Afrique et ses
+                        merveilles. Chaque voyage est une aventure unique.
+                    </p>
+                </div>
+                <div class="value-item">
+                    <div class="icon-placeholder">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h4>Éducation</h4>
+                    <p>
+                        L'instruction des enfants est au cœur de notre
+                        mission avec la méthode Montessori.
+                    </p>
+                </div>
+                <div class="value-item">
+                    <div class="icon-placeholder">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <h4>Solidarité</h4>
+                    <p>
+                        Nous soutenons les communautés locales et aidons les
+                        plus démunis à travers nos actions.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-            function openMenu() {
-                hamburger.classList.add("active");
-                navLinks.classList.add("active");
-                navOverlay.classList.add("active");
-                document.body.style.overflow = "hidden";
-            }
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="footer-logo">
+                    <img src="images/logo-01.png" alt="Even Travel Logo" />
+                </div>
+                <p class="footer-text">
+                    Explorez l'Afrique à travers des événements et
+                    destinations inoubliables.
+                </p>
+            </div>
+            <div class="footer-section">
+                <h3 class="footer-title">Réservations</h3>
+                <p class="footer-text">Cotonou, Bénin</p>
+                <p class="footer-text">eventravel2@gmail.com</p>
+                <p class="footer-text">+33781800811</p>
+            </div>
+            <div class="footer-section">
+                <h3 class="footer-title">Horaires d'ouverture</h3>
+                <p class="footer-text">Lundi au Vendredi : 9h00 à 19h00</p>
+                <p class="footer-text">Samedi : 9h00 à 12h00</p>
+            </div>
+            <div class="footer-section">
+                <h3 class="footer-title">Suivez-nous</h3>
+                <div class="social-icons">
+                    <a href="https://www.instagram.com/even_travel?igsh=MTgxbWwwM3lvMXgwaA==" class="social-icon"
+                        target="_blank"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/share/182Y393fWk/?mibextid=wwXIfr" class="social-icon"
+                        target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="https://www.tiktok.com/@eventravel4?_r=1&_t=ZN-94HL34bF0QU" class="social-icon"
+                        target="_blank"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="https://www.youtube.com/@eventravelbenin" class="social-icon" aria-label="YouTube"
+                        target="_blank"><i class="fa-brands fa-youtube"></i></a>
 
-            function closeMenu() {
-                hamburger.classList.remove("active");
-                navLinks.classList.remove("active");
-                navOverlay.classList.remove("active");
-                document.body.style.overflow = "";
-            }
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>
+                © <span id="year"></span> Even Travel. Tous droits réservés.
+            </p>
+        </div>
+    </footer>
 
-            hamburger.addEventListener("click", () => {
-                if (hamburger.classList.contains("active")) closeMenu();
-                else openMenu();
-            });
+    <script>
+        const hamburger = document.getElementById("hamburger");
+        const navLinks = document.getElementById("navLinks");
+        const navOverlay = document.getElementById("navOverlay");
 
-            navOverlay.addEventListener("click", closeMenu);
+        function openMenu() {
+            hamburger.classList.add("active");
+            navLinks.classList.add("active");
+            navOverlay.classList.add("active");
+            document.body.style.overflow = "hidden";
+        }
 
-            document.querySelectorAll("#navLinks a").forEach((link) => {
-                link.addEventListener("click", closeMenu);
-            });
+        function closeMenu() {
+            hamburger.classList.remove("active");
+            navLinks.classList.remove("active");
+            navOverlay.classList.remove("active");
+            document.body.style.overflow = "";
+        }
 
-            document.getElementById("year").textContent =
-                new Date().getFullYear();
-        </script>
-    </body>
+        hamburger.addEventListener("click", () => {
+            if (hamburger.classList.contains("active")) closeMenu();
+            else openMenu();
+        });
+
+        navOverlay.addEventListener("click", closeMenu);
+
+        document.querySelectorAll("#navLinks a").forEach((link) => {
+            link.addEventListener("click", closeMenu);
+        });
+
+        document.getElementById("year").textContent =
+            new Date().getFullYear();
+    </script>
+</body>
+
 </html>
